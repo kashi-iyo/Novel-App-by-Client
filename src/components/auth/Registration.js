@@ -1,80 +1,61 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 
-export default class Registration extends Component {
-    constructor(props) {
-        super(props)
+export default function Registration(props) {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [registrationErrors, setRegistrationErrors] = useState("")
 
-        this.state = {
-            email: "",
-            password: "",
-            password_confirmation: "",
-            registrationErrors: ""
-        }
-
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
-    handleSubmit(event) {
-        const { email, password, password_confirmation } = this.state
+    const handleSubmit = (event) => {
         axios.post("http://localhost:3001/signup",
             {
                 user: {
                     email: email,
                     password: password,
-                    password_confirmation: password_confirmation
+                    password_confirmation: passwordConfirmation
                 }
             },
             { withCredentials: true }
         ).then(response => {
-            if (response.data.status === 'created')
-            // handleSuccessfulAuthはprops(Homeコンポーネントから受け取る)=Homeで定義
-            this.props.handleSuccessfulAuth(response.data)
+            if (response.data.status === 'created') {
+                props.handleSuccessfulAuthentication(response.data)
+            }
         }).catch(error => {
             console.log("registration error", error)
         })
         event.preventDefault()
     }
 
-    render() {
-        return (
-            <div>
-                <form onSubmit={this.handleSubmit} >
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password_confirmation"
-                        placeholder="Password confirmation"
-                        value={this.state.password_confirmation}
-                        onChange={this.handleChange}
-                        required
-                    />
+    return (
+        <div>
+            <p>新規登録</p>
 
-                    <button type="submit">Sign up</button>
-                </form>
-            </div>
-        )
-    }
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="メールアドレス"
+                    value={email}
+                    onChange={event => setEmail(event.target.value)}
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="パスワード"
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
+                />
+                <input
+                    type="password"
+                    name="password_confirmation"
+                    placeholder="確認用パスワード"
+                    value={passwordConfirmation}
+                    onChange={event => setPasswordConfirmation(event.target.value)}
+                />
+
+                <button type="submit">登録</button>
+            </form>
+        </div>
+    )
 }

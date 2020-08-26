@@ -1,85 +1,67 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 
-import Dashboard from './components/Dashboard'
 import Home from './components/Home'
-export default class App extends Component {
+import Dashboard from './components/Dashboard'
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      loggedInStatus: "NOT_LOGGED_IN",
-      user: {}
-    }
-    this.handleLogin = this.handleLogin.bind(this)
-    this.handleLogout = this.handleLogout.bind(this)
+export default function App() {
+  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
+  const [user, setUser] = useState({})
+
+  const handleLogin = (data) => {
+    setLoggedInStatus("ログインなう")
+    setUser(data.user)
   }
 
-  checkLoginStatus() {
+  const handleLogout = () => {
+    setLoggedInStatus("未ログイン")
+    setUser({})
+  }
+
+  useEffect(() => {
+    checkLoginStatus()
+  })
+
+  const checkLoginStatus = () => {
     axios.get("http://localhost:3001/logged_in", { withCredentials: true })
       .then(response => {
-        if (response.data.logged_in && this.state.loggedInStatus === "NOT_LOGGED_IN") {
-          this.setState({
-            loggedInStatus: "LOGGED_IN",
-            user: response.data.user
-          })
-        } else if (!response.data.logged_in && this.state.loggedInStatus === "LOGGED_IN") {
-          this.setState({
-            loggedInStatus: "NOTLOGGED_IN",
-            user: {}
-          })
+        if (response.data.logged_in && loggedInStatus === "未ログイン") {
+          setLoggedInStatus("ログインなう")
+          setUser(response.data.user)
+        } else if (!response.data.logged_in && loggedInStatus === "ログインなう") {
+          setLoggedInStatus("未ログイン")
+          setUser({})
         }
       }).catch(error => {
-        console.log("check login error", error)
+        console.log("ログインエラー", error)
       })
   }
 
-  componentDidMount() {
-    this.checkLoginStatus()
-  }
-
-  handleLogout() {
-    this.setState({
-      loggedInStatus: "NOT_LOGGED_IN",
-      user: {}
-    })
-  }
-
-  handleLogin(data) {
-    this.setState({
-      loggedInStatus: "LOGGED_IN",
-      user: data.user
-    })
-  }
-
-  render() {
-    return (
-      <div className="app">
-        <BrowserRouter>
-          <Switch>
-            <Route
-              exact path={"/"}
-              render={props => (
-                //ここで受け取るpropsは、Routeが受け取る（historyなども含まれる）
-                <Home
-                  {...props}
-                  handleLogin={this.handleLogin}
-                  handleLogout={this.handleLogout}
-                  loggedInStatus={this.state.loggedInStatus}
-                />
-              )} />
-            <Route
-              exact path={"/dashboard"}
-              render={props => (
-                <Dashboard
-                  {...props}
-                  loggedInStatus={this.state.loggedInStatus}
-                />
-              )} />
-          </Switch>
-        </BrowserRouter>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            exact
+            path={"/"}
+            render={props => (
+              <Home
+                {...props}
+                handleLogin={handleLogin}
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+              />
+            )}
+          />
+          <Route
+            exact path={"/dashboard"}
+            render={props => (
+              <Dashboard { ...props } loggedInStatus={loggedInStatus} />
+            )}
+          />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  )
 }
