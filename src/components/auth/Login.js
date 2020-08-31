@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export default function Login(props) {
     const [email, setEmail] = useState("")
@@ -18,7 +19,7 @@ export default function Login(props) {
         ).then(response => {
             console.log(response)
             if (response.data.status === 'created') {
-                props.handleSuccessfulAuthentication(response.data)
+                props.handleSuccessfulAuth(response.data)
             }
         }).catch(error => {
             console.log("registration error", error)
@@ -48,6 +49,7 @@ export default function Login(props) {
 
                 <button type="submit">ログイン</button>
             </form>
+            <Link to="/signup">新規登録はコチラ</Link>
         </div>
     )
 }
