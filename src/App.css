@@ -1,0 +1,47 @@
+html {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+}
+
+li {
+    margin: 0;
+}
+
+.userstatus {
+    color: red;
+    font-weight: 900;
+    border-bottom: 1px solid;
+}
+
+.header {
+    background-color: rgba(163, 163, 163, 0.096);
+}
+
+.header__top {
+    width: 200px;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.header__top > p {
+    margin-right: 20px;
+}
+
+.header__bottom {
+    margin: 0;
+    width: 200px;
+    margin-left: auto;
+    background: rgba(255, 0, 0, 0.24);
+}
+
+.logout__button {
+    width: 50%;
+}
+
+.li__link {
+    width: 50%;
+    margin-right: 10px;
+}
