@@ -21,7 +21,7 @@ export default function Login(props) {
                 if (response.data.status === 'created') {
                     console.log(props)
                     props.handleLogin(response.data)
-                    redirect()
+                    props.redirect()
                 } else {
                     setLoginErrors(response.data.errors)
                 }
@@ -30,27 +30,11 @@ export default function Login(props) {
             })
     }
 
-    const redirect = () => {
-        props.history.push("/")
-    }
-
-    const handleErrors = () => {
-        return (
-            <div>
-                <ul>
-                    {loginErrors.map(error => {
-                        return <li key={error}>{error}</li>
-                    })}
-                </ul>
-            </div>
-        )
-    }
-
     return (
         <div>
             <p>ログイン</p>
             <div>
-                {loginErrors ? handleErrors() : null}
+                {loginErrors ? props.handleErrors() : null}
             </div>
             <form onSubmit={handleSubmit}>
                 <input
