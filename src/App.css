@@ -2,7 +2,8 @@ html {
     margin: 0;
 }
 
-ul {
+/* header============================================= */
+/* ul {
     margin: 0;
 }
 
@@ -18,22 +19,30 @@ li {
 
 .header {
     background-color: rgba(163, 163, 163, 0.096);
-}
+} */
 
-.header__top {
-    width: 200px;
-    margin-right: auto;
-    margin-bottom: 20px;
-}
+/* .header__top {
+    width: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+    background: skyblue;
+} */
 
-.header__top > p {
+/* .header__top > p {
     margin-right: 20px;
+    background: gray;
+    margin-left: auto;
+} */
+
+/* .guest {
+    background: gray;
+    width: 50px;
+    margin-left: auto
 }
 
 .header__bottom {
     margin: 0;
     width: 200px;
-    margin-left: auto;
     background: rgba(255, 0, 0, 0.24);
 }
 
@@ -43,5 +52,6 @@ li {
 
 .li__link {
     width: 50%;
-    margin-right: 10px;
-}
+    margin-right: 10px; */
+/* } */
+/* header============================================= */
