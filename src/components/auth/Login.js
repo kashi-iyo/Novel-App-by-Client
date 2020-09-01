@@ -3,34 +3,55 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 export default function Login(props) {
+    console.log(props.history)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [registrationErrors, setRegistrationErrors] = useState("")
+    const [loginErrors, setLoginErrors] = useState("")
+    const user =  {
+        user: {
+            email: email,
+            password: password,
+        }
+    }
 
     const handleSubmit = (event) => {
-        axios.post("http://localhost:3001/login",
-            {
-                user: {
-                    email: email,
-                    password: password,
-                }
-            },
-            { withCredentials: true }
-        ).then(response => {
-            console.log(response)
-            if (response.data.status === 'created') {
-                props.handleSuccessfulAuth(response.data)
-            }
-        }).catch(error => {
-            console.log("registration error", error)
-        })
         event.preventDefault()
+        axios.post("http://localhost:3001/login", user, { withCredentials: true })
+            .then(response => {
+                if (response.data.status === 'created') {
+                    console.log(props)
+                    props.handleLogin(response.data)
+                    redirect()
+                } else {
+                    setLoginErrors(response.data.errors)
+                }
+            }).catch(error => {
+                console.log("registration error", error)
+            })
+    }
+
+    const redirect = () => {
+        props.history.push("/")
+    }
+
+    const handleErrors = () => {
+        return (
+            <div>
+                <ul>
+                    {loginErrors.map(error => {
+                        return <li key={error}>{error}</li>
+                    })}
+                </ul>
+            </div>
+        )
     }
 
     return (
         <div>
             <p>ログイン</p>
-
+            <div>
+                {loginErrors ? handleErrors() : null}
+            </div>
             <form onSubmit={handleSubmit}>
                 <input
                     type="email"
@@ -50,6 +71,7 @@ export default function Login(props) {
                 <button type="submit">ログイン</button>
             </form>
             <Link to="/signup">新規登録はコチラ</Link>
+            <Link to="/">ホーム</Link>
         </div>
     )
 }
