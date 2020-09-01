@@ -1,3 +1,7 @@
 .home {
-    background: rgba(0, 0, 255, 0.158);
+    background: rgba(0, 0, 255, 0.062);
+}
+
+.home__h1 {
+    margin-bottom: 10px;
 }
