@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 export default function Registration(props) {
+    console.log(props)
     const [nickname, setNickname] = useState("")
     const [accountId, setAccountId] = useState("")
     const [email, setEmail] = useState("")
@@ -10,34 +11,37 @@ export default function Registration(props) {
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
     const [admin, setAdmin] = useState(false)
     const [registrationErrors, setRegistrationErrors] = useState("")
+    const user = {
+        user: {
+            nickname: nickname,
+            account_id: accountId,
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation,
+            admin: admin
+        }
+    }
 
     const handleSubmit = (event) => {
-        axios.post("http://localhost:3001/users",
-            {
-                user: {
-                    nickname: nickname,
-                    account_id: accountId,
-                    email: email,
-                    password: password,
-                    password_confirmation: passwordConfirmation,
-                    admin: admin
-                }
-            },
-            { withCredentials: true }
-        ).then(response => {
-            if (response.data.status === 'created') {
-                props.handleSuccessfulAuthentication(response.data)
-            }
-        }).catch(error => {
-            console.log("registration error", error)
-        })
         event.preventDefault()
+        axios.post("http://localhost:3001/users", user, { withCredentials: true })
+            .then(response => {
+                if (response.data.status === 'created') {
+                    props.handleLogin(response.data)
+                    props.redirect()
+                } else {
+                    setRegistrationErrors(response.data.errors)
+                }
+            }).catch(error => {
+                console.log("registration error", error)
+            })
     }
 
     return (
         <div>
             <p>新規登録</p>
 
+            {registrationErrors ? props.handleErrors() : null}
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -78,6 +82,7 @@ export default function Registration(props) {
                 <button type="submit">登録</button>
             </form>
             <Link to="/login">ログインはコチラ</Link>
+            <Link to="/">ホーム</Link>
         </div>
     )
 }
