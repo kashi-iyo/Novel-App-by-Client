@@ -59,17 +59,17 @@ const handleLogoutClick = () => {
 
                 <div className="header__bottom">
                     <ul>
-                    <li className="li__link"><Link to="/">ホーム</Link></li>
-                    {
-                        loggedInStatus ?
-                        <button className="logout__button" onClick={handleLogoutClick}>
-                            ログアウト
-                        </button> :
-                        <ul>
-                            <li><Link to="/login">ログイン</Link></li>
-                            <li><Link to="/signup">新規登録</Link></li>
-                        </ul>
-                    }
+                        <li className="li__link"><Link to="/">ホーム</Link></li>
+                        {
+                            loggedInStatus ?
+                            <button className="logout__button" onClick={handleLogoutClick}>
+                                ログアウト
+                            </button> :
+                            <ul>
+                                <li><Link to="/login">ログイン</Link></li>
+                                <li><Link to="/signup">新規登録</Link></li>
+                            </ul>
+                        }
                     </ul>
                 </div>
             </header>
