@@ -7,6 +7,9 @@ import Dashboard from './components/Dashboard'
 import Header from './components/Header/Header'
 import Login from './components/auth/Login'
 import Registration from './components/auth/Registration'
+
+
+
 import './App.css'
 
 export default function App() {
@@ -14,17 +17,17 @@ export default function App() {
   const [user, setUser] = useState({})
 
   // エラー出力===========================================
-  const handleErrors = () => {
-    return (
-        <div>
-            <ul>
-                {loginErrors.map(error => {
-                    return <li key={error}>{error}</li>
-                })}
-            </ul>
-        </div>
-    )
-  }
+  // const handleErrors = () => {
+  //   return (
+  //       <div>
+  //           <ul>
+  //               {loginErrors.map(error => {
+  //                   return <li key={error}>{error}</li>
+  //               })}
+  //           </ul>
+  //       </div>
+  //   )
+  // }
   //======================================================
 
 
@@ -37,30 +40,31 @@ export default function App() {
   //========================================
 
   // リダイレクト===========================
-  const redirect = () => {
-    props.history.push("/")
-  }
+  // const redirect = () => {
+  //   props.history.push("/")
+  // }
   //========================================
 
   // ログインステータスの追跡===============================
   useEffect(() => {
+    const checkLoginStatus = () => {
+      axios.get("http://localhost:3001/logged_in", { withCredentials: true })
+        .then(response => {
+          if (response.data.logged_in && !loggedInStatus) {
+            setLoggedInStatus(true)
+            setUser(response.data.user)
+          } else if (!response.data.logged_in && loggedInStatus) {
+            setLoggedInStatus(false)
+            setUser({})
+          }
+        }).catch(error => {
+          console.log("ログインエラー", error)
+        })
+    }
     checkLoginStatus()
   })
 
-  const checkLoginStatus = () => {
-    axios.get("http://localhost:3001/logged_in", { withCredentials: true })
-      .then(response => {
-        if (response.data.logged_in && !loggedInStatus) {
-          setLoggedInStatus(true)
-          setUser(response.data.user)
-        } else if (!response.data.logged_in && loggedInStatus) {
-          setLoggedInStatus(false)
-          setUser({})
-        }
-      }).catch(error => {
-        console.log("ログインエラー", error)
-      })
-  }
+  
 //==========================================================
 //===============================================================================
 
@@ -83,13 +87,30 @@ export default function App() {
             )}
           />
           {!loggedInStatus && <Route exact path={"/login"} render={props => (
-              <Login {...props} handleLogin={handleLogin} redirect={redirect} handleErrors={handleErrors} loggedInStatus={loggedInStatus} />
+            <Login {...props} handleLogin={handleLogin}
+              // redirect={redirect}
+              // handleErrors={handleErrors}
+              loggedInStatus={loggedInStatus} />
             )} />
           },
           {!loggedInStatus && <Route exact path={"/signup"} render={props => (
-              <Registration {...props} handleLogin={handleLogin} redirect={redirect} handleErrors={handleErrors} loggedInStatus={loggedInStatus} />
+            <Registration {...props} handleLogin={handleLogin}
+              // redirect={redirect}
+              // handleErrors={handleErrors}
+              loggedInStatus={loggedInStatus} />
             )} />
           }
+          {/* 投稿系機能へのルーティング =================================== */}
+          {/* <Route
+            exact path="/series_create"
+            render={props => (
+              <SeriesCreate {...props}
+                user={user}
+                loggedInStatus={isLoggedIn}
+              />
+            )}
+          /> */}
+          {/* ============================================================== */}
         </Switch>
       </BrowserRouter>
     </div>

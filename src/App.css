@@ -2,6 +2,11 @@ html {
     margin: 0;
 }
 
+ul, li {
+    list-style: none;
+    padding: 0;
+}
+
 /* header============================================= */
 /* ul {
     margin: 0;
