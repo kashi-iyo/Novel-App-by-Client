@@ -14,6 +14,10 @@ export default function Login(props) {
         }
     }
 
+    const redirect = (props) => {
+        props.history.push("/")
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault()
         axios.post("http://localhost:3001/login", user, { withCredentials: true })
@@ -21,7 +25,7 @@ export default function Login(props) {
                 if (response.data.status === 'created') {
                     console.log(props)
                     props.handleLogin(response.data)
-                    props.redirect()
+                    redirect(response)
                 } else {
                     setLoginErrors(response.data.errors)
                 }
@@ -34,7 +38,7 @@ export default function Login(props) {
         <div>
             <p>ログイン</p>
             <div>
-                {loginErrors ? props.handleErrors() : null}
+                {/* {loginErrors ? props.handleErrors() : null} */}
             </div>
             <form onSubmit={handleSubmit}>
                 <input

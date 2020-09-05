@@ -10,7 +10,7 @@ export default function Registration(props) {
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
     const [admin, setAdmin] = useState(false)
-    const [registrationErrors, setRegistrationErrors] = useState("")
+    // const [registrationErrors, setRegistrationErrors] = useState("")
     const user = {
         user: {
             nickname: nickname,
@@ -22,15 +22,19 @@ export default function Registration(props) {
         }
     }
 
+    const redirect = (props) => {
+        props.history.push("/")
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault()
         axios.post("http://localhost:3001/users", user, { withCredentials: true })
             .then(response => {
                 if (response.data.status === 'created') {
                     props.handleLogin(response.data)
-                    props.redirect()
+                    redirect(response)
                 } else {
-                    setRegistrationErrors(response.data.errors)
+                    // setRegistrationErrors(response.data.errors)
                 }
             }).catch(error => {
                 console.log("registration error", error)
@@ -41,7 +45,7 @@ export default function Registration(props) {
         <div>
             <p>新規登録</p>
 
-            {registrationErrors ? props.handleErrors() : null}
+            {/* {registrationErrors ? props.handleErrors() : null} */}
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
