@@ -60,6 +60,12 @@ const handleLogoutClick = () => {
                 <div className="header__bottom">
                     <ul>
                         <li className="li__link"><Link to="/">ホーム</Link></li>
+                        <li><Link>ランキング</Link></li>
+                        <ul className="header__options">
+                            <li><Link>投稿一覧</Link></li>
+                            ／
+                            <li><Link to="/series_create">投稿する</Link></li>
+                        </ul>
                         {
                             loggedInStatus ?
                             <button className="logout__button" onClick={handleLogoutClick}>
