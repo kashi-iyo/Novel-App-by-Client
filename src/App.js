@@ -3,12 +3,14 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 
 import Home from './components/Home/Home'
-import Dashboard from './components/Dashboard'
 import Header from './components/Header/Header'
 import Login from './components/auth/Login'
-import Registration from './components/auth/Registration'
+import Signup from './components/auth/Signup'
 
+import SeriesCreate from './components/Series/SeriesCreate/SeriesCreate'
+import SeriesEdit from './components/Series/SeriesEdit/SeriesEdit'
 
+import NovelsFeed from './components/Novels/NovelsFeed/NovelsFeed'
 
 import './App.css'
 
@@ -32,12 +34,17 @@ export default function App() {
 
 
   // 認証系の関数=======================================================================
-  // ログイン===============================
-  const handleLogin = (data) => {
+  // ログイン
+  const handleLogin = (response) => {
     setLoggedInStatus(true)
-    setUser(data.user)
+    setUser(response.data.user)
   }
-  //========================================
+
+  // ログアウト
+  const handleLogout = () => {
+    setLoggedInStatus(false)
+    setUser({})
+  }
 
   // リダイレクト===========================
   // const redirect = () => {
@@ -51,11 +58,9 @@ export default function App() {
       axios.get("http://localhost:3001/logged_in", { withCredentials: true })
         .then(response => {
           if (response.data.logged_in && !loggedInStatus) {
-            setLoggedInStatus(true)
-            setUser(response.data.user)
+            handleLogin(response)
           } else if (!response.data.logged_in && loggedInStatus) {
-            setLoggedInStatus(false)
-            setUser({})
+            handleLogout()
           }
         }).catch(error => {
           console.log("ログインエラー", error)
@@ -64,7 +69,6 @@ export default function App() {
     checkLoginStatus()
   })
 
-  
 //==========================================================
 //===============================================================================
 
@@ -80,36 +84,48 @@ export default function App() {
               <Home {...props} loggedInStatus={loggedInStatus} />
             )}
           />
-          <Route
-            exact path={"/dashboard"}
-            render={props => (
-              <Dashboard { ...props } loggedInStatus={loggedInStatus} />
-            )}
-          />
+
+          {/* 認証系機能へのルーティング===================== */}
           {!loggedInStatus && <Route exact path={"/login"} render={props => (
             <Login {...props} handleLogin={handleLogin}
-              // redirect={redirect}
-              // handleErrors={handleErrors}
               loggedInStatus={loggedInStatus} />
             )} />
           },
           {!loggedInStatus && <Route exact path={"/signup"} render={props => (
-            <Registration {...props} handleLogin={handleLogin}
-              // redirect={redirect}
-              // handleErrors={handleErrors}
+            <Signup {...props} handleLogin={handleLogin}
               loggedInStatus={loggedInStatus} />
             )} />
           }
+          {/* 認証系機能へのルーティング===================== */}
+
           {/* 投稿系機能へのルーティング =================================== */}
-          {/* <Route
+          <Route
             exact path="/series_create"
             render={props => (
               <SeriesCreate {...props}
                 user={user}
-                loggedInStatus={isLoggedIn}
+                loggedInStatus={loggedInStatus}
               />
             )}
-          /> */}
+          />
+          <Route
+            exact path={`/novel_series/:id/edit`}
+            render={props => (
+              <SeriesEdit {...props}
+                user={user}
+                loggedInStatus={loggedInStatus}
+              />
+            )}
+          />
+          <Route
+            exact path="/novel_series/:id"
+            render={props => (
+              <NovelsFeed {...props}
+                user={user}
+                loggedInStatus={loggedInStatus}
+              />
+            )}
+          />
           {/* ============================================================== */}
         </Switch>
       </BrowserRouter>
