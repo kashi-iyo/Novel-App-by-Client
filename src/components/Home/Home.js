@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 import './Home.css'
 import SeriesRanking from './SeriesRanking/SeriesRanking'
-import Series from './Series/Series'
+import Series from '../Series/Series'
 
 function Home(props) {
-
     const [novelSeries, setNovelSeries] = useState([])
-    console.log(novelSeries)
 
     useEffect(() => {
         getNovelSeries()

@@ -1,7 +1,6 @@
 import React from 'react'
 
 import './SeriesRanking.css'
-import Series from '../Series/Series'
 
 function NovelRanking(props) {
 
