@@ -24,20 +24,11 @@ function SeriesCreate(props) {
         )
     }
 
-    // ログイン画面への誘導メッセージ
-    const handleLeadingToLogin = () => {
-        return (
-            <div className="leadingToLogin">
-                <div>この機能を利用するには<Link to="/login">ログイン</Link>が必要です。</div>
-            </div>
-        )
-    }
-
     return (
         <div>
             {loggedInStatus ?
                 handleValidateSeriesCreate() :
-                handleLeadingToLogin()
+                props.handleLeadingToLogin()
             }
         </div>
     )
