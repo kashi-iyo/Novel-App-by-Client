@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import axios from 'axios'
 
 import Home from './components/Home/Home'
@@ -18,7 +18,7 @@ export default function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false)
   const [user, setUser] = useState({})
 
-  // 認証系の関数=======================================================================
+  // 認証系のイベント=======================================================================
   // ログイン
   const handleLogin = (response) => {
     setLoggedInStatus(true)
@@ -49,6 +49,17 @@ export default function App() {
     checkLoginStatus()
   }, [loggedInStatus])
 //===============================================================================
+  
+  // アクセス制限=============================
+    // ログイン画面への誘導メッセージ
+    const handleLeadingToLogin = () => {
+      return (
+          <div className="leadingToLogin">
+              <div>この機能を利用するには<Link to="/login">ログイン</Link>が必要です。</div>
+          </div>
+      )
+    }
+  // =========================================
 
   return (
     <div>
@@ -86,6 +97,7 @@ export default function App() {
               <SeriesCreate {...props}
                 user={user}
                 loggedInStatus={loggedInStatus}
+                handleLeadingToLogin={handleLeadingToLogin}
               />
             )}
           />
@@ -95,6 +107,7 @@ export default function App() {
               <SeriesEdit {...props}
                 user={user}
                 loggedInStatus={loggedInStatus}
+                handleLeadingToLogin={handleLeadingToLogin}
               />
             )}
           />
