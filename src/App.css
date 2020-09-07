@@ -1,12 +1,3 @@
-html {
-    margin: 0;
-}
-
-ul, li {
-    list-style: none;
-    padding: 0;
-}
-
 ul, li {
     list-style: none;
     padding: 0;
@@ -39,56 +30,10 @@ ul, li {
     color: rgb(0, 103, 143);
   }
   
-/* header============================================= */
-/* ul {
-    margin: 0;
-}
-
-li {
-    margin: 0;
-}
-
-.userstatus {
-    color: red;
-    font-weight: 900;
-    border-bottom: 1px solid;
-}
-
-.header {
-    background-color: rgba(163, 163, 163, 0.096);
-} */
-
-/* .header__top {
-    width: auto;
-    margin-left: auto;
-    margin-bottom: 10px;
-    background: skyblue;
-} */
-
-/* .header__top > p {
-    margin-right: 20px;
-    background: gray;
-    margin-left: auto;
-} */
-
-/* .guest {
-    background: gray;
-    width: 50px;
-    margin-left: auto
-}
-
-.header__bottom {
-    margin: 0;
-    width: 200px;
-    background: rgba(255, 0, 0, 0.24);
-}
-
-.logout__button {
-    width: 50%;
-}
-
-.li__link {
-    width: 50%;
-    margin-right: 10px; */
-/* } */
-/* header============================================= */
+  .leadingToLogin {
+    text-align: center;
+  }
+  
+  .guest {
+    font-weight: 600;
+  }
