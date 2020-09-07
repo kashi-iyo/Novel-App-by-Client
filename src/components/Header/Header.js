@@ -43,7 +43,7 @@ function Header(props) {
                 <ul className="header__options">
                     <li><Link>投稿一覧</Link></li>
                     ／
-                    <li><Link to="/series_create">投稿する</Link></li>
+                    <li><Link to="/series_create">小説を投稿する</Link></li>
                 </ul>
                 {
                     loggedInStatus ?
