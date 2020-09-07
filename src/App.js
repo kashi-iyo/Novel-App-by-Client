@@ -18,21 +18,6 @@ export default function App() {
   const [loggedInStatus, setLoggedInStatus] = useState(false)
   const [user, setUser] = useState({})
 
-  // エラー出力===========================================
-  // const handleErrors = () => {
-  //   return (
-  //       <div>
-  //           <ul>
-  //               {loginErrors.map(error => {
-  //                   return <li key={error}>{error}</li>
-  //               })}
-  //           </ul>
-  //       </div>
-  //   )
-  // }
-  //======================================================
-
-
   // 認証系の関数=======================================================================
   // ログイン
   const handleLogin = (response) => {
@@ -46,16 +31,11 @@ export default function App() {
     setUser({})
   }
 
-  // リダイレクト===========================
-  // const redirect = () => {
-  //   props.history.push("/")
-  // }
-  //========================================
-
-  // ログインステータスの追跡===============================
+  // ログインステータスの追跡
   useEffect(() => {
     const checkLoginStatus = () => {
-      axios.get("http://localhost:3001/logged_in", { withCredentials: true })
+      axios.get("http://localhost:3001/logged_in",
+        { withCredentials: true })
         .then(response => {
           if (response.data.logged_in && !loggedInStatus) {
             handleLogin(response)
@@ -67,16 +47,17 @@ export default function App() {
         })
     }
     checkLoginStatus()
-  })
-
-//==========================================================
+  }, [loggedInStatus])
 //===============================================================================
-
 
   return (
     <div>
       <BrowserRouter>
-        <Header />
+        <Route
+          render={props => (
+            <Header {...props} user={user} loggedInStatus={loggedInStatus} handleLogout={handleLogout} />
+          )}
+        />
         <Switch>
           <Route
             exact path={"/"}
