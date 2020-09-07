@@ -15,6 +15,7 @@ function NovelsFeed(props) {
     // シリーズのパラメータを持つURL
     const url = props.match.url
 
+    // シリーズデータを取得
     useEffect(() => {
         // リダイレクト関数
         const redirect = () => {
@@ -38,6 +39,7 @@ function NovelsFeed(props) {
         seriesValue()
     }, [url, props.history])
 
+    // シリーズデータを表示
     const handleNovelsFeed = () => {
         return (
             <div className="NovelsFeed">
