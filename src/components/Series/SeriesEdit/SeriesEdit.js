@@ -8,7 +8,9 @@ function SeriesEdit(props) {
     const [isMounted, setIsMounted] = useState(false)
     const [seriesTitle, setSeriesTitle] = useState("")
     const [seriesDescription, setSeriesDescription] = useState("")
+    const [errors, setErrors] = useState("")
     const loggedInStatus = props.loggedInStatus
+    console.log(props)
 
     // シリーズのパラメータを含んだパス
     const path = props.location.pathname
@@ -16,9 +18,12 @@ function SeriesEdit(props) {
     useEffect(() => {
         const seriesValue = () => {
             axios.get(`http://localhost:3001/api/v1/${path}`, { withCredentials: true }).then(response => {
-                if (isMounted) {
+                console.log(response)
+                if (isMounted && response.data.status === 200) {
                     setSeriesTitle(response.data.novel_series.series_title)
                     setSeriesDescription(response.data.novel_series.series_description)
+                } else if (isMounted && response.data.status === 401) {
+                    setErrors(response.data.messages)
                 }
             })
             .catch(error => console.log('エラー: ', error))
@@ -52,9 +57,9 @@ function SeriesEdit(props) {
 
     return (
         <div>
-            {loggedInStatus ?
-                handleValidateSeriesEdit() :
-                props.handleLeadingToLogin()
+            {!loggedInStatus || errors  ?
+                props.handleLeadingToLogin(errors) :
+                handleValidateSeriesEdit()
             }
         </div>
     )
