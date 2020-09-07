@@ -8,6 +8,7 @@ function SeriesEdit(props) {
     const [isMounted, setIsMounted] = useState(false)
     const [seriesTitle, setSeriesTitle] = useState("")
     const [seriesDescription, setSeriesDescription] = useState("")
+    const loggedInStatus = props.loggedInStatus
 
     // シリーズのパラメータを含んだパス
     const path = props.location.pathname
@@ -25,25 +26,36 @@ function SeriesEdit(props) {
         seriesValue()
         setIsMounted(true)
 
-      }, [path, isMounted])
+    }, [path, isMounted])
+    
+    const handleValidateSeriesEdit = () => {
+        return (
+            <div className='seriesEdit'>
+                <h3>シリーズ編集</h3>
+
+                {/* 小説一覧 */}
+                <Link to="/novels">このシリーズの小説一覧</Link><br></br>
+
+                <SeriesForm {...props}
+                    seriesTitle={seriesTitle}
+                    setSeriesTitle={setSeriesTitle}
+                    seriesDescription={seriesDescription}
+                    setSeriesDescription={setSeriesDescription}
+                    isMountd={isMounted}
+                    setIsMounted={setIsMounted}
+                    path={path}
+                    button="編集を完了する"
+                />
+            </div>
+        )
+    }
 
     return (
-        <div className='seriesEdit'>
-            <h3>シリーズ編集</h3>
-
-            {/* 小説一覧 */}
-            <Link to="/novels">このシリーズの小説一覧</Link><br></br>
-            
-            <SeriesForm {...props}
-                seriesTitle={seriesTitle}
-                setSeriesTitle={setSeriesTitle}
-                seriesDescription={seriesDescription}
-                setSeriesDescription={setSeriesDescription}
-                isMountd={isMounted}
-                setIsMounted={setIsMounted}
-                path={path}
-                button="編集を完了する"
-            />
+        <div>
+            {loggedInStatus ?
+                handleValidateSeriesEdit() :
+                props.handleLeadingToLogin()
+            }
         </div>
     )
 }
