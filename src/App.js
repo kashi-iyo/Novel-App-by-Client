@@ -52,11 +52,12 @@ export default function App() {
   
   // アクセス制限=============================
     // ログイン画面への誘導メッセージ
-    const handleLeadingToLogin = () => {
+    const handleLeadingToLogin = (errors) => {
       return (
-          <div className="leadingToLogin">
-              <div>この機能を利用するには<Link to="/login">ログイン</Link>が必要です。</div>
-          </div>
+        <div className="leadingToLogin">
+          {errors}
+          <div>この機能を利用するには<Link to="/login">ログイン</Link>が必要です。</div>
+        </div>
       )
     }
   // =========================================
