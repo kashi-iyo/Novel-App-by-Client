@@ -9,6 +9,8 @@ function NovelsFeed(props) {
     const [seriesDescription, setSeriesDescription] = useState("")
     const [author, setAuthor] = useState("")
     const [release, setRelease] = useState(false)
+    const loggedInStatus = props.loggedInStatus
+    const user = props.user.nickname
 
     // シリーズのパラメータを持つURL
     const url = props.match.url
@@ -77,7 +79,8 @@ function NovelsFeed(props) {
                             </li>
                         </ul>
                     </div>
-                    {!author ? null :
+                    {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
+                    {author !== user || !loggedInStatus ? null :
                         <div className="Series__editLinkWrap">
                             <Link className="Series__editLink" to={`${url}/edit`}>編集する</Link>
                         </div>
