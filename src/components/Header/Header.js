@@ -34,7 +34,7 @@ function Header(props) {
                         <Link className="nickname">{nickname}さん</Link>でログイン中
                     </div>
                     :
-                    <p className="guest">ゲスト</p>
+                    <p className="guest">ゲストさんようこそ。</p>
                 }
             </div>
             <ul>
