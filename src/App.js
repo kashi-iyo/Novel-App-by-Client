@@ -49,18 +49,6 @@ export default function App() {
     checkLoginStatus()
   }, [loggedInStatus])
 //===============================================================================
-  
-  // アクセス制限=============================
-    // ログイン画面への誘導メッセージ
-    const handleLeadingToLogin = (errors) => {
-      return (
-        <div className="leadingToLogin">
-          {errors}
-          <div>この機能を利用するには正しいアカウントでの<Link to="/login">ログイン</Link>が必要です。</div>
-        </div>
-      )
-    }
-  // =========================================
 
   return (
     <div>
@@ -98,7 +86,6 @@ export default function App() {
               <SeriesCreate {...props}
                 user={user}
                 loggedInStatus={loggedInStatus}
-                handleLeadingToLogin={handleLeadingToLogin}
               />
             )}
           />
@@ -108,7 +95,6 @@ export default function App() {
               <SeriesEdit {...props}
                 user={user}
                 loggedInStatus={loggedInStatus}
-                handleLeadingToLogin={handleLeadingToLogin}
               />
             )}
           />
