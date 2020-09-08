@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import SeriesForm from '../SeriesForm/SeriesForm'
+import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 
 function SeriesCreate(props) {
     const [seriesTitle, setSeriesTitle] = useState("")
@@ -23,11 +24,22 @@ function SeriesCreate(props) {
         )
     }
 
+    // ログインしていない場合はログインページへリダイレクトさせる。
+    useEffect(() => {
+        const redirect = () => {
+            props.history.push("/login")
+        }
+        if (!loggedInStatus) {
+            setTimeout(() => { redirect() }, 3000)
+        }
+    }, [loggedInStatus, props.history])
+
     return (
         <div>
+            {/* ユーザーがログインしているかどうかを確認*/}
             {loggedInStatus ?
                 handleValidateSeriesCreate() :
-                props.handleLeadingToLogin()
+                <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
             }
         </div>
     )

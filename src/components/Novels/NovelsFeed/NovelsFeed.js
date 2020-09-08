@@ -9,7 +9,7 @@ function NovelsFeed(props) {
     const [seriesTitle, setSeriesTitle] = useState("")
     const [seriesDescription, setSeriesDescription] = useState("")
     const [author, setAuthor] = useState("")
-    const [release, setRelease] = useState(false)
+    const [releaseErrors, setReleaseErrors] = useState(false)
     // シリーズがreleaseでない場合、エラーを取得
     const [errors, setErrors] = useState("")
     // ログインしているかどうか
@@ -37,14 +37,14 @@ function NovelsFeed(props) {
                         setAuthor(response.data.novel_series.author)
                         setRelease(response.data.novel_series.release)
                     } else if (response.data.status === 400) {
-                        setErrors(response.data.messages)
+                        setReleaseErrors(response.data.messages)
                         setTimeout(() => {redirect()}, 3000)
                     }
                 })
                     .catch(error => console.log('エラー: ', error))
                 }
         seriesValue()
-    }, [url, props.history, errors])
+    }, [url, props.history, releaseErrors])
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
@@ -115,7 +115,7 @@ function NovelsFeed(props) {
             {/* Release（公開）されていない場合 or 作者とログインユーザーが異なる場合、エラーを表示 */}
             {release || author === user ?
                 handleNovelsFeed() :
-                <ErrorMessages {...props} errors={errors} />
+                <ErrorMessages {...props} releaseErrors={releaseErrors} />
             }
         </div>
     )
