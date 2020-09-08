@@ -34,7 +34,7 @@ function SeriesEdit(props) {
         seriesValue()
         setIsMounted(true)
 
-    }, [path, isMounted])
+    }, [path, isMounted, props.history])
     
     const handleValidateSeriesEdit = () => {
         return (
@@ -60,9 +60,13 @@ function SeriesEdit(props) {
 
     return (
         <div>
-            {loggedInStatus ?
+            {/* ユーザーがログイン&エラーがない場合にtrueを返す */}
+            {loggedInStatus && !accessErrors ?
                 handleValidateSeriesEdit() :
-                <ErrorMessages {...props} accessErrors={accessErrors} />
+                <ErrorMessages {...props}
+                    accessErrors={accessErrors}
+                    loggedInStatus={loggedInStatus}
+                />
             }
         </div>
     )

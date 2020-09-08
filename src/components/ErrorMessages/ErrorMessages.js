@@ -5,6 +5,7 @@ import './ErrorMessages.css'
 function ErrorMessages(props) {
     const releaseErrors = props.releaseErrors
     const accessErrors = props.accessErrors
+    const loggedInStatus = props.loggedInStatus
 
     // 非公開エラー
     const handleReleaseErrors = () => {
@@ -21,7 +22,10 @@ function ErrorMessages(props) {
         return (
             <div className="Errors">
                 <p className="Errors__access">{accessErrors}</p>
-                <p>（3秒後に、ログインページへリダイレクトされます。）</p>
+                {loggedInStatus ?
+                    <p>（3秒後に、ホームへリダイレクトされます。）</p> :
+                    <p>（3秒後に、ログインページへリダイレクトされます。）</p>
+                }
             </div>
         )
     }
