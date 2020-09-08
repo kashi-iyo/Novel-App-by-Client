@@ -4,34 +4,34 @@ import './ErrorMessages.css'
 
 function ErrorMessages(props) {
     const releaseErrors = props.releaseErrors
-    const errors = props.errors
+    const accessErrors = props.accessErrors
 
     // 非公開エラー
-    const handleReleaseErrors = (releaseErrors) => {
+    const handleReleaseErrors = () => {
         return (
             <div className="Errors">
                 <p className="Errors__release">{releaseErrors}</p>
-                <p>3秒後に、ホーム画面へリダイレクトされます。</p>
+                <p>（3秒後に、ホーム画面へリダイレクトされます。）</p>
             </div>
         )
     }
 
     // アクセスエラー
-    const handleAccessErrors = (errors) => {
+    const handleAccessErrors = () => {
         return (
             <div className="Errors">
-                <p className="Errors__access">{errors}</p>
-                <p>3秒後に、ログインページへリダイレクトされます。</p>
+                <p className="Errors__access">{accessErrors}</p>
+                <p>（3秒後に、ログインページへリダイレクトされます。）</p>
             </div>
         )
     }
 
     // アクセスエラーor非公開エラーにより条件分岐
     const errorsRender = () => {
-        if (errors) {
+        if (accessErrors) {
             return (
                 <div>
-                    {handleAccessErrors(errors)}
+                    {handleAccessErrors(accessErrors)}
                 </div>
             )
         } else if (releaseErrors) {
@@ -45,7 +45,7 @@ function ErrorMessages(props) {
 
     return (
         <div>
-            {errorsRender(errors)}
+            {errorsRender()}
         </div>
     )
 }

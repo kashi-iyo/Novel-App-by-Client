@@ -38,7 +38,7 @@ function NovelsFeed(props) {
                         setRelease(response.data.novel_series.release)
                     } else if (response.data.status === 400) {
                         setReleaseErrors(response.data.messages)
-                        setTimeout(() => {redirect()}, 3000)
+                        setTimeout(() => {redirect()}, 2000)
                     }
                 })
                     .catch(error => console.log('エラー: ', error))

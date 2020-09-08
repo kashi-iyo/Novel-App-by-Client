@@ -8,14 +8,16 @@ function SeriesEdit(props) {
     const [isMounted, setIsMounted] = useState(false)
     const [seriesTitle, setSeriesTitle] = useState("")
     const [seriesDescription, setSeriesDescription] = useState("")
-    const [errors, setErrors] = useState("")
+    const [accessErrors, setAccessErrors] = useState("")
     const loggedInStatus = props.loggedInStatus
-    console.log(props)
 
     // シリーズのパラメータを含んだパス
     const path = props.location.pathname
 
     useEffect(() => {
+        const redirect = () => {
+            props.history.push("/login")
+        }
         const seriesValue = () => {
             axios.get(`http://localhost:3001/api/v1/${path}`, { withCredentials: true }).then(response => {
                 console.log(response)
@@ -23,7 +25,8 @@ function SeriesEdit(props) {
                     setSeriesTitle(response.data.novel_series.series_title)
                     setSeriesDescription(response.data.novel_series.series_description)
                 } else if (isMounted && response.data.status === 401) {
-                    setErrors(response.data.messages)
+                    setTimeout(() => { redirect() }, 3000)
+                    setAccessErrors(response.data.messages)
                 }
             })
             .catch(error => console.log('エラー: ', error))
@@ -57,9 +60,9 @@ function SeriesEdit(props) {
 
     return (
         <div>
-            {!loggedInStatus || errors  ?
-                props.handleLeadingToLogin(errors) :
-                handleValidateSeriesEdit()
+            {loggedInStatus ?
+                handleValidateSeriesEdit() :
+                <ErrorMessages {...props} accessErrors={accessErrors} />
             }
         </div>
     )

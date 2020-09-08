@@ -30,7 +30,7 @@ function SeriesCreate(props) {
             props.history.push("/login")
         }
         if (!loggedInStatus) {
-            setTimeout(() => { redirect() }, 3000)
+            setTimeout(() => { redirect() }, 2000)
         }
     }, [loggedInStatus, props.history])
 
@@ -39,7 +39,7 @@ function SeriesCreate(props) {
             {/* ユーザーがログインしているかどうかを確認*/}
             {loggedInStatus ?
                 handleValidateSeriesCreate() :
-                <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
+                <ErrorMessages {...props} accessErrors={"アクセス権限がありません。"} />
             }
         </div>
     )
