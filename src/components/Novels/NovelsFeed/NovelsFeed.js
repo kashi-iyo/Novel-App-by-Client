@@ -3,13 +3,18 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import './NovelsFeed.css'
+import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 
 function NovelsFeed(props) {
     const [seriesTitle, setSeriesTitle] = useState("")
     const [seriesDescription, setSeriesDescription] = useState("")
     const [author, setAuthor] = useState("")
     const [release, setRelease] = useState(false)
+    // シリーズがreleaseでない場合、エラーを取得
+    const [errors, setErrors] = useState("")
+    // ログインしているかどうか
     const loggedInStatus = props.loggedInStatus
+    // ログインユーザー取得
     const user = props.user.nickname
 
     // シリーズのパラメータを持つURL
@@ -17,10 +22,12 @@ function NovelsFeed(props) {
 
     // シリーズデータを取得
     useEffect(() => {
-        // リダイレクト関数
+
+        // リダイレクト
         const redirect = () => {
             props.history.push("/")
         }
+
         const seriesValue = () => {
             axios.get(`http://localhost:3001/api/v1${url}`, { withCredentials: true })
                 .then(response => {
@@ -30,14 +37,14 @@ function NovelsFeed(props) {
                         setAuthor(response.data.novel_series.author)
                         setRelease(response.data.novel_series.release)
                     } else if (response.data.status === 400) {
-                        redirect()
+                        setErrors(response.data.messages)
+                        setTimeout(() => {redirect()}, 3000)
                     }
-                    
                 })
                     .catch(error => console.log('エラー: ', error))
                 }
         seriesValue()
-    }, [url, props.history])
+    }, [url, props.history, errors])
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
@@ -105,7 +112,11 @@ function NovelsFeed(props) {
 
     return (
         <div>
-            {release ? handleNovelsFeed() : null}
+            {/* Release（公開）されていない場合 or 作者とログインユーザーが異なる場合、エラーを表示 */}
+            {release || author === user ?
+                handleNovelsFeed() :
+                <ErrorMessages {...props} errors={errors} />
+            }
         </div>
     )
 }

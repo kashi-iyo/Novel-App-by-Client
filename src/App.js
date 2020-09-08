@@ -56,7 +56,7 @@ export default function App() {
       return (
         <div className="leadingToLogin">
           {errors}
-          <div>この機能を利用するには<Link to="/login">ログイン</Link>が必要です。</div>
+          <div>この機能を利用するには正しいアカウントでの<Link to="/login">ログイン</Link>が必要です。</div>
         </div>
       )
     }
@@ -91,7 +91,7 @@ export default function App() {
           }
           {/* 認証系機能へのルーティング===================== */}
 
-          {/* 投稿系機能へのルーティング =================================== */}
+          {/* 小説系機能へのルーティング =================================== */}
           <Route
             exact path="/series_create"
             render={props => (
