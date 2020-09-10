@@ -1,1 +1,1 @@
-API側：https://github.com/kashi-iyo/Practice-app-by-API
+<h3>API側：https://github.com/kashi-iyo/Novel-App-by-API</h4>
