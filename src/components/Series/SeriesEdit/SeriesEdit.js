@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import SeriesForm from '../SeriesForm/SeriesForm'
+import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 
 function SeriesEdit(props) {
     const [isMounted, setIsMounted] = useState(false)

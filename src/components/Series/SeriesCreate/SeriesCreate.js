@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
