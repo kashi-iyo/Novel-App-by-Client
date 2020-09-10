@@ -4,47 +4,67 @@ import axios from 'axios'
 
 import './NovelsFeed.css'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
+import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
+import Novels from '../Novels'
 
 function NovelsFeed(props) {
+    // シリーズデータ
     const [seriesTitle, setSeriesTitle] = useState("")
     const [seriesDescription, setSeriesDescription] = useState("")
+   // 小説データ
+    const [novels, setNovels] = useState("")
     const [author, setAuthor] = useState("")
-    const [releaseErrors, setReleaseErrors] = useState(false)
-    // シリーズがreleaseでない場合、エラーを取得
-    const [errors, setErrors] = useState("")
+    const [release, setRelease] = useState(false)
+    const [releaseErrors, setReleaseErrors] = useState("")
     // ログインしているかどうか
     const loggedInStatus = props.loggedInStatus
     // ログインユーザー取得
     const user = props.user.nickname
+    // マウント前後処理
+    const [isMounted, setIsMounted] = useState(false)
 
     // シリーズのパラメータを持つURL
-    const url = props.match.url
+    const params = props.match.params.id
 
     // シリーズデータを取得
     useEffect(() => {
-
         // リダイレクト
         const redirect = () => {
             props.history.push("/")
         }
-
         const seriesValue = () => {
-            axios.get(`http://localhost:3001/api/v1${url}`, { withCredentials: true })
+            axios.get(`http://localhost:3001/api/v1/novel_series/${params}`, { withCredentials: true })
                 .then(response => {
-                    if (response.data.status === 200) {
+                    if (isMounted && response.data.status === 200) {
                         setSeriesTitle(response.data.novel_series.series_title)
                         setSeriesDescription(response.data.novel_series.series_description)
                         setAuthor(response.data.novel_series.author)
                         setRelease(response.data.novel_series.release)
-                    } else if (response.data.status === 400) {
+                    } else if (isMounted && response.data.status === 400) {
                         setReleaseErrors(response.data.messages)
                         setTimeout(() => {redirect()}, 2000)
                     }
                 })
                     .catch(error => console.log('エラー: ', error))
-                }
+        }
+        setIsMounted(true)
         seriesValue()
-    }, [url, props.history, releaseErrors])
+    }, [params, props.history, releaseErrors, isMounted])
+
+    // シリーズが所有する小説をRailsから取得
+    useEffect(() => {
+        const novelsValue = () => {
+            axios.get(`http://localhost:3001/api/v1/novel_series/${params}/novels`, { withCredentials: true })
+                .then(response => {
+                    if (isMounted && response.data.status === 200) {
+                        setNovels(response.data.novels_in_series)
+                    }
+                })
+                .catch(error => console.log("エラー: ", error))
+        }
+        setIsMounted(true)
+        novelsValue()
+    }, [params, isMounted])
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
@@ -91,21 +111,24 @@ function NovelsFeed(props) {
                     {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
                     {author !== user || !loggedInStatus ? null :
                         <div className="Series__editLinkWrap">
-                            <Link className="Series__editLink" to={`${url}/edit`}>編集する</Link>
+                            <Link className="Series__editLink" to={`/novel_series/${params}/edit`}>編集する</Link>
                         </div>
                     }
                 </div>
 
                 {/* シリーズ内の小説一覧 */}
-                <div className="Novels">
-                    <ul className="Novels__Ul">
-                        <li className="Novels__Li"><Link to="/novels_series/:id/novels/:id" className="Novels__Link">お話</Link></li>
-                        <li className="Novels__Li"><Link className="Novels__Link">お話</Link></li>
-                        <li className="Novels__Li"><Link className="Novels__Link">お話</Link></li>
-                        <li className="Novels__Li"><Link className="Novels__Link">お話</Link></li>
-                        ...
-                    </ul>
-                </div>
+                <NovelsInNovelsFeed>
+                    {
+                        novels ?
+                            novels.map(novel => (
+                                <Novels {...props} key={novel.id}
+                                    novel={novel} author={author} user={user}
+                                    setIsMounted={setIsMounted}
+                                />
+                            )) :
+                            null
+                    }
+                </NovelsInNovelsFeed>
             </div>
         )
     }

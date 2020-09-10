@@ -71,25 +71,13 @@
 .Series__editLinkWrap {
     width: 20%;
     margin-left: auto;
+    margin-bottom: 10px;
 }
 .Series__editLink {
     color: rgb(0, 103, 143);
 }
 
 .Series__Link {
-    color: rgb(0, 103, 143);
-    margin-left: 5px;
-}
-
-.Novels__Ul {
-    padding: 15px;
-}
-.Novels__Li {
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-.Novels__Link {
     color: rgb(0, 103, 143);
     margin-left: 5px;
 }
