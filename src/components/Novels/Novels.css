@@ -1,0 +1,16 @@
+.Novels__Ul {
+    padding: 5px;
+}
+.Novels__Li {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.Novels__Link {
+    color: rgb(0, 103, 143);
+    margin-left: 5px;
+}
+.Novels__Unrelease {
+    margin-left: 5px;
+    font-size: 1rem;
+}
