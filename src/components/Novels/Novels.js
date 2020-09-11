@@ -11,14 +11,16 @@ function Novels(props) {
 
     const user = props.user  // ログインユーザー
     const novelSeriesId = props.match.params.id    // シリーズのパラメータ
+    const oneNovelUrl = `/novel_series/${novelSeriesId}/novels/${novelId}`    // 小説1話分へのURL
 
+    // 公開されているかどうか、また作者かどうかで小説の表示を切り替える
     const handleChangeNovelsRenderer = () => {
         // 公開&ログインユーザーと作者が等しい場合
         if (release && user === novelAuthor) {
             return (
-                <div>
-                    <span className="Novels__Link">{novelId}.</span>
-                    <Link to={`/novels_series/${novelSeriesId}/novels/${novelId}`} className="Novels__Link">
+                <div className="Novels__Link">
+                    <span>{novelId}.</span>
+                    <Link to={oneNovelUrl}>
                         {`【公開中】${novelTitle}`}
                     </Link>
                 </div>
@@ -26,9 +28,9 @@ function Novels(props) {
         // 非公開だがログインユーザーと作者が等しい場合
         } else if (!release && user === novelAuthor) {
             return (
-                <div>
-                    <span className="Novels__Link">{novelId}.</span>
-                    <Link to={`/novels_series/${novelSeriesId}/novels/${novelId}`} className="Novels__Link">
+                <div className="Novels__Link">
+                    <span>{novelId}.</span>
+                    <Link to={oneNovelUrl}>
                         {`【非公開中】${novelTitle}`}
                     </Link>
                 </div>
@@ -36,9 +38,9 @@ function Novels(props) {
         // 公開されている場合
         } else if (release) {
             return (
-                <div>
-                    <span className="Novels__Link">{novelId}.</span>
-                    <Link to={`/novels_series/${novelSeriesId}/novels/${novelId}`} className="Novels__Link">
+                <div className="Novels__Link">
+                    <span>{novelId}.</span>
+                    <Link to={oneNovelUrl}>
                         {`${novelTitle}`}
                     </Link>
                 </div>
@@ -54,6 +56,7 @@ function Novels(props) {
         }
         props.setIsMounted(false)
     }
+
 
     // 小説1話分をのタイトルリンクをレンダリングする
     const handleNovelsRenderer = () => {
