@@ -11,7 +11,7 @@ import SeriesCreate from './components/Series/SeriesCreate/SeriesCreate'
 import SeriesEdit from './components/Series/SeriesEdit/SeriesEdit'
 
 import NovelsFeed from './components/Novels/NovelsFeed/NovelsFeed'
-import NovelsContents from './Components/Novels/NovelsContents/NovelsContents'
+import NovelsContents from './components/Novels/NovelsContents/NovelsContents'
 
 import './App.css'
 
@@ -52,7 +52,7 @@ export default function App() {
 //===============================================================================
 
   return (
-    <div>
+    <div className="App">
       <BrowserRouter>
         <Route
           render={props => (
@@ -114,7 +114,7 @@ export default function App() {
             render={props => (
               <NovelsFeed {...props}
                 user={user}
-                loggedInStatus={isLoggedIn}
+                loggedInStatus={loggedInStatus}
               />
             )}
             />
@@ -123,7 +123,7 @@ export default function App() {
               render={props => (
                 <NovelsContents {...props}
                   user={user}
-                  loggedInStatus={isLoggedIn}
+                  loggedInStatus={loggedInStatus}
                 />
               )}
             />

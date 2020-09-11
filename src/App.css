@@ -1,6 +1,10 @@
+html {
+    margin: 0;
+}
+
 .App {
     max-width: 900px;
-    min-width: 400px;
+    min-width: 370px;
     margin: 0 auto;
 }
 
@@ -8,11 +12,6 @@ ul, li {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-  
-  * {
-    margin: 0;
-    color: rgb(73, 73, 73);
   }
   
   .success {
@@ -42,4 +41,9 @@ ul, li {
   
   .guest {
     font-weight: 600;
+  }
+
+  * {
+    margin: 0;
+    color: rgb(73, 73, 73);
   }
