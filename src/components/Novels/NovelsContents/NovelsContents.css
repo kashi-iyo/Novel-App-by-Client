@@ -1,0 +1,42 @@
+.NovelsContents {
+    background: rgba(240, 240, 240, 0.3);
+    width: 90%;
+    max-width: 700px;
+    min-width: 400px;
+    margin: 0 auto;
+    word-break: break-all;
+    letter-spacing: 1px;
+}
+.NovelsContens__Series {
+    text-align: center;
+    margin-bottom: 100px;
+}
+.NovelsContents__SeriesTitle {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.writerWrapper {
+    font-size: 0.8rem;
+}
+
+.NovelsContents__Novels {
+    text-align: center;
+}
+.NovelsContents__NovelsTitle {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+.NovelsContents__NovelsDescription {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.37);
+    border-top: 1px solid rgba(128, 128, 128, 0.37);
+    padding: 30px 10px;
+    font-size: 0.9rem;
+    margin-bottom: 100px;
+}
+.NovelsContents__NovelsContent {
+    font-size: 1rem;
+    line-height: 2.5rem;
+    padding-bottom: 40px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
