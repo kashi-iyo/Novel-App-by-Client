@@ -1,70 +1,33 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import './NovelsFeed.css'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
 import Novels from '../Novels'
+import { useSeriesAndNovelsItems }  from '../useSeriesAndNovelsItems/useSeriesAndNovelsItems'
 
 function NovelsFeed(props) {
+    const items = useSeriesAndNovelsItems(props)
     // シリーズデータ
-    const [seriesTitle, setSeriesTitle] = useState("")
-    const [seriesDescription, setSeriesDescription] = useState("")
-   // 小説データ
-    const [novels, setNovels] = useState("")
-    const [author, setAuthor] = useState("")
-    const [release, setRelease] = useState(false)
-    const [releaseErrors, setReleaseErrors] = useState("")
-    // ログインしているかどうか
-    const loggedInStatus = props.loggedInStatus
-    // ログインユーザー取得
-    const user = props.user.nickname
-    // マウント前後処理
-    const [isMounted, setIsMounted] = useState(false)
-
-    // シリーズのパラメータを持つURL
-    const params = props.match.params.id
-
-    // シリーズデータを取得
-    useEffect(() => {
-        // リダイレクト
-        const redirect = () => {
-            props.history.push("/")
-        }
-        const seriesValue = () => {
-            axios.get(`http://localhost:3001/api/v1/novel_series/${params}`, { withCredentials: true })
-                .then(response => {
-                    if (isMounted && response.data.status === 200) {
-                        setSeriesTitle(response.data.novel_series.series_title)
-                        setSeriesDescription(response.data.novel_series.series_description)
-                        setAuthor(response.data.novel_series.author)
-                        setRelease(response.data.novel_series.release)
-                    } else if (isMounted && response.data.status === 400) {
-                        setReleaseErrors(response.data.messages)
-                        setTimeout(() => {redirect()}, 2000)
-                    }
-                })
-                    .catch(error => console.log('エラー: ', error))
-        }
-        setIsMounted(true)
-        seriesValue()
-    }, [params, props.history, releaseErrors, isMounted])
-
-    // シリーズが所有する小説をRailsから取得
-    useEffect(() => {
-        const novelsValue = () => {
-            axios.get(`http://localhost:3001/api/v1/novel_series/${params}/novels`, { withCredentials: true })
-                .then(response => {
-                    if (isMounted && response.data.status === 200) {
-                        setNovels(response.data.novels_in_series)
-                    }
-                })
-                .catch(error => console.log("エラー: ", error))
-        }
-        setIsMounted(true)
-        novelsValue()
-    }, [params, isMounted])
+    const seriesTitle = items.seriesTitle
+    const seriesDescription = items.seriesDescription
+    // 作者
+    const author = items.author
+    // 小説全件
+    const novels = items.novels
+    // ログイン状態の確認
+    const loggedInStatus = items.loggedInStatus
+    // パラメータ
+    const params = items.params
+    // マウント処理
+    const setIsMounted = items.setIsMounted
+    // ユーザーデータ
+    const user = items.user
+    // 公開or非公開
+    const release = items.release
+    // エラーメッセージ
+    const releaseErrors = items.releaseErrors
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
