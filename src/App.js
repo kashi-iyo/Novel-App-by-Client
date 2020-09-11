@@ -11,6 +11,7 @@ import SeriesCreate from './components/Series/SeriesCreate/SeriesCreate'
 import SeriesEdit from './components/Series/SeriesEdit/SeriesEdit'
 
 import NovelsFeed from './components/Novels/NovelsFeed/NovelsFeed'
+import NovelsContents from './Components/Novels/NovelsContents/NovelsContents'
 
 import './App.css'
 
@@ -107,6 +108,26 @@ export default function App() {
               />
             )}
           />
+          <Switch>
+            <Route
+            exact path="/novel_series/:id"
+            render={props => (
+              <NovelsFeed {...props}
+                user={user}
+                loggedInStatus={isLoggedIn}
+              />
+            )}
+            />
+            <Route
+              exact path="/novel_series/:id/novels/:id"
+              render={props => (
+                <NovelsContents {...props}
+                  user={user}
+                  loggedInStatus={isLoggedIn}
+                />
+              )}
+            />
+          </Switch>
           {/* ============================================================== */}
         </Switch>
       </BrowserRouter>
