@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import './NovelsContents.css'
-import { useSeriesAndNovelsItems }  from '../useSeriesAndNovelsItems/useSeriesAndNovelsItems'
+import { useNovelItems } from '../../CustomHooks/useNovelItems/useNovelItems'
 
 function NovelsContents(props) {
-    const items = useSeriesAndNovelsItems(props)
+    const items = useNovelItems(props)  // 小説1話分のカスタムフック
     const seriesTitle = items.seriesTitle
     const author = items.author
     const novelTitle = items.novelTitle
@@ -17,10 +18,11 @@ function NovelsContents(props) {
                 {/* シリーズタイトルと作者 */}
                 <div className="NovelsContens__Series">
                     <div className="NovelsContents__SeriesTitle">
-                        {seriesTitle}
+                        <p className="seriesTitle">{seriesTitle}</p>
                     </div>
                     <div className="NovelsContents__SeriesWriter">
-                        {author}
+                        <span className="writerWrapper">作者名: </span>
+                        <span className="writerName"><Link>{author}</Link></span>
                     </div>
                 </div>
                 {/* 小説の内容 */}
