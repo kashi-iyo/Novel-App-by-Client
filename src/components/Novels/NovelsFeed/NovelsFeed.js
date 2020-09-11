@@ -5,29 +5,22 @@ import './NovelsFeed.css'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
 import Novels from '../Novels'
-import { useSeriesAndNovelsItems }  from '../useSeriesAndNovelsItems/useSeriesAndNovelsItems'
+import { useSeriesItems } from '../../CustomHooks/useSeriesItems/useSeriesItems'
+import { useAllNovelsItems } from '../../CustomHooks/useAllNovelsItems/useAllNovelsItems'
 
 function NovelsFeed(props) {
-    const items = useSeriesAndNovelsItems(props)
-    // シリーズデータ
-    const seriesTitle = items.seriesTitle
-    const seriesDescription = items.seriesDescription
-    // 作者
-    const author = items.author
-    // 小説全件
-    const novels = items.novels
-    // ログイン状態の確認
-    const loggedInStatus = items.loggedInStatus
-    // パラメータ
-    const params = items.params
-    // マウント処理
-    const setIsMounted = items.setIsMounted
-    // ユーザーデータ
-    const user = items.user
-    // 公開or非公開
-    const release = items.release
-    // エラーメッセージ
-    const releaseErrors = items.releaseErrors
+    const seriesItems = useSeriesItems(props)           // シリーズカスタムフック
+    const allNovelsItems = useAllNovelsItems(props)     // 小説全件カスタムフック
+    const seriesTitle = seriesItems.seriesTitle         //シリーズタイトル
+    const seriesDescription = seriesItems.seriesDescription    //シリーズ前書き
+    const author = seriesItems.author       // 作者
+    const novels = allNovelsItems.novels    // 小説全件
+    const loggedInStatus = seriesItems.loggedInStatus   // ログイン状態の確認
+    const params = seriesItems.params       // パラメータ
+    const setIsMounted = seriesItems.setIsMounted   // マウント処理
+    const user = seriesItems.user           // ユーザーデータ
+    const release = seriesItems.release     // 公開or非公開
+    const releaseErrors = seriesItems.releaseErrors     // エラーメッセージ
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
