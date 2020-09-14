@@ -28,15 +28,17 @@
     margin-bottom: 10px;
 }
 .NovelsContents__NovelsDescription {
-    border-bottom: 1px solid rgba(128, 128, 128, 0.37);
-    border-top: 1px solid rgba(128, 128, 128, 0.37);
-    padding: 30px 10px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    border-top: 1px solid rgba(128, 128, 128, 0.2);
+    width: 90%;
+    padding: 30px 0px;
     font-size: 0.9rem;
+    margin: 0 auto;
     margin-bottom: 100px;
 }
 .NovelsContents__NovelsContent {
     font-size: 1rem;
     line-height: 2.5rem;
-    padding-bottom: 40px;
+    padding-bottom: 100px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
