@@ -1,40 +1,26 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
+import React, {useEffect} from 'react'
 
 import ErrorMessages from '../ErrorMessages/ErrorMessages'
+import useInput from './CustomHooks/AuthHooks/useInput'
+import loginValidate from './CustomHooks/Validate/loginValidate'
 
 function Login(props) {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [errors, setErrors] = useState("")
-    const handleLogin = props.handleLogin
+    const { values, handleChange, handleSubmit, errors,}
+        = useInput({
+                validate: loginValidate,
+                method: "post",
+                url: 'http://localhost:3001/login',
+                props: props
+        })
     const loggedInStatus = props.loggedInStatus
-    const user = {user: {email: email, password: password}}
 
-    // リダイレクト
-    const redirect = () => {
-        props.history.push("/")
-    }
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        axios.post('http://localhost:3001/login',
-            user,
-            { withCredentials: true }
-        )
-            .then(response => {
-                if (response.data.logged_in) {
-                    handleLogin(response)
-                    redirect()
-                } else {
-                    setErrors(response.data.errors)
-                }
-            })
-            .catch(error => console.log("エラー: ", error))
-    }
 
     // ログイン状態ならばホームへリダイレクト
     useEffect(() => {
+        const redirect = () => {
+            props.history.push("/")
+        }
         const handleValidatesLogin = () => {
             if (loggedInStatus) {
                 setTimeout(() => {redirect()}, 3000)
@@ -43,44 +29,29 @@ function Login(props) {
         handleValidatesLogin()
     })
 
-    const handleErrors = () => {
-        return (
-            <div>
-                <ul>
-                    {
-                        errors.map(error => {
-                            return <li key={error}>{error}</li>
-                        })
-                    }
-                </ul>
-            </div>
-        )
-    }
-
     const loginRenderer = () => {
         return (
             <div className="Login">
                 <h1>ログイン</h1>
-                <div>
-                    {
-                        errors ? handleErrors() : null
-                    }
-                </div>
+                <h1>ログイン</h1>
                 <form onSubmit={handleSubmit}>
+                    {errors.email && <p>{errors.email}</p>}
                     <input
                         placeholder="email"
                         type="text"
                         name="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        values={values.email}
+                        onChange={handleChange}
                     />
+                    {errors.password && <p>{errors.password}</p>}
                     <input
                         placeholder="password"
                         type="password"
                         name="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        values={values.password}
+                        onChange={handleChange}
                     />
+
                     <button type="submit">ログイン</button>
                 </form>
             </div>
