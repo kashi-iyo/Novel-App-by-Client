@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
-import ErrorMessages from '../ErrorMessages/ErrorMessages'
-import useInput from './CustomHooks/AuthHooks/useInput'
-import loginValidate from './CustomHooks/Validate/loginValidate'
+import useInput from '../CustomHooks/Auth/useInput'
+import loginValidate from '../CustomHooks/Validate/AuthValidate/loginValidate'
+import useAccessAuthLogging from '../CustomHooks/Auth/useAccessAuthLogging'
 
 function Login(props) {
     const { values, handleChange, handleSubmit, errors,}
@@ -12,27 +12,13 @@ function Login(props) {
                 url: 'http://localhost:3001/login',
                 props: props
         })
-    const loggedInStatus = props.loggedInStatus
+    // ログイン状態にこのページへアクセスされたらリダイレクト
+    useAccessAuthLogging(props)
 
-
-
-    // ログイン状態ならばホームへリダイレクト
-    useEffect(() => {
-        const redirect = () => {
-            props.history.push("/")
-        }
-        const handleValidatesLogin = () => {
-            if (loggedInStatus) {
-                setTimeout(() => {redirect()}, 3000)
-            }
-        }
-        handleValidatesLogin()
-    })
-
+    // ログインフォーム
     const loginRenderer = () => {
         return (
             <div className="Login">
-                <h1>ログイン</h1>
                 <h1>ログイン</h1>
                 <form onSubmit={handleSubmit}>
                     {errors.email && <p>{errors.email}</p>}
@@ -61,10 +47,7 @@ function Login(props) {
 
     return (
         <div>
-            {loggedInStatus ?
-                <ErrorMessages {...props} accessErrors="すでにログインしています。" /> :
-                loginRenderer()
-            }
+            {loginRenderer()}
         </div>
     )
 }
