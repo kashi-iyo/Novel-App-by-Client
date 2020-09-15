@@ -5,8 +5,8 @@ export default function validateInfo(values) {
         errors.nickname = "ニックネームを入力してください"
     }
 
-    if (!values.accountId) {
-        errors.accounrId = "IDを入力してください"
+    if (!values.account_id) {
+        errors.accountId = "IDを入力してください"
     }
 
     if (!values.email) {
@@ -21,9 +21,9 @@ export default function validateInfo(values) {
         errors.password = "パスワードは6文字以上で入力してください"
     }
 
-    if (!values.passwordConfirmation) {
+    if (!values.password_confirmation) {
         errors.passwordConfirmation = "確認用パスワードを入力してください"
-    } else if (values.passwordConirmation !== values.password) {
+    } else if (values.password_confirmation !== values.password) {
         errors.passwordConfirmation = "パスワードが一致していません"
     }
 
