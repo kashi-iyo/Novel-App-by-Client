@@ -3,25 +3,25 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 import './Header.css'
+import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 
 function Header(props) {
-    const loggedInStatus = props.loggedInStatus
-    const nickname = props.user.nickname
+    const { user, loggedInStatus, handleLogout } = useLoggedIn()
+    const nickname = user.nickname
 
-    // リダイレクト
-    const redirect = () => {
-        props.history.push("/")
-    }
-
+    // ログアウトイベント
     const handleClick = () => {
+        const redirect = () => {
+            props.history.push("/")
+        }
         axios.delete('http://localhost:3001/logout',
             { withCredentials: true })
-          .then(response => {
+            .then(response => {
             if (response.data.logged_out) {
-              props.handleLogout()
-              redirect()
+                handleLogout()
+                redirect()
             }
-          })
+            })
             .catch(error => console.log(error))
     }
 
