@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import axios from 'axios'
 
 import Home from './components/Home/Home'
 import Header from './components/Header/Header'
@@ -14,68 +13,29 @@ import NovelsFeed from './components/Novels/NovelsFeed/NovelsFeed'
 import NovelsContents from './components/Novels/NovelsContents/NovelsContents'
 
 import './App.css'
+import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
 
 export default function App() {
-  const [loggedInStatus, setLoggedInStatus] = useState(false)
-  const [user, setUser] = useState({})
-
-  // 認証系のイベント=======================================================================
-  // ログイン
-  const handleLogin = (response) => {
-    setLoggedInStatus(true)
-    setUser(response.data.user)
-  }
-
-  // ログアウト
-  const handleLogout = () => {
-    setLoggedInStatus(false)
-    setUser({})
-  }
-
-  // ログインステータスの追跡
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      axios.get("http://localhost:3001/logged_in",
-        { withCredentials: true })
-        .then(response => {
-          if (response.data.logged_in && !loggedInStatus) {
-            handleLogin(response)
-          } else if (!response.data.logged_in && loggedInStatus) {
-            handleLogout()
-          }
-        }).catch(error => {
-          console.log("ログインエラー", error)
-        })
-    }
-    checkLoginStatus()
-  }, [loggedInStatus])
-//===============================================================================
+  const {loggedInStatus} = useLoggedIn()
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Route
-          render={props => (
-            <Header {...props} user={user} loggedInStatus={loggedInStatus} handleLogout={handleLogout} />
-          )}
-        />
+        <Route render={props => ( <Header {...props} /> )} />
         <Switch>
-          <Route
-            exact path={"/"}
-            render={props => (
-              <Home {...props} loggedInStatus={loggedInStatus} />
-            )}
-          />
+          <Route exact path={"/"} render={props => (
+              <Home {...props} />
+          )} />
 
           {/* 認証系機能へのルーティング===================== */}
-          {!loggedInStatus && <Route exact path={"/login"} render={props => (
-            <Login {...props} handleLogin={handleLogin}
-              loggedInStatus={loggedInStatus} />
+          {!loggedInStatus &&
+            <Route exact path={"/login"} render={props => (
+                <Login {...props} />
             )} />
           },
-          {!loggedInStatus && <Route exact path={"/signup"} render={props => (
-            <Signup {...props} handleLogin={handleLogin}
-              loggedInStatus={loggedInStatus} />
+          {!loggedInStatus &&
+            <Route exact path={"/signup"} render={props => (
+              <Signup {...props} />
             )} />
           }
           {/* 認証系機能へのルーティング===================== */}
@@ -84,48 +44,25 @@ export default function App() {
           <Route
             exact path="/series_create"
             render={props => (
-              <SeriesCreate {...props}
-                user={user}
-                loggedInStatus={loggedInStatus}
-              />
+              <SeriesCreate {...props} />
             )}
           />
           <Route
             exact path={`/novel_series/:id/edit`}
-            render={props => (
-              <SeriesEdit {...props}
-                user={user}
-                loggedInStatus={loggedInStatus}
-              />
-            )}
+            render={props => ( <SeriesEdit {...props} /> )}
           />
           <Route
             exact path="/novel_series/:id"
-            render={props => (
-              <NovelsFeed {...props}
-                user={user}
-                loggedInStatus={loggedInStatus}
-              />
-            )}
+            render={props => ( <NovelsFeed {...props} /> )}
           />
           <Switch>
             <Route
-            exact path="/novel_series/:id"
-            render={props => (
-              <NovelsFeed {...props}
-                user={user}
-                loggedInStatus={loggedInStatus}
-              />
-            )}
+              exact path="/novel_series/:id"
+              render={props => ( <NovelsFeed {...props} /> )}
             />
             <Route
               exact path="/novel_series/:id/novels/:id"
-              render={props => (
-                <NovelsContents {...props}
-                  user={user}
-                  loggedInStatus={loggedInStatus}
-                />
-              )}
+              render={props => ( <NovelsContents {...props} /> )}
             />
           </Switch>
           {/* ============================================================== */}
