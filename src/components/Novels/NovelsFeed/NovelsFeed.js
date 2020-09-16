@@ -5,22 +5,29 @@ import './NovelsFeed.css'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
 import Novels from '../Novels'
-import { useSeriesItems } from '../../CustomHooks/useSeriesItems/useSeriesItems'
-import { useAllNovelsItems } from '../../CustomHooks/useAllNovelsItems/useAllNovelsItems'
+import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
+import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 
 function NovelsFeed(props) {
-    const seriesItems = useSeriesItems(props)           // シリーズカスタムフック
-    const allNovelsItems = useAllNovelsItems(props)     // 小説全件カスタムフック
-    const seriesTitle = seriesItems.seriesTitle         //シリーズタイトル
-    const seriesDescription = seriesItems.seriesDescription    //シリーズ前書き
-    const author = seriesItems.author       // 作者
-    const novels = allNovelsItems.novels    // 小説全件
-    const loggedInStatus = seriesItems.loggedInStatus   // ログイン状態の確認
-    const params = seriesItems.params       // パラメータ
-    const setIsMounted = seriesItems.setIsMounted   // マウント処理
-    const user = seriesItems.user           // ユーザーデータ
-    const release = seriesItems.release     // 公開or非公開
-    const releaseErrors = seriesItems.releaseErrors     // エラーメッセージ
+    const params = props.match.params.id
+    const { items, errors } = useFetchItems({
+        method: "get",
+        url: `http://localhost:3001/api/v1/novel_series/${params}`
+    })
+    console.log(items)
+    const {loggedInStatus, user} = useLoggedIn()
+
+    // シリーズデータ
+    const author = items.author
+    const seriesId = items.id
+    const seriesTitle = items.series_title
+    const seriesDescription = items.series_description
+
+    const novels = items.novel_in_series      // 小説全件
+    const release = items.release     // 公開or非公開
+    const errorMessages = errors     // エラーメッセージ
+    const editUrl = `/novel_series/${seriesId}/edit`    //シリーズ編集リンク
+    const addUrl = `/novel_series/${seriesId}/add_novels`    //小説追加リンク
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
@@ -65,10 +72,18 @@ function NovelsFeed(props) {
                         </ul>
                     </div>
                     {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
-                    {author !== user || !loggedInStatus ? null :
+                    {author === user && loggedInStatus ?
                         <div className="Series__editLinkWrap">
-                            <Link className="Series__editLink" to={`/novel_series/${params}/edit`}>編集する</Link>
-                        </div>
+                            <React.Fragment>
+                                <Link to={editUrl} className="Series__editLink" >
+                                    編集する
+                                </Link>
+                                <Link to={addUrl} className="Series__addLink">
+                                    小説を追加する
+                                </Link>
+                            </React.Fragment>
+                        </div> :
+                        null
                     }
                 </div>
 
@@ -77,9 +92,11 @@ function NovelsFeed(props) {
                     {
                         novels ?
                             novels.map(novel => (
-                                <Novels {...props} key={novel.id}
-                                    novel={novel} author={author} user={user}
-                                    setIsMounted={setIsMounted}
+                                <Novels {...props}
+                                    key={novel.id}
+                                    novel={novel}
+                                    author={author}
+                                    user={user}
                                 />
                             )) :
                             null
@@ -94,7 +111,7 @@ function NovelsFeed(props) {
             {/* Release（公開）されていない場合 or 作者とログインユーザーが異なる場合、エラーを表示 */}
             {release || author === user ?
                 handleNovelsFeed() :
-                <ErrorMessages {...props} releaseErrors={releaseErrors} />
+                <ErrorMessages {...props} releaseErrors={errorMessages} />
             }
         </div>
     )

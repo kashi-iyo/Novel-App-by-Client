@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import axios from 'axios'
 
 
-export default function useItems({method, url}) {
+export default function useFetchItems({method, url}) {
     const [items, setItems] = useState({})
     const [errors, setErrors] = useState("")
 
