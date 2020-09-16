@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import './Series.css'
 
 function Series(props) {
-    const seriesTitle = props.series.series_title
-    const seriesDescription = props.series.series_description
-    const author = props.series.author
-    const seriesId = props.series.id
-    const release = props.series.release
+    const seriesTitle = props.items.series_title
+    const seriesDescription = props.items.series_description
+    const author = props.items.author
+    const seriesId = props.items.id
+    const release = props.items.release
 
     const handleNovel = () => {
         return (
