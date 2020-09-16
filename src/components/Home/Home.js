@@ -1,32 +1,22 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
-// import { Link } from 'react-router-dom'
+import React from 'react'
 
 import './Home.css'
 import SeriesRanking from './SeriesRanking/SeriesRanking'
 import Series from '../Series/Series'
+import useFetchItems from '../CustomHooks/NovelsHooks/useFetchItems'
 
 function Home(props) {
-    const [novelSeries, setNovelSeries] = useState([])
-
-    useEffect(() => {
-        getNovelSeries()
-    }, [])
-
-    const getNovelSeries = () => {
-        axios.get('http://localhost:3001', { withCredentials: true })
-            .then(response => {
-                setNovelSeries(response.data.novel_series)
-            })
-            .catch(error => console.log(error))
-    }
+    const { items } = useFetchItems({
+        method: "get",
+        url: 'http://localhost:3001'
+    })
 
     return (
         <div className="home">
             <div className="home__ranking">
                 <SeriesRanking>
-                    {novelSeries.map(series => (
-                        <Series key={series.id} series={series} />
+                    {Object.keys(items).map(key => (
+                        <Series key={key} items={items[key]} />
                     ))}
                 </SeriesRanking>
             </div>
