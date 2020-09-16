@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 
 import './Novels.css'
 
 function Novels(props) {
+    const {user} = useLoggedIn
     const novelTitle = props.novel.novel_title
     const novelId = props.novel.id
     const release = props.novel.release
     const novelAuthor = props.novel.author  // 小説作者
-
-    const user = props.user  // ログインユーザー
     const novelSeriesId = props.match.params.id    // シリーズのパラメータ
     const oneNovelUrl = `/novel_series/${novelSeriesId}/novels/${novelId}`    // 小説1話分へのURL
 
