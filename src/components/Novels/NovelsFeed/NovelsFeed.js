@@ -14,8 +14,8 @@ function NovelsFeed(props) {
         method: "get",
         url: `http://localhost:3001/api/v1/novel_series/${params}`
     })
-    console.log(items)
-    const {loggedInStatus, user} = useLoggedIn()
+    const { loggedInStatus, user } = useLoggedIn()
+    const currentUser = user.nickname
 
     // シリーズデータ
     const author = items.author
@@ -109,7 +109,7 @@ function NovelsFeed(props) {
     return (
         <div>
             {/* Release（公開）されていない場合 or 作者とログインユーザーが異なる場合、エラーを表示 */}
-            {release || author === user ?
+            {release || author === currentUser ?
                 handleNovelsFeed() :
                 <ErrorMessages {...props} releaseErrors={errorMessages} />
             }
