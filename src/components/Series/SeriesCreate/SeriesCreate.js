@@ -1,45 +1,38 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
+import './SeriesCreate.css'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
+import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
 
+// シリーズ作成フォームをレンダリングする。
+// SeriesFormへデータを渡す。
 function SeriesCreate(props) {
-    const [seriesTitle, setSeriesTitle] = useState("")
-    const [seriesDescription, setSeriesDescription] = useState("")
-    const loggedInStatus = props.loggedInStatus
+    const { loggedInStatus, user } = useLoggedIn()
+    const [isMounted, setIsMounted] = useState(false)
 
-    // シリーズ作成フォーム
-    const handleValidateSeriesCreate = () => {
+    // SeriesFormへデータを渡す
+    const seriesCreateForm = () => {
         return (
             <div className="seriesCreate">
-                <h3>シリーズを作成する</h3>
                 <SeriesForm {...props}
-                    seriesTitle={seriesTitle}
-                    setSeriesTitle={setSeriesTitle}
-                    seriesDescription={seriesDescription}
-                    setSeriesDescription={setSeriesDescription}
+                    method="post"
+                    setIsMounted={setIsMounted}
+                    url={`http://localhost:3001/api/v1/novel_series`}
+                    user={user}
                     button="作成する"
                 />
             </div>
         )
     }
 
-    // ログインしていない場合はログインページへリダイレクトさせる。
-    useEffect(() => {
-        const redirect = () => {
-            props.history.push("/login")
-        }
-        if (!loggedInStatus) {
-            setTimeout(() => { redirect() }, 2000)
-        }
-    }, [loggedInStatus, props.history])
-
     return (
         <div>
             {/* ユーザーがログインしているかどうかを確認*/}
-            {loggedInStatus ?
-                handleValidateSeriesCreate() :
-                <ErrorMessages {...props} accessErrors={"アクセス権限がありません。"} />
+            {
+                loggedInStatus ?
+                    seriesCreateForm() :
+                    <ErrorMessages {...props} accessErrors={"アクセス権限がありません。"} />
             }
         </div>
     )
