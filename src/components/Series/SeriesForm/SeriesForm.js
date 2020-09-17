@@ -1,163 +1,105 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import classNames from 'classnames'
 
 import './SeriesForm.css'
+import useNovelsInput from '../../CustomHooks/NovelsHooks/useNovelsInput'
+// import validateSeriesForm from '../../CustomHooks/ValidateHooks/validateNovels/validateSeriesForm'
+// import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
 
+// シリーズ作成フォームを作成
 function SeriesForm(props) {
-    const [errors, setErrors] = useState("")
-    const [releaseStatus, setReleaseStatus] = useState(false)
-    const seriesTitle = props.seriesTitle
-    const seriesDescription = props.seriesDescription
-    const setIsMounted = props.setIsMounted
-    
+    // method: HTTPリクエスト, url: Railsのルーティング, mount: マウント処理, sendItems: EditItemsから渡されるデータ
+    // props: historyなどの取得のため
+    const { values, release, handleStatusChange, successful, errors, existingErrors, handleSubmit, handleChange } =
+        useNovelsInput({
+            method: props.method, url: props.url, mount: props.setIsMounted,
+            sendItems: props.novelSeries, props: props
+        })
+    const title = values.series_title
+    const description = values.series_description
+    const nowRelease = values.release ? values.release : release
+    const tLength = title.length
+    const dLength = description.length
 
-    // Railに渡すデータ
-    const series = {
-        novel_series: {
-            series_title: props.seriesTitle,
-            series_description: props.seriesDescription,
-            author: props.user.nickname,
-            release: releaseStatus
-        }
-    }
-
-    // リダイレクト
-    const redirect = (id) => {
-        props.history.push(`/novel_series/${id}`)
-    }
-
-    // シリーズ作成
-
-    const handleSeriesCreate = (e) => {
-        e.preventDefault()
-
-        axios.post('http://localhost:3001/api/v1/novel_series',
-            series,
-            { withCredentials: true }
-        )
-            .then(response => {
-                if (response.data.status === 'created') {
-                    redirect(response.data.series_id)
-                    setErrors("")
-                } else {
-                    setErrors(response.data.errors)
-                }
-            }).catch(error => console.log(error))
-        
-        setIsMounted(false)
-    }
-
-
-    // シリーズのパラメータ
-    const id = props.match.params.id
-
-    // シリーズ編集
-    const handleSeriesEdit = (e) => {
-        e.preventDefault()
-
-        axios.patch(`http://localhost:3001/api/v1/novel_series/${id}`,
-            series,
-            { withCredentials: true }
-        )
-            .then(response => {
-                if (response.data.status === 'ok') {
-                    redirect(id)
-                    setErrors("")
-                } else if (response.data.status === 'unprocessable_entity') {
-                    setErrors(response.data.errors)
-                    redirect(response.data.location)
-                }
-            }).catch(error => console.log(error))
-        
-        setIsMounted(false)
-    }
-
-    // 公開 or 非公開
-    const handleStatusChange = () => {
-        if (releaseStatus === false) {
-            setReleaseStatus(true)
-        } else if (releaseStatus === true) {
-            setReleaseStatus(false)
-        }
-    }
-
-    // 字数によりクラス名を変更する
-    const titleClass = classNames("ok", {
-        "over": seriesTitle.length > 50,
-        "no": seriesTitle.length === 0
-    })
-    const descriptionClass = classNames("ok", {
-        "over": seriesDescription.length > 300
-    })
-    const buttonClass = classNames("button", {
-        "noButton": seriesTitle.length > 50 ||
-            seriesTitle.length === 0 ||
-            seriesDescription.length > 300
-    })
+    // フィールドに入力された字数によりクラス名を変更する
+    const titleClass = classNames("ok", { "over": tLength > 50, "no": tLength === 0 })
+    const descriptionClass = classNames("ok", { "over": dLength > 300 })
+    const buttonClass = classNames("button", { "noButton": tLength > 50 || tLength === 0 || dLength > 300 })
 
     return (
-        <div>
-            <form onSubmit={props.button === "作成する" ? handleSeriesCreate : handleSeriesEdit}>
-                { errors ?
-                    <p className="error">{errors}</p> :
-                    null
-                }
+        <div className="SeriesForm">
+            {/* ボタンの文字列によって表示を切り替える */}
+            {
+                props.button === "作成する" ?
+                    <h3>─シリーズ作成フォーム─</h3> :
+                    <h3>─シリーズ編集フォーム─</h3>
+            }
+
+            {/* ボタンの文字列によってイベントを切り替える */}
+            <form onSubmit={handleSubmit}>
+                {errors ? <p className="error">{errors}</p> : null}
+
+                {/* シリーズタイトル */}
                 <div className="TitleWrapper">
+                    {title ? null : <span className={titleClass}>【入力必須】</span>}
                     <label htmlFor="series_title" className="Title">シリーズタイトル</label>
                     <span className={titleClass}>
-                        {seriesTitle.length}／50文字
-                        {seriesTitle.length > 50 ?
-                            <p className="over">50文字以内で入力してください。</p> :
-                            null
-                        }
-                        {seriesTitle.length === 0 ?
-                            <p className="over">タイトルを入力してください。</p> :
+                        {tLength}／50文字
+                        {tLength > 50 ?
+                            <span className={titleClass}>【50文字以内で入力してください】</span> :
                             null
                         }
                     </span>
+                    <input
+                        type="text"
+                        placeholder="タイトル"
+                        id="series_title"
+                        name="series_title"
+                        className="series_title"
+                        value={title}
+                        onChange={handleChange}
+                    />
                 </div>
-                <input
-                    type="text"
-                    placeholder="シリーズタイトル"
-                    id="series_title"
-                    name="series_title"
-                    className="series_title"
-                    value={seriesTitle}
-                    onChange={e => props.setSeriesTitle(e.target.value)}
-                /> <br></br>
+                <br></br>
+                {/* ========== */}
 
+                {/* シリーズあらすじ */}
                 <div className="DescriptionWrapper">
                     <label htmlFor="series_description" className="Description">あらすじ</label>
-                    <span className={descriptionClass}>
-                        {seriesDescription.length}／300文字
-                        {descriptionClass === "over" ?
-                            <p className="over">300文字以内で入力してください。</p> :
-                            null
-                        }
-                    </span>
-                    
-                </div>
-                <textarea
+                    <textarea
                         placeholder="あらすじ"
                         name="series_description"
                         id="series_description"
                         className="series_description"
-                        value={seriesDescription}
-                        onChange={e => props.setSeriesDescription(e.target.value)}
-                />
+                        value={description}
+                        onChange={handleChange}
+                    />
+                    <span className={descriptionClass}>
+                        {dLength}／300文字
+                        {dLength > 300 ?
+                            <span className={descriptionClass}>
+                                【300文字以内で入力してください】
+                            </span> :
+                            null
+                        }
+                    </span>
+                </div>
+                {/* ========== */}
+
+                {/* 公開チェックボックス */}
                 <div className="releaseWrapper">
                     <input
                         type="checkbox"
                         name="release"
                         id="release"
                         className="release"
-                        checked={releaseStatus}
+                        checked={nowRelease}
                         onChange={handleStatusChange}
                     />
                     <label htmlFor="release" className="releaseLabel">公開する</label>
                 </div>
-                
+                {/* ========== */}
+                {successful ? <p className="successful">── {successful} ──</p>: null}
                 <button type="submit" className={buttonClass}>{props.button}</button>
             </form>
         </div>
