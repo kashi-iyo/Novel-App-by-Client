@@ -72,7 +72,7 @@ function NovelsFeed(props) {
                         </ul>
                     </div>
                     {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
-                    {author === user && loggedInStatus ?
+                    {author === currentUser && loggedInStatus ?
                         <div className="Series__editLinkWrap">
                             <React.Fragment>
                                 <Link to={editUrl} className="Series__editLink" >
