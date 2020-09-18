@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 
 // 投稿系昨日のinputフィールドでの挙動を記述
 // →SeriesFormにて使用
-function useNovelsInput({ method, url, mount, sendItems, props }) {
+function useItemsInput({ method, url, mount, sendItems, props }) {
     // 元からあるデータがあればそれをフォームに表示、入力するたびにその値をフォームに表示
     const initialState = "" || JSON.parse(localStorage.getItem("keys")) || sendItems
     const [values, setValues] = useState(initialState)  // 入力データ、作者データなどを格納する
@@ -74,4 +74,4 @@ function useNovelsInput({ method, url, mount, sendItems, props }) {
     return {values, release, handleStatusChange, handleChange, handleSubmit, successful, errors, existingErrors}
 }
 
-export default useNovelsInput
+export default useItemsInput

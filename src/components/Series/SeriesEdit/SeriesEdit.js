@@ -5,7 +5,7 @@ import './SeriesEdit'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import useFetchEditItems from '../../CustomHooks/NovelsHooks/useFetchEditItems'
-import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
+import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 
 // useEditItemsで取得したデータを、SeriesFormへを渡す
 function SeriesEdit(props) {

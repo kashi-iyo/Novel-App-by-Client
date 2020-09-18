@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import './SeriesForm.css'
-import useNovelsInput from '../../CustomHooks/NovelsHooks/useNovelsInput'
+import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
 // import validateSeriesForm from '../../CustomHooks/ValidateHooks/validateNovels/validateSeriesForm'
 // import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
 
@@ -11,7 +11,7 @@ function SeriesForm(props) {
     // method: HTTPリクエスト, url: Railsのルーティング, mount: マウント処理, sendItems: EditItemsから渡されるデータ
     // props: historyなどの取得のため
     const { values, release, handleStatusChange, successful, errors, existingErrors, handleSubmit, handleChange } =
-        useNovelsInput({
+        useItemsInput({
             method: props.method, url: props.url, mount: props.setIsMounted,
             sendItems: props.novelSeries, props: props
         })

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-import './SeriesCreate.css'
+// import './SeriesCreate.css'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
-import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
+import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 
 // シリーズ作成フォームをレンダリングする。
 // SeriesFormへデータを渡す。
