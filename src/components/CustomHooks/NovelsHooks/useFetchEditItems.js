@@ -7,9 +7,10 @@ import useLoggedIn from '../Auth/useLoggedIn'
 // →SeriesEdit, で使う
 export default function useEditItems({method, url, props}) {
     const [items, setItems] = useState("")
+    const [paramId, setParamId] = useState("")
     const [keyword, setKeyword] = useState("")  //handleSubmitにて送るデータを区別するのに使う
     const [errors, setErrors] = useState("")
-    const [isMounted, setIsMounted] = useState(false)
+    const [mounted, setMount] = useState(false)
     const { loggedInStatus } = useLoggedIn()
 
     useEffect(() => {
@@ -29,9 +30,15 @@ export default function useEditItems({method, url, props}) {
                     let ok = res.status === 200
                     let series = res.novel_series
                     // 編集用のシリーズデータを取得
-                    if (isMounted && ok && key === 'edit_of_series') {
+                    if (mounted && ok && key === 'edit_of_series') {
                         setItems(series)
                         setKeyword(key)
+                    } else if (mounted && ok && key === 'edit_of_novels') {
+                        let novels = res.novel_in_series
+                        let novelsId = res.novels_id
+                        let seriesId = res.series_id
+                        setParamId({ novelsId, seriesId })
+                        setItems(novels)
                     // 別のユーザーが編集しようとした場合のエラー
                     } else if (res.status === 401) {
                         setErrors(res.messages)
@@ -43,10 +50,10 @@ export default function useEditItems({method, url, props}) {
                 .catch(error => console.log(error))
         }
         getItems()
-        setIsMounted(true)
-    }, [isMounted])
+        setMount(true)
+    }, [mounted, method, url])
 
     return {
-        items, keyword, errors, setIsMounted
+        items, paramId, keyword, errors, mounted, setMount
     }
 }
