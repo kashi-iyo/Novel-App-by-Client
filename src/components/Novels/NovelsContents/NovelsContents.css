@@ -1,4 +1,18 @@
 .NovelsContents {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.NovelsContens__Series {
+    text-align: center;
+    margin-bottom: 100px;
+}
+.NovelsContents__SeriesTitle {
+    font-size: 2.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.NovelsContents {
     background: rgba(240, 240, 240, 0.3);
     width: 95%;
     max-width: 700px;
@@ -6,15 +20,13 @@
     margin: 0 auto;
     word-break: break-all;
     letter-spacing: 1px;
+    position:relative;
 }
-.NovelsContens__Series {
-    text-align: center;
-    margin-bottom: 100px;
+.NovelContents__WriterEditWrapper {
+    display: flex;
+    justify-content: space-between;
 }
-.NovelsContents__SeriesTitle {
-    font-size: 2rem;
-    font-weight: 600;
-}
+
 
 .writerWrapper {
     font-size: 0.8rem;
@@ -30,15 +42,20 @@
 .NovelsContents__NovelsDescription {
     border-bottom: 1px solid rgba(128, 128, 128, 0.2);
     border-top: 1px solid rgba(128, 128, 128, 0.2);
-    width: 90%;
-    padding: 30px 0px;
+    width: 100%;
+    padding: 30px 15px;
     font-size: 0.9rem;
     margin: 0 auto;
-    margin-bottom: 100px;
+    margin-bottom: 80px;
+    text-align: left;
+    box-sizing: border-box;
 }
 .NovelsContents__NovelsContent {
     font-size: 1rem;
     line-height: 2.5rem;
+    padding: 0 10px;
     padding-bottom: 100px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: left;
+    
 }
