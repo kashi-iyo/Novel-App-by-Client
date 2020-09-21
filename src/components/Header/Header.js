@@ -6,8 +6,7 @@ import './Header.css'
 import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 
 function Header(props) {
-    const { user, loggedInStatus, handleLogout } = useLoggedIn()
-    const nickname = user.nickname
+    const { currentUser, loggedInStatus, handleLogout } = useLoggedIn()
 
     // ログアウトイベント
     const handleClick = () => {
@@ -28,10 +27,10 @@ function Header(props) {
     return (
         <header className="home__header">
             <div className="header__top">
-                {nickname
+                {currentUser
                     ?
                     <div className="userstatus">
-                        <Link className="nickname">{nickname}さん</Link>でログイン中
+                        <Link className="nickname">{currentUser}さん</Link>でログイン中
                     </div>
                     :
                     <p className="guest">ゲストさんようこそ。</p>
@@ -41,8 +40,6 @@ function Header(props) {
                 <li><Link to="/">ホーム</Link></li>
                 <li><Link>ランキング</Link></li>
                 <ul className="header__options">
-                    <li><Link>投稿一覧</Link></li>
-                    ／
                     <li><Link to="/series_create">小説を投稿する</Link></li>
                 </ul>
                 {
