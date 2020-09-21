@@ -2,38 +2,44 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './Series.css'
+import SeriesCount from './SeriesCount/SeriesCount'
 
 function Series(props) {
+    const seriesId = props.items.id
     const seriesTitle = props.items.series_title
     const seriesDescription = props.items.series_description
     const author = props.items.author
-    const seriesId = props.items.id
     const release = props.items.release
 
     const handleNovel = () => {
         return (
-            <div className="Novel">
-                <div className="Novel__top">
-                    <div className="Novel__title">
-                        <Link to={`novel_series/${seriesId}`} className="Novel__titleLink" >{seriesTitle}</Link>
+            <div className="Series">
+                <div className="Series__top">
+                    <div className="Series__title">
+                        <Link to={`novel_series/${seriesId}`} className="Series__titleLink" >{seriesTitle}</Link>
                     </div>
-                    <div className="Novel__writer">作者:
-                        <Link className="Novel__writerName"> {author}</Link>
+                    <div className="Series__WriterWrapper">
+                        <div className="Series__writer">作者:
+                            <Link className="Series__writerName"> {author}</Link>
+                        </div>
+                        <div className="Series__count">
+                            <SeriesCount {...props} seriesId={seriesId} />
+                        </div>
                     </div>
                 </div>
-                <div className="Novel__center">
-                    <div className="Novel__description">{seriesDescription}</div>
+                <div className="Series__center">
+                    <div className="Series__description">{seriesDescription}</div>
                 </div>
-                <div className="Novel__bottom">
-                    <div className="Novel__reviews">評価数: <Link>5</Link></div>
-                    <div className="Novel__favorites">お気に入り数: <Link>5</Link></div>
-                    <div className="Novel__comments">コメント数: <Link>5</Link></div>
+                <div className="Series__bottom">
+                    <div className="Series__reviews">評価数: <Link>5</Link></div>
+                    <div className="Series__favorites">お気に入り数: <Link>5</Link></div>
+                    <div className="Series__comments">コメント数: <Link>5</Link></div>
                 </div>
-                <div className="Novel__tagWrap">
-                    <ul className="Novel__tagUl">
-                        <li className="Novel__tagLi"><Link className="Novel__tagLink">タグ</Link></li>
-                        <li className="Novel__tagLi"><Link className="Novel__tagLink">タグ</Link></li>
-                        <li className="Novel__tagLi"><Link className="Novel__tagLink">タグ</Link></li>
+                <div className="Series__tagWrap">
+                    <ul className="Series__tagUl">
+                        <li className="Series__tagLi"><Link className="Series__tagLink">タグ</Link></li>
+                        <li className="Series__tagLi"><Link className="Series__tagLink">タグ</Link></li>
+                        <li className="Series__tagLi"><Link className="Series__tagLink">タグ</Link></li>
                     </ul>
                 </div>
             </div >
