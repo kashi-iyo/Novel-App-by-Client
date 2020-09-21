@@ -10,22 +10,12 @@ import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 
 function NovelsFeed(props) {
     const params = props.match.params.id
-    const { items, errors } = useFetchItems({
+    const { novels, series, errors } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1/novel_series/${params}`
     })
-    const { loggedInStatus, user } = useLoggedIn()
-    const currentUser = user.nickname
-
-    // シリーズデータ
-    const author = items.author
-    const seriesId = items.id
-    const seriesTitle = items.series_title
-    const seriesDescription = items.series_description
-
-    const novels = items.novel_in_series      // 小説全件
-    const release = items.release     // 公開or非公開
-    const errorMessages = errors     // エラーメッセージ
+    const { loggedInStatus, currentUser } = useLoggedIn()
+    const seriesId = series.id
     const editUrl = `/novel_series/${seriesId}/edit`    //シリーズ編集リンク
     const addUrl = `/novel_series/${seriesId}/add_novels`    //小説追加リンク
 
@@ -34,51 +24,51 @@ function NovelsFeed(props) {
         return (
             <div className="NovelsFeed">
                 {/* シリーズタイトル・あらすじ */}
-                <div className="Series">
-                    <div className="Series__top">
-                        <p className="Series__title">{seriesTitle}</p>
-                        <p className="Series__writer">作者:
-                            <Link className="Series__writerName">{author}</Link>
+                <div className="SeriesFeed">
+                    <div className="SeriesFeed__top">
+                        <p className="SeriesFeed__title">{series.series_title}</p>
+                        <p className="SeriesFeed__writer">作者:
+                            <Link className="SeriesFeed__writerName">{series.author}</Link>
                         </p>
                     </div>
-                    <div className="Series__center">
-                        <p className="Series__description">{seriesDescription}</p>
+                    <div className="SeriesFeed__center">
+                        <p className="SeriesFeed__description">{series.series_description}</p>
                     </div>
-                    <div className="Series__bottom">
-                        <div className="Series__reviews">評価数:
-                            <Link className="Series__Link">5</Link>
+                    <div className="SeriesFeed__bottom">
+                        <div className="SeriesFeed__reviews">評価数:
+                            <Link className="SeriesFeed__Link">5</Link>
                         </div>
-                        <div className="Series__favorites">お気に入り数:
-                            <Link className="Series__Link">5</Link>
+                        <div className="SeriesFeed__favorites">お気に入り数:
+                            <Link className="SeriesFeed__Link">5</Link>
                         </div>
-                        <div className="Series__comments">コメント数:
-                            <Link className="Series__Link">5</Link>
+                        <div className="SeriesFeed__comments">コメント数:
+                            <Link className="SeriesFeed__Link">5</Link>
                         </div>
                     </div>
-                    <div className="Series__tagWrap">
-                        <ul className="Series__tagUl">
-                            <li className="Series__tagLi">
-                                <Link className="Series__tagLink">タグ</Link>
+                    <div className="SeriesFeed__tagWrap">
+                        <ul className="SeriesFeed__tagUl">
+                            <li className="SeriesFeed__tagLi">
+                                <Link className="SeriesFeed__tagLink">タグ</Link>
                             </li>
-                            <li className="Series__tagLi">
-                                <Link className="Series__tagLink">タグ</Link>
+                            <li className="SeriesFeed__tagLi">
+                                <Link className="SeriesFeed__tagLink">タグ</Link>
                             </li>
-                            <li className="Series__tagLi">
-                                <Link className="Series__tagLink">タグ</Link>
+                            <li className="SeriesFeed__tagLi">
+                                <Link className="SeriesFeed__tagLink">タグ</Link>
                             </li>
-                            <li className="Series__tagLi">
-                                <Link className="Series__tagLink">タグ</Link>
+                            <li className="SeriesFeed__tagLi">
+                                <Link className="SeriesFeed__tagLink">タグ</Link>
                             </li>
                         </ul>
                     </div>
                     {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
-                    {author === currentUser && loggedInStatus ?
-                        <div className="Series__editLinkWrap">
+                    {series.author === currentUser && loggedInStatus ?
+                        <div className="SeriesFeed__editLinkWrap">
                             <React.Fragment>
-                                <Link to={editUrl} className="Series__editLink" >
+                                <Link to={editUrl} className="SeriesFeed__editLink" >
                                     編集する
                                 </Link>
-                                <Link to={addUrl} className="Series__addLink">
+                                <Link to={addUrl} className="SeriesFeed__addLink">
                                     小説を追加する
                                 </Link>
                             </React.Fragment>
@@ -95,24 +85,31 @@ function NovelsFeed(props) {
                                 <Novels {...props}
                                     key={novel.id}
                                     novel={novel}
-                                    author={author}
-                                    user={user}
+                                    currentUser={currentUser}
                                 />
-                            )) :
-                            null
+                            )) : null
                     }
                 </NovelsInNovelsFeed>
             </div>
         )
     }
 
+    const handleRenderer = () => {
+        // 非公開&ログインユーザーが作者でない場合
+        if (!series.release && series.author !== currentUser) {
+            return <ErrorMessages {...props} releaseErrors={errors} />
+        // 非公開の場合
+        } else if (!series.release) {
+            return <ErrorMessages {...props} releaseErrors={errors} />
+        // 公開されている場合
+        } else if (series.release) {
+            return handleNovelsFeed()
+        }
+    }
+
     return (
         <div>
-            {/* Release（公開）されていない場合 or 作者とログインユーザーが異なる場合、エラーを表示 */}
-            {release || author === currentUser ?
-                handleNovelsFeed() :
-                <ErrorMessages {...props} releaseErrors={errorMessages} />
-            }
+            {handleRenderer()}
         </div>
     )
 }
