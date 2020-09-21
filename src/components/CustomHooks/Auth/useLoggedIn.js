@@ -4,19 +4,19 @@ import axios from 'axios'
 // ログイン状態を確認するカスタムフック
 export default function useLoggedIn() {
     const [loggedInStatus, setLoggedInStatus] = useState(false)
-    const [user, setUser] = useState({})
+    const [currentUser, setCurrentUser] = useState("")
 
     // 認証系のイベント=======================================================================
     // ログイン
-    const handleLogin = (user) => {
+    const handleLogin = (name) => {
         setLoggedInStatus(true)
-        setUser(user)
+        setCurrentUser(name)
     }
 
     // ログアウト
     const handleLogout = () => {
         setLoggedInStatus(false)
-        setUser({})
+        setCurrentUser("")
     }
 
     // ログインステータスの追跡
@@ -28,7 +28,7 @@ export default function useLoggedIn() {
             console.log(response.data.logged_in)
             let res = response.data
             if (res.logged_in && !loggedInStatus) {
-                handleLogin(res.user)
+                handleLogin(res.user.nickname)
             } else if (!res.logged_in && loggedInStatus) {
                 handleLogout()
             }
@@ -39,5 +39,5 @@ export default function useLoggedIn() {
         checkLoginStatus()
     }, [])
 
-    return { loggedInStatus, user, handleLogin, handleLogout }
+    return { loggedInStatus, currentUser, handleLogin, handleLogout }
 }
