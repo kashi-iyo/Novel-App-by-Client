@@ -8,8 +8,8 @@ import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 // シリーズ作成フォームをレンダリングする。
 // SeriesFormへデータを渡す。
 function SeriesCreate(props) {
-    const { loggedInStatus, user } = useLoggedIn()
-    const [isMounted, setIsMounted] = useState(false)
+    const { loggedInStatus, currentUser } = useLoggedIn()
+    const [mounted, setMount] = useState(true)
 
     // SeriesFormへデータを渡す
     const seriesCreateForm = () => {
@@ -17,9 +17,12 @@ function SeriesCreate(props) {
             <div className="seriesCreate">
                 <SeriesForm {...props}
                     method="post"
-                    setIsMounted={setIsMounted}
+                    mounted={mounted}
+                    setMount={setMount}
                     url={`http://localhost:3001/api/v1/novel_series`}
-                    user={user}
+                    currentUser={currentUser}
+                    formType="create"
+                    dataType="series"
                     button="作成する"
                 />
             </div>
