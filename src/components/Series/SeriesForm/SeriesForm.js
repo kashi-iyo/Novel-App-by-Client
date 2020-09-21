@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
+import {Link} from 'react-router-dom'
 
+import '../Series.css'
 import './SeriesForm.css'
 import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
 // import validateSeriesForm from '../../CustomHooks/ValidateHooks/validateNovels/validateSeriesForm'
@@ -10,16 +12,35 @@ import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
 function SeriesForm(props) {
     // method: HTTPリクエスト, url: Railsのルーティング, mount: マウント処理, sendItems: EditItemsから渡されるデータ
     // props: historyなどの取得のため
-    const { values, release, handleStatusChange, successful, errors, existingErrors, handleSubmit, handleChange } =
+    const {
+        values,
+        release,
+        successful,
+        errors,
+        existingErrors,
+        handleChange,
+        handleSubmit,
+        handleStatusChange,
+        } =
         useItemsInput({
-            method: props.method, url: props.url, mount: props.setIsMounted,
-            sendItems: props.novelSeries, props: props
+            props: props,               // historyなど
+            url: props.url,             // Railsのルーティング
+            method: props.method,        // HTTPリクエスト
+            mounted: props.mounted,     // マウントの値
+            setMount: props.setMount,   // マウントの値をセット
+            formType: props.formType,   // craete or edit
+            dataType: props.dataType,   // series or novel
+            sendItems: props.novelSeries    // 編集用データ
         })
+
+    console.log(values)
     const title = values.series_title
     const description = values.series_description
-    const nowRelease = values.release ? values.release : release
-    const tLength = title.length
-    const dLength = description.length
+    // const tLength = title.length
+    // const dLength = description.length
+    const tLength = title ? title.length : 0
+    const dLength = description ? description.length : 0
+    const id = props.match.params.id
 
     // フィールドに入力された字数によりクラス名を変更する
     const titleClass = classNames("ok", { "over": tLength > 50, "no": tLength === 0 })
@@ -29,11 +50,20 @@ function SeriesForm(props) {
     return (
         <div className="SeriesForm">
             {/* ボタンの文字列によって表示を切り替える */}
-            {
-                props.button === "作成する" ?
-                    <h3>─シリーズ作成フォーム─</h3> :
-                    <h3>─シリーズ編集フォーム─</h3>
-            }
+            <div className="FormHeader">
+                {
+                    props.button === "作成する" ?
+                        <h3>╋シリーズ作成</h3> :
+                        <h3>╋シリーズ編集</h3>
+                }
+                {
+                    props.formType === "edit" ?
+                    <div className="SeriesForm__SeriesPage">
+                        <Link to={`/novel_series/${id}`}>シリーズ管理画面へ戻る</Link>
+                    </div> :
+                    null
+                }
+            </div>
 
             {/* ボタンの文字列によってイベントを切り替える */}
             <form onSubmit={handleSubmit}>
@@ -55,7 +85,7 @@ function SeriesForm(props) {
                         placeholder="タイトル"
                         id="series_title"
                         name="series_title"
-                        className="series_title"
+                        className="SeriesForm_title"
                         value={title}
                         onChange={handleChange}
                     />
@@ -65,15 +95,9 @@ function SeriesForm(props) {
 
                 {/* シリーズあらすじ */}
                 <div className="DescriptionWrapper">
-                    <label htmlFor="series_description" className="Description">あらすじ</label>
-                    <textarea
-                        placeholder="あらすじ"
-                        name="series_description"
-                        id="series_description"
-                        className="series_description"
-                        value={description}
-                        onChange={handleChange}
-                    />
+                    <label htmlFor="series_description" className="Description">
+                        あらすじ
+                    </label>
                     <span className={descriptionClass}>
                         {dLength}／300文字
                         {dLength > 300 ?
@@ -83,6 +107,14 @@ function SeriesForm(props) {
                             null
                         }
                     </span>
+                    <textarea
+                        placeholder="あらすじ"
+                        name="series_description"
+                        id="series_description"
+                        className="SeriesForm_description"
+                        value={description}
+                        onChange={handleChange}
+                    />
                 </div>
                 {/* ========== */}
 
@@ -93,13 +125,13 @@ function SeriesForm(props) {
                         name="release"
                         id="release"
                         className="release"
-                        checked={nowRelease}
+                        checked={release}
                         onChange={handleStatusChange}
                     />
                     <label htmlFor="release" className="releaseLabel">公開する</label>
                 </div>
                 {/* ========== */}
-                {successful ? <p className="successful">── {successful} ──</p>: null}
+                {successful ? <p className="successful">{successful}</p>: null}
                 <button type="submit" className={buttonClass}>{props.button}</button>
             </form>
         </div>
