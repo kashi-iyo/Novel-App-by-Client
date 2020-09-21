@@ -1,44 +1,49 @@
-html {
-    margin: 0;
-}
+  body {
+    --buttonColor: rgb(255, 255, 255);
+    --buttonBackground:  rgba(0, 143, 168, 0.9);
+  }
 
-.App {
+  html {
+    margin: 0;
+  }
+
+  .App {
     max-width: 900px;
     min-width: 370px;
     margin: 0 auto;
-}
+  }
 
-ul, li {
+  ul, li {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-  
+
   .success {
     color: rgb(1, 173, 1);
     font-weight: 600;
     font-size: 1.1rem;
     margin: 20px 0;
   }
-  
+
   .error {
     color: red;
     font-weight: 600;
     font-size: 1.1rem;
     margin: 20px 0;
   }
-  
+
   a {
     word-break: break-all;
     letter-spacing: 0.5px;
     background-color: rgba(173, 214, 231, 0.13);
     color: rgb(0, 103, 143);
   }
-  
+
   .leadingToLogin {
     text-align: center;
   }
-  
+
   .guest {
     font-weight: 600;
   }

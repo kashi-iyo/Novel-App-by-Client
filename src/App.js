@@ -10,10 +10,13 @@ import SeriesCreate from './components/Series/SeriesCreate/SeriesCreate'
 import SeriesEdit from './components/Series/SeriesEdit/SeriesEdit'
 import NovelsFeed from './components/Novels/NovelsFeed/NovelsFeed'
 import NovelsContents from './components/Novels/NovelsContents/NovelsContents'
+import NovelsCreate from './components/Novels/NovelsForm/NovelsCreate/NovelsCreate'
+import NovelsEdit from './components/Novels/NovelsForm/NovelsEdit/NovelsEdit'
 import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
 
+
 export default function App() {
-  const {loggedInStatus} = useLoggedIn()
+  const { loggedInStatus } = useLoggedIn()
 
   return (
     <div className="App">
@@ -60,6 +63,18 @@ export default function App() {
             <Route
               exact path="/novel_series/:id/novels/:id"
               render={props => ( <NovelsContents {...props} /> )}
+            />
+            <Route
+              exact path="/novel_series/:id/add_novels"
+              render={props => (
+                <NovelsCreate {...props} />
+              )}
+            />
+            <Route
+              exact path="/novel_series/:id/novels/:id/edit"
+              render={props => (
+                <NovelsEdit {...props} />
+              )}
             />
           </Switch>
           {/* ============================================================== */}
