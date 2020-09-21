@@ -5,7 +5,7 @@ import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 import './Novels.css'
 
 function Novels(props) {
-    const {user} = useLoggedIn
+    const { user } = useLoggedIn
     const novelTitle = props.novel.novel_title
     const novelId = props.novel.id
     const release = props.novel.release
@@ -19,7 +19,6 @@ function Novels(props) {
         if (release && user === novelAuthor) {
             return (
                 <div className="Novels__Link">
-                    <span>{novelId}.</span>
                     <Link to={oneNovelUrl}>
                         {`【公開中】${novelTitle}`}
                     </Link>
@@ -29,7 +28,6 @@ function Novels(props) {
         } else if (!release && user === novelAuthor) {
             return (
                 <div className="Novels__Link">
-                    <span>{novelId}.</span>
                     <Link to={oneNovelUrl}>
                         {`【非公開中】${novelTitle}`}
                     </Link>
@@ -39,7 +37,6 @@ function Novels(props) {
         } else if (release) {
             return (
                 <div className="Novels__Link">
-                    <span>{novelId}.</span>
                     <Link to={oneNovelUrl}>
                         {`${novelTitle}`}
                     </Link>
@@ -49,8 +46,7 @@ function Novels(props) {
         } else if (!release) {
             return (
                 <div>
-                    <span className="Novels__Link">{novelId}.</span>
-                    <span className="Novels__Unrelease">この作品は現在非公開になっています。</span>
+                    <span className="Novels__Unrelease">この話は現在非公開になっています。</span>
                 </div>
             )
         }
