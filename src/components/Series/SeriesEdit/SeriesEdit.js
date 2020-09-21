@@ -12,12 +12,11 @@ function SeriesEdit(props) {
     const url = props.match.url     // Railsから編集データを取得するのに必要なurl
     const id = props.match.params.id    // SeriesFormへ渡すURLに必要なパラメータ
     const { loggedInStatus } = useLoggedIn()
-    const { items, errors, setIsMounted } = useFetchEditItems({
+    const { items, errors, mounted, setMount } = useFetchEditItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`,
         props: props
     })
-
 
     // 編集フォームをレンダリングする
     const seriesEditForm = () => {
@@ -30,9 +29,12 @@ function SeriesEdit(props) {
                     items ?
                         <SeriesForm {...props}
                             novelSeries={items}
-                            setIsMounted={setIsMounted}
+                            mounted={mounted}
+                            setMount={setMount}
                             method="patch"
                             url={`http://localhost:3001/api/v1/novel_series/${id}`}
+                            formType="edit"
+                            dataType="series"
                             button="編集を完了する"
                         /> :
                         null
