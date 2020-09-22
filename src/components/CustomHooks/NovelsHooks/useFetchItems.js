@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
+import useLoggedIn from "../Auth/useLoggedIn"
 
 // Home, Series, NovelsFeed, Novels, NovelsContents にて使用
 export default function useFetchItems({method, url}) {
@@ -7,25 +8,30 @@ export default function useFetchItems({method, url}) {
     const [novels, setNovels] = useState("")
     const [series, setSeries] = useState("")
     const [errors, setErrors] = useState("")
+    const { isLoading, setIsLoading } = useLoggedIn()
 
     useEffect(() => {
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
+                    setIsLoading(true)
                     let res = response.data
                     let key = res.keyword
                     let ok = res.status === 200
                     // シリーズ全件取得
                     if (ok && key === 'index_of_series') {
                         setItems({ ...res.novel_series })
+                        setIsLoading(false)
                     } else if (ok && key === 'novel_count') {
                         setItems(res.novel_count)
+                        setIsLoading(false)
                     // 1つのシリーズ取得
                     } else if (ok && key === 'show_of_series') {
                         console.log(res)
                         // setItems({ ...res })
                         setNovels(res.novel_in_series)
                         setSeries(res.novel_series)
+                        setIsLoading(false)
                     // 1つのシリーズが所有する小説全件取得
                     } else if (ok && key === 'index_of_novels') {
                         let novel = res.novel_in_series
@@ -33,13 +39,17 @@ export default function useFetchItems({method, url}) {
                         let seriesTitle = res.series_title
                         let seriesId = res.series_id
                         setSeries({seriesId, seriesTitle})
-                        setNovels({...novel, novelId})
+                        setNovels({ ...novel, novelId })
+                        setIsLoading(false)
                     // 非公開時のデータ
                     } else if (key === 'unrelease') {
                         setErrors(res.messages)
                     }
                 })
-                .catch(error => console.log(error))
+                .catch(error => {
+                    setIsLoading(true)
+                    console.log(error)
+                })
         }
         getItems()
     }, [method, url], items)
