@@ -5,12 +5,12 @@ import NovelsForm from '../NovelsForm'
 import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
 import useLoggedIn from '../../../CustomHooks/Auth/useLoggedIn'
 
+// 小説作成フォーム
 function NovelsCreate(props) {
     const { loggedInStatus, currentUser } = useLoggedIn()
     const [mounted, setMount] = useState(true)
     const id = props.match.params.id
 
-    console.log(id)
     const novelsCreateForm = () => {
         return (
             <div className="novelsCreate">
@@ -29,15 +29,17 @@ function NovelsCreate(props) {
         )
     }
 
+    const renderer = () => {
+        if (!loggedInStatus) {
+            return <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
+        } else {
+            novelsCreateForm()
+        }
+    }
+
     return (
         <div>
-            {
-                loggedInStatus ?
-                    novelsCreateForm() :
-                    <ErrorMessages
-                        {...props}
-                        accessErrors={"アクセス権限がありません。"} />
-            }
+            {renderer()}
         </div>
     )
 }
