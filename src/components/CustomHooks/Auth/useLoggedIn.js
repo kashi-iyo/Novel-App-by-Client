@@ -5,6 +5,7 @@ import axios from 'axios'
 export default function useLoggedIn() {
     const [loggedInStatus, setLoggedInStatus] = useState(false)
     const [currentUser, setCurrentUser] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
 
     // 認証系のイベント=======================================================================
     // ログイン
@@ -25,19 +26,22 @@ export default function useLoggedIn() {
         axios.get("http://localhost:3001/logged_in",
             { withCredentials: true })
             .then(response => {
-            console.log(response.data.logged_in)
-            let res = response.data
+                setIsLoading(true)
+                let res = response.data
             if (res.logged_in && !loggedInStatus) {
                 handleLogin(res.user.nickname)
+                setIsLoading(false)
             } else if (!res.logged_in && loggedInStatus) {
                 handleLogout()
+                setIsLoading(false)
             }
             }).catch(error => {
+                setIsLoading(true)
                 console.log("ログインエラー", error)
             })
         }
         checkLoginStatus()
     }, [])
 
-    return { loggedInStatus, currentUser, handleLogin, handleLogout }
+    return { loggedInStatus, currentUser, handleLogin, handleLogout, isLoading, setIsLoading }
 }
