@@ -11,6 +11,7 @@
     max-width: 900px;
     min-width: 370px;
     margin: 0 auto;
+    position: relative;
   }
 
   ul, li {
@@ -34,10 +35,13 @@
   }
 
   a {
+    padding: 5px;
+    box-sizing: border-box;
     word-break: break-all;
     letter-spacing: 0.5px;
-    background-color: rgba(173, 214, 231, 0.13);
+    /* background-color: rgba(173, 214, 231, 0.2); */
     color: rgb(0, 103, 143);
+    border-radius: 3px;
   }
 
   .leadingToLogin {
