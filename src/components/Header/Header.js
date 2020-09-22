@@ -1,12 +1,24 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useState} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
+import Logo from '../.././img/logo.png'
 import './Header.css'
 import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 
 function Header(props) {
     const { currentUser, loggedInStatus, handleLogout } = useLoggedIn()
+    const [userMenu, setUserMenu] = useState("defaultMenu")
+
+    const handleDown = () => {
+        if (userMenu === "defaultMenu") {
+            setUserMenu("")
+            setUserMenu("downMenu")
+        } else if (userMenu == "downMenu") {
+            setUserMenu("")
+            setUserMenu("defaultMenu")
+        }
+    }
 
     // ログアウトイベント
     const handleClick = () => {
@@ -24,34 +36,54 @@ function Header(props) {
             .catch(error => console.log(error))
     }
 
-    return (
-        <header className="home__header">
-            <div className="header__top">
-                {currentUser
-                    ?
+    const rendererUser = () => {
+        if (loggedInStatus && currentUser) {
+            return (
+                <div>
                     <div className="userstatus">
-                        <Link className="nickname">{currentUser}さん</Link>でログイン中
+                        <Link onClick={handleDown} className="nickname">
+                            {currentUser}▼
+                        </Link>
+                        <ul className={userMenu}>
+                            <li><Link>マイページ</Link></li>
+                            <li><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
+                        </ul>
                     </div>
-                    :
-                    <p className="guest">ゲストさんようこそ。</p>
+                </div>
+            )
+        } else if (!loggedInStatus && !currentUser) {
+            return (
+                <div>
+                    <ul className="header__auth">
+                        <li><Link to="/login">ログイン</Link></li>
+                        <li><Link to="/signup">新規登録</Link></li>
+                    </ul>
+                </div>
+            )
+        }
+    }
+
+    return (
+        <div>
+            <header className="home__header">
+                <div className="header__top">
+                    <img src={Logo} alt="ロゴ" className="Logo" />
+                    <div className="header__topLeft">
+                        {rendererUser()}
+                    </div>
+                </div>
+                {!loggedInStatus &&
+                    <div className="recruitment__form">
+                        <Link>採用担当者様専用ログインフォーム</Link>
+                    </div>
                 }
-            </div>
-            <ul>
-                <li><Link to="/">ホーム</Link></li>
-                <li><Link>ランキング</Link></li>
-                <ul className="header__options">
-                    <li><Link to="/series_create">小説を投稿する</Link></li>
+                <ul className="header__ul">
+                    <li><Link to="/">ホーム</Link></li>
+                    <li><Link>ランキング</Link></li>
+                    {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li> }
                 </ul>
-                {
-                    loggedInStatus ?
-                        <li><Link to="/logout" onClick={handleClick}>ログアウト</Link></li> :
-                        <Fragment>
-                            <li><Link to="/login">ログイン</Link></li>
-                            <li><Link to="/signup">新規登録</Link></li>
-                        </Fragment>
-                }
-            </ul>
-        </header>
+            </header>
+        </div>
     )
 }
 

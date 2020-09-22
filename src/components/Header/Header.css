@@ -1,22 +1,115 @@
 .header {
     background: rgba(255, 192, 203, 0.212);
 }
+.Logo {
+    /* background: gray; */
+    margin-bottom: 10px;
+    width: 130px;
+    height: 40px;
+    vertical-align: top;
+    object-fit: contain;
+
+}
 .home__header {
-    margin-bottom: 40px;
+    margin-bottom: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(132, 132, 132, 0.3);
+    box-shadow: 1px 0px 25px 5px rgba(93, 93, 93, 0.1);
 }
 .header__top {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
 }
+.header__topRight {
+    font-size: 0.9rem;
+}
+.postMessage {
+    font-size: 0.9rem;
+    color: rgb(252, 125, 125);
+}
+.recruitment__form {
+    background: var(--buttonBackground);
+    padding: 10px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    text-align: center;
+    box-sizing: border-box;
+    border-radius: 3px;
+    width: 100%;
+    box-shadow: 2px 3px 10px 1px rgba(93, 93, 93, 0.5);
+}
+.recruitment__form > a {
+    color: rgb(241, 241, 241);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: transparent;
+}
+
 .userstatus {
     font-size: 0.9rem;
 }
 .nickname {
     font-weight: 600;
-    font-size: 1.1rem;
-    color: rgb(68, 68, 68);
+    font-size: 1.2rem;
+    color: rgba(50, 50, 50, 0.7);
+    padding-top: 0;
+    padding-left: 45px;
+    vertical-align: top;
     background: transparent;
-    margin: 10px;
 }
+.defaultMenu {
+    display: none;
+    transform: translateY(-40px);
+    transition: 1s;
+}
+.downMenu {
+    background: rgba(232, 232, 232, 0.3);
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 7px;
+    border-radius: 3px;
+    border-right: 1px solid ;
+}
+.downMenu > li > a {
+    background: transparent;
+    text-decoration: none;
+    padding: 0;
+    font-weight: 600;
+    color: rgba(50, 50, 50, 0.9);
+    position: relative;
+    right: 0;
+}
+.downMenu > li {
+    margin-bottom: 10px;
+}
+
+.header__auth {
+    display: flex;
+}
+.header__auth > li > a {
+    font-size: 1rem;
+    padding: 3px;
+}
+.header__auth > li {
+    margin-left: 10px;
+}
+
 .header__options {
     display: flex;
+}
+.header__ul {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+.header__ul > li > a {
+    text-decoration: none;
+    padding: 3px;
+    border-radius: 1px;
+    font-weight: 600;
+    background: transparent;
 }
