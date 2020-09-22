@@ -76,7 +76,6 @@ function NovelsFeed(props) {
                         null
                     }
                 </div>
-
                 {/* シリーズ内の小説一覧 */}
                 <NovelsInNovelsFeed>
                     {
@@ -97,11 +96,8 @@ function NovelsFeed(props) {
     const handleRenderer = () => {
         // 非公開&ログインユーザーが作者でない場合
         if (!series.release && series.author !== currentUser) {
-            return <ErrorMessages {...props} releaseErrors={errors} />
-        // 非公開の場合
-        } else if (!series.release) {
-            return <ErrorMessages {...props} releaseErrors={errors} />
-        // 公開されている場合
+            return <ErrorMessages {...props} errors={errors} />
+        // 公開の場合
         } else if (series.release) {
             return handleNovelsFeed()
         }
