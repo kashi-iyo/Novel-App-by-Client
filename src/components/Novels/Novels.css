@@ -1,7 +1,12 @@
+.Novels {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
 .Novels__Ul {
     padding: 5px;
 }
 .Novels__Li {
+
     margin-bottom: 5px;
     font-size: 1.2rem;
     font-weight: 600;

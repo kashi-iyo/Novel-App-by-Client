@@ -14,7 +14,7 @@ a {
 }
 
 .Series__top {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 .Series__title {
     margin-bottom: 10px;
@@ -34,14 +34,14 @@ a {
 }
 .Series__writerName {
     font-size: 0.8rem;
-    color: rgba(0, 4, 236, 0.9);
+    color: rgb(0, 4, 255);
 }
 .Series__count {
     font-size: 0.8rem;
 }
 
 .Series__center {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .Series__description {
