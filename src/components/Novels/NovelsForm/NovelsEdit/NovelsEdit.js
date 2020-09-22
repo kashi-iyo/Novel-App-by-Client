@@ -45,16 +45,20 @@ function NovelsEdit(props) {
         )
     }
 
+    // ログインユーザーと作者が一致しており尚且つエラーの存在しない場合に、編集フォームを表示
+    const renderer = () => {
+        if (!loggedInStatus || errors) {
+            return <ErrorMessages errors={errors} loggedInStatus={loggedInStatus} />
+        } else if (currentUser !== items.author) {
+            return <ErrorMessages errors={errors} loggedInStatus={loggedInStatus} />
+        } else if (currentUser === items.author) {
+            return novelsEditForm()
+        }
+    }
+
     return (
         <div>
-            {/* ログインし、尚且つエラーの存在しない場合に、編集フォームを表示 */}
-            {loggedInStatus && !errors ?
-                novelsEditForm() :
-                <ErrorMessages {...props}
-                    accessErrors={errors}
-                    loggedInStatus={loggedInStatus}
-                />
-            }
+            {renderer()}
         </div>
     )
 }
