@@ -1,7 +1,14 @@
 .Errors {
     text-align: center;
+    background: rgba(188, 188, 188, 0.3);
+    padding: 20px;
+    box-sizing: border-box;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 3px;
 }
 .Errors__release, .Errors__access {
-    color: rgba(243, 1, 1, 0.8);
-    font-weight: 600;
+    color: rgba(255, 84, 84, 0.7);
+    font-weight: 700;
+    font-size: 1rem;
 }
