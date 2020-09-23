@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-// import './SeriesCreate.css'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
@@ -29,14 +28,18 @@ function SeriesCreate(props) {
         )
     }
 
+    const renderer = () => {
+        if (loggedInStatus) {
+            seriesCreateForm()
+        } else {
+            return <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
+        }
+    }
+
     return (
         <div>
             {/* ユーザーがログインしているかどうかを確認*/}
-            {
-                loggedInStatus ?
-                    seriesCreateForm() :
-                    <ErrorMessages {...props} accessErrors={"アクセス権限がありません。"} />
-            }
+            {renderer()}
         </div>
     )
 }

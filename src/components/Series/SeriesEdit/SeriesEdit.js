@@ -43,15 +43,18 @@ function SeriesEdit(props) {
         )
     }
 
+    const renderer = () => {
+        if (loggedInStatus && !errors) {
+            return seriesEditForm()
+        } else {
+            return <ErrorMessages {...props} errors={errors} />
+        }
+    }
+
     return (
         <div>
             {/* ログインし、尚且つエラーの存在しない場合に、編集フォームを表示 */}
-            {loggedInStatus && !errors ?
-                seriesEditForm() :
-                <ErrorMessages {...props}
-                    accessErrors={errors}
-                />
-            }
+            {renderer()}
         </div>
     )
 }

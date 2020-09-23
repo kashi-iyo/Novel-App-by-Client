@@ -17,7 +17,6 @@ function SeriesForm(props) {
         release,
         successful,
         errors,
-        existingErrors,
         handleChange,
         handleSubmit,
         handleStatusChange,
@@ -33,11 +32,8 @@ function SeriesForm(props) {
             sendItems: props.novelSeries    // 編集用データ
         })
 
-    console.log(values)
     const title = values.series_title
     const description = values.series_description
-    // const tLength = title.length
-    // const dLength = description.length
     const tLength = title ? title.length : 0
     const dLength = description ? description.length : 0
     const id = props.match.params.id
