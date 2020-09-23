@@ -12,7 +12,6 @@ function ErrorMessages(props) {
             return (
                 <div className="Errors">
                     <p className="Errors__access">{errors}</p>
-                    <p className="Errors__access">2秒後にページが遷移されます。</p>
                 </div>
             )
         }
