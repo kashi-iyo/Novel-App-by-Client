@@ -41,7 +41,7 @@ export default function useLoggedIn() {
             })
         }
         checkLoginStatus()
-    }, [])
+    }, [setIsLoading])
 
     return { loggedInStatus, currentUser, handleLogin, handleLogout, isLoading, setIsLoading }
 }
