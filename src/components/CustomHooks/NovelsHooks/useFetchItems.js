@@ -44,6 +44,7 @@ export default function useFetchItems({method, url}) {
                     // 非公開時のデータ
                     } else if (key === 'unrelease') {
                         setErrors(res.messages)
+                        setIsLoading(false)
                     }
                 })
                 .catch(error => {
@@ -55,6 +56,6 @@ export default function useFetchItems({method, url}) {
     }, [method, url], items)
 
     return {
-        items, novels, series, errors
+        items, novels, series, errors, isLoading
     }
 }
