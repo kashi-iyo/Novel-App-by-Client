@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
@@ -14,7 +14,7 @@ function Header(props) {
         if (userMenu === "defaultMenu") {
             setUserMenu("")
             setUserMenu("downMenu")
-        } else if (userMenu == "downMenu") {
+        } else if (userMenu === "downMenu") {
             setUserMenu("")
             setUserMenu("defaultMenu")
         }
@@ -80,7 +80,7 @@ function Header(props) {
                 <ul className="header__ul">
                     <li><Link to="/">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
-                    {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li> }
+                    {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
                 </ul>
             </header>
         </div>
