@@ -1,8 +1,10 @@
 import React from 'react'
 
+import './NovelsInFeed.css'
+
 function NovelsInNovelsFeed(props) {
     return (
-        <div>
+        <div className="NovelsInFeed">
             {props.children}
         </div>
     )
