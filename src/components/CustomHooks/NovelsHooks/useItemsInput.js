@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
+import useRedirect from '../Redirect/useRedirect'
 
 // 投稿系機能のinputフィールドでの挙動を記述
 // →SeriesForm, NovelsFormにて使用
@@ -28,9 +29,9 @@ function useItemsInput({ method, url, mounted, setMount, sendItems, props, formT
         }
     })
     const [release, setRelease] = useState(sendItems ? sendItems.release : false)           // 公開するかどうか
-    const [successful, setSuccessful] = useState("")        // 成功メッセージ
-    const [errors, setErrors] = useState("")                 // エラーメッセージ
-    const [existingErrors, setExistingErrors] = useState("")
+    const [itemSuccess, setItemSuccess] = useState("")        // 成功メッセージ
+    const [itemErrors, setItemErrors] = useState("")                 // エラーメッセージ
+    const {redirect} = useRedirect({history: props.history})
 
     // 入力データはブラウザに保存
     useEffect(() => {
@@ -81,19 +82,9 @@ function useItemsInput({ method, url, mounted, setMount, sendItems, props, formT
     }
 
 
-
     // Railsへデータを送信し、画面を遷移
     const handleSubmit = e => {
         e.preventDefault()
-        // 作成または編集後に作成された作品のページへリダイレクト
-        const redirect = (seriesId, novelsId) => {
-            let his = props.history
-            if (novelsId !== null) {
-                his.push(`/novel_series/${seriesId}/novels/${novelsId}`)
-            } else if (novelsId === null) {
-                his.push(`/novel_series/${seriesId}`)
-            }
-        }
         axios[method](url, sendData(), { withCredentials: true })
             .then(response => {
                 let res = response.data
@@ -103,34 +94,35 @@ function useItemsInput({ method, url, mounted, setMount, sendItems, props, formT
                 let novelsId = res.novels_id
                 let key = res.keyword
                 if (mounted && created && key === "create_of_series") {
-                    setSuccessful(res.successful)
-                    setTimeout(() => { redirect(seriesId, null) }, 1500)
-                    setErrors("")
+                    setItemSuccess(res.successful)
+                    setTimeout(() => { redirect(`/novel_series/${seriesId}`) }, 1500)
                 } else if (mounted && updated && key === "update_of_series") {
-                    setSuccessful(res.successful)
-                    setTimeout(() => { redirect(seriesId, null) }, 1500)
-                    setErrors("")
+                    setItemSuccess(res.successful)
+                    setTimeout(() => { redirect(`/novel_series/${seriesId}`) }, 1500)
                 } else if (mounted && created && key === "create_of_novels") {
-                    setSuccessful(res.successful)
-                    setTimeout(() => { redirect(seriesId, novelsId) }, 1500)
+                    setItemSuccess(res.successful)
+                    setTimeout(() => { redirect(`/novel_series/${seriesId}/novels/${novelsId}`) }, 1500)
                 } else if (mounted && updated && key === "update_of_novels") {
-                    setSuccessful(res.successful)
-                    setTimeout(() => { redirect(seriesId, novelsId) }, 1500)
+                    setItemSuccess(res.successful)
+                    setTimeout(() => { redirect(`/novel_series/${seriesId}/novels/${novelsId}`) }, 1500)
                 } else if (mounted && res.status === 401) {
-                    setErrors(res.messages)
+                    setItemErrors(res.messages)
                 } else if (mounted && res.status === "unprocessable_entity") {
-                    setExistingErrors(res.errors)
+                    setItemErrors(res.errors)
                 }
             })
-                .catch(err => setErrors(err))
+                .catch(err => setItemErrors(err))
         setMount(false)
         localStorage.removeItem("key")
+        setItemErrors("")
+        setItemSuccess("")
+        setValues("")
+        setRelease(false)
     }
 
     return {
         values, release,
-        successful, errors,
-        existingErrors,
+        itemSuccess, itemErrors,
         handleStatusChange,
         handleChange,
         handleSubmit,
