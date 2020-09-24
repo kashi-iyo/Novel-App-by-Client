@@ -16,6 +16,7 @@ function NovelsEdit(props) {
     })
     const seriesId = paramId.seriesId
     const novelsId = paramId.novelsId
+    console.log(props)
 
     // 編集フォームをレンダリングする
     const novelsEditForm = () => {
@@ -33,6 +34,8 @@ function NovelsEdit(props) {
                         url={`http://localhost:3001/api/v1//novel_series/${seriesId}/novels/${novelsId}`}
                         novels={items}
                         paramId={paramId}
+                        seriesId={seriesId}
+                        novelsId={novelsId}
                         mounted={mounted}
                         setMount={setMount}
                         currentUser={currentUser}
