@@ -16,7 +16,7 @@ import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
 import Spinner from './components/CustomHooks/Spinner/Spinner'
 
 export default function App() {
-  const { currentUser, loggedInStatus, isLoading } = useLoggedIn()
+  const { loggedInStatus, isLoading } = useLoggedIn()
 
   return (
     <div className="App">
@@ -83,7 +83,7 @@ export default function App() {
             </Switch>
         </BrowserRouter>
         }
-        {isLoading && !currentUser && <Spinner />}
+        {isLoading && <Spinner />}
       </React.Fragment>
     </div>
   )
