@@ -5,6 +5,9 @@ import './NovelsContents.css'
 import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
+import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
+import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
+import Flash from '../../CustomHooks/Flash/Flash'
 
 // 小説1話分の内容を表示
 function NovelsContents(props) {
@@ -14,13 +17,18 @@ function NovelsContents(props) {
         method: "get",
         url: `http://localhost:3001/api/v1${url}`
     })
-    const author = novels.author
+    const { confirmation, removeErrors, removeSuccess, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
+        url: `http://localhost:3001/api/v1/novel_series/${series.seriesId}/novels/${novels.novelId}`,
+        keyword: "novel",
+        history: props.history
+    })
     const editUrl = `/novel_series/${series.seriesId}/novels/${novels.novelId}/edit`
     const seriesUrl = `/novel_series/${series.seriesId}`
 
     const rendererNovelsContents = () => {
-        if (novels.release || novels.author === currentUser) {
-            return (
+        return (
+            <React.Fragment>
+                <Flash Errors={removeErrors} Success={removeSuccess} />
                 <div>
                     <div className="NovelsContents">
                         {/* シリーズタイトルと作者 */}
@@ -36,11 +44,11 @@ function NovelsContents(props) {
                                 <div className="NovelsContents__SeriesWriter">
                                     <span className="writerWrapper">作者名: </span>
                                     <span className="writerName">
-                                        <Link>{author}</Link>
+                                        <Link>{novels.author}</Link>
                                     </span>
                                 </div>
                                 {
-                                currentUser === author ?
+                                currentUser === novels.author ?
                                     <Link to={editUrl} className="NovelsContents__Edit" >
                                         編集する
                                     </Link> :
@@ -71,15 +79,34 @@ function NovelsContents(props) {
                     {/* シリーズ内の小説全話を一覧する */}
                     <div className="SeriesContents"></div>
                 </div>
-            )
+                <div className="NovelsFeed__BarSpan"></div>
+                {/* 削除ボタン */}
+                <RemoveFeatures
+                    theme="話"
+                    author={novels.author}
+                    currentUser={currentUser}
+                    handleClick={handleClick}
+                    confirmation={confirmation}
+                    handleOkRemove={handleOkRemove}
+                    handleNoRemove={handleNoRemove}
+                />
+            </React.Fragment>
+        )
+    }
+
+    const renderer = () => {
+        if (!novels.release && novels.author === currentUser) {
+            return rendererNovelsContents()
         } else if (!novels.release && novels.author !== currentUser) {
             return <ErrorMessages errors={errors} />
+        } else if (novels.release) {
+            return rendererNovelsContents()
         }
     }
 
     return (
         <div>
-            {rendererNovelsContents()}
+            {renderer()}
         </div>
     )
 }
