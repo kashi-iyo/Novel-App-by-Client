@@ -5,7 +5,6 @@ import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 import './Novels.css'
 
 function Novels(props) {
-    const { user } = useLoggedIn
     const novelTitle = props.novel.novel_title
     const novelId = props.novel.id
     const release = props.novel.release
@@ -16,7 +15,7 @@ function Novels(props) {
     // 公開されているかどうか、また作者かどうかで小説の表示を切り替える
     const handleChangeNovelsRenderer = () => {
         // 公開&ログインユーザーと作者が等しい場合
-        if (release && user === novelAuthor) {
+        if (release && props.currentUser === novelAuthor) {
             return (
                 <div className="Novels__Link">
                     <Link to={oneNovelUrl}>
@@ -25,7 +24,7 @@ function Novels(props) {
                 </div>
             )
         // 非公開だがログインユーザーと作者が等しい場合
-        } else if (!release && user === novelAuthor) {
+        } else if (!release && props.currentUser === novelAuthor) {
             return (
                 <div className="Novels__Link">
                     <Link to={oneNovelUrl}>
