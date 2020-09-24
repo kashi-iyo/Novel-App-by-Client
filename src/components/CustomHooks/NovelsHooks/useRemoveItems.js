@@ -11,6 +11,8 @@ function useRemoveItems({url, keyword, history}) {
     const handleClick = () => {
         if (keyword === "series") {
             setConfirmation("本当にこのシリーズを削除しますか？")
+        } else if (keyword === "novel") {
+            setConfirmation("本当にこの話を削除しますか？")
         }
     }
 
@@ -26,7 +28,7 @@ function useRemoveItems({url, keyword, history}) {
                 if (res.head === "no_content") {
                     setRemoveSuccess(res.success)
                     setTimeout(() => setRemoveSuccess(""), 2000)
-                    setTimeout(() => redirect("/"), 3000)
+                    setTimeout(() => redirect("/"), 2000)
                 } else if (res.status === 401) {
                     setRemoveErrors(res.messages)
                     setTimeout(() => setRemoveErrors(""), 2000)
