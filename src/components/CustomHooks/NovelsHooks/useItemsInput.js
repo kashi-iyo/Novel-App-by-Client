@@ -13,19 +13,20 @@ function useItemsInput({ method, url, mounted, setMount, sendItems, props, formT
         // ローカルストレージから取得
         const localState = JSON.parse(localStorage.getItem("key"))
 
+        // ローカルストレージに値がある
+        if (!!localState) {
+            console.log("localstorage ok")
+            return localState
         // ローカルストレージに値がない、createフォーム、シリーズデータ
-        if (localState === null && formType === "create" && dataType === "series") {
+        }   else if (formType === "create" && dataType === "series") {
             return seriesState
         // ローカルストレージに値がない、createフォーム、小説データ
-        } else if (localState === null && formType === "create" && dataType === "novel") {
+        } else if (formType === "create" && dataType === "novel") {
+            console.log("create, novel")
             return novelState
         // ローカルストレージに値がない、編集フォーム
-        } else if (localState == null && formType === "edit") {
-            console.log("ok")
+        } else if (formType === "edit") {
             return sendItems
-        // ローカルストレージに値がある
-        } else if (!!localState) {
-            return localState
         }
     })
     const [release, setRelease] = useState(sendItems ? sendItems.release : false)           // 公開するかどうか
@@ -85,6 +86,7 @@ function useItemsInput({ method, url, mounted, setMount, sendItems, props, formT
     // Railsへデータを送信し、画面を遷移
     const handleSubmit = e => {
         e.preventDefault()
+        localStorage.removeItem("key")
         axios[method](url, sendData(), { withCredentials: true })
             .then(response => {
                 let res = response.data
@@ -113,11 +115,8 @@ function useItemsInput({ method, url, mounted, setMount, sendItems, props, formT
             })
                 .catch(err => setItemErrors(err))
         setMount(false)
-        localStorage.removeItem("key")
-        setItemErrors("")
         setItemSuccess("")
-        setValues("")
-        setRelease(false)
+        setTimeout(() => setItemErrors(""), 3000 )
     }
 
     return {
