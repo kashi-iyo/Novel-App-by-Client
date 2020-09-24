@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import classNames from 'classnames'
 
 import './NovelsFeed.css'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
@@ -9,6 +8,8 @@ import Novels from '../Novels'
 import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
+import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
+import Flash from '../../CustomHooks/Flash/Flash'
 
 function NovelsFeed(props) {
     const params = props.match.params.id
@@ -26,23 +27,13 @@ function NovelsFeed(props) {
     const editUrl = `/novel_series/${seriesId}/edit`    //シリーズ編集リンク
     const addUrl = `/novel_series/${seriesId}/add_novels`    //小説追加リンク
 
-    const NovelsFeed = classNames("NovelsFeed", { "noNovelsFeed": confirmation })
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
         return (
             <React.Fragment>
-                {removeSuccess &&
-                    <div className="SuccessWrapper">
-                        <p className="SuccessFlash">{removeSuccess}</p>
-                    </div>
-                }
-                {removeErrors &&
-                    <div className="ErrorsWrapper">
-                        <p className="ErrorsFlash">{removeErrors}</p>
-                    </div>
-                }
-                <div className={NovelsFeed}>
+                <Flash Success={removeSuccess} Errors={removeErrors} />
+                <div className="NovelsFeed">
                     {/* シリーズタイトル・あらすじ */}
                     <div className="SeriesFeed">
                         <div className="SeriesFeed__top">
@@ -110,26 +101,17 @@ function NovelsFeed(props) {
                         }
                     </NovelsInNovelsFeed>
                     <div className="NovelsFeed__BarSpan"></div>
-                    {/* 削除ボタン */}
-                        {series.author === currentUser &&
-                            <div className="removeButton">
-                                <button onClick={handleClick} className="button ">
-                                    このシリーズを削除する
-                                </button>
-                            </div>
-                        }
                 </div>
-                {/* 削除確認もーだる */}
-                <div className="SeriesFeed__RemoveWrapper">
-                    {
-                        confirmation &&
-                        <div className="removeModal">
-                            <p className="removeModal__Message">{confirmation}</p>
-                            <input type="button" className="okRemove" onClick={handleOkRemove} value="はい" />
-                            <input type="button" className="noRemove" onClick={handleNoRemove} value="いいえ" />
-                        </div>
-                    }
-                </div>
+                {/* 削除ボタン */}
+                <RemoveFeatures
+                        theme="シリーズ"
+                        author={series.author}
+                        currentUser={currentUser}
+                        handleClick={handleClick}
+                        confirmation={confirmation}
+                        handleOkRemove={handleOkRemove}
+                        handleNoRemove={handleNoRemove}
+                    />
             </React.Fragment>
         )
     }
