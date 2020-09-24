@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import '../../Series/Series.css'
 import './NovelsForm.css'
 import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
+import Flash from '../../CustomHooks/Flash/Flash'
 
 // シリーズ作成フォームを作成
 function SeriesForm(props) {
@@ -29,14 +30,13 @@ function SeriesForm(props) {
             dataType: props.dataType,
             sendItems: props.novels,
         })
+
     const title = values.novel_title
     const description = values.novel_description
     const content = values.novel_content
     const tLength = title ? title.length : 0
     const dLength = description ? description.length : 0
     const cLength = content ? content.length : 0
-    const seriesId = props.paramId.seriesId
-    const novelsId = props.paramId.novelsId
 
     // フィールドに入力された字数によりクラス名を変更する
     const titleClass = classNames("ok", { "over": tLength > 50, "no": tLength === 0 })
@@ -46,16 +46,7 @@ function SeriesForm(props) {
 
     return (
         <React.Fragment>
-            {itemSuccess &&
-                <div className="SuccessWrapper">
-                    <p className="SuccessFlash">{itemSuccess}</p>
-                </div>
-            }
-            {itemErrors &&
-                <div className="ErrorsWrapper">
-                    <p className="ErrorsFlash">{itemErrors}</p>
-                </div>
-            }
+            <Flash Success={itemSuccess} Errors={itemErrors} />
             <div className="SeriesForm">
             {/* ボタンの文字列によって表示を切り替える */}
             <div className="FormHeader">
@@ -65,11 +56,11 @@ function SeriesForm(props) {
                         <h3>╋小説編集</h3>
                 }
                 <div className="SeriesForm__SeriesPage">
-                    <Link to={`/novel_series/${seriesId}`}>シリーズ管理画面へ戻る</Link>
+                    <Link to={`/novel_series/${props.seriesId}`}>シリーズ管理画面へ戻る</Link>
                 </div>
-                <div className="SeriesForm__NovelsPage">
-                    <Link to={`/novel_series/${seriesId}/novels/${novelsId}`}>小説管理画面へ戻る</Link>
-                </div>
+                {props.formType === "edit" && <div className="SeriesForm__NovelsPage">
+                    <Link to={`/novel_series/${props.seriesId}/novels/${props.novelsId}`}>小説管理画面へ戻る</Link>
+                </div>}
             </div>
 
             {/* ボタンの文字列によってイベントを切り替える */}
