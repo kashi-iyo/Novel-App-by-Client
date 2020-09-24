@@ -9,7 +9,7 @@ import useLoggedIn from '../../../CustomHooks/Auth/useLoggedIn'
 function NovelsCreate(props) {
     const { loggedInStatus, currentUser } = useLoggedIn()
     const [mounted, setMount] = useState(true)
-    const id = props.match.params.id
+    const seriesId = props.match.params.id
 
     const novelsCreateForm = () => {
         return (
@@ -17,7 +17,8 @@ function NovelsCreate(props) {
                 <NovelsForm
                     {...props}
                     method="post"
-                    url={`http://localhost:3001/api/v1/novel_series/${id}/novels`}
+                    url={`http://localhost:3001/api/v1/novel_series/${seriesId}/novels`}
+                    seriesId={seriesId}
                     mounted={mounted}
                     setMount={setMount}
                     currentUser={currentUser}
@@ -29,11 +30,12 @@ function NovelsCreate(props) {
         )
     }
 
+    // ログインしている場合にフォームをレンダリング
     const renderer = () => {
         if (!loggedInStatus) {
             return <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
-        } else {
-            novelsCreateForm()
+        } else if (loggedInStatus) {
+            return novelsCreateForm()
         }
     }
 
