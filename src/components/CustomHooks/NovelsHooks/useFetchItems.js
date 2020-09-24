@@ -53,7 +53,7 @@ export default function useFetchItems({method, url}) {
                 })
         }
         getItems()
-    }, [method, url], items)
+    }, [method, url])
 
     return {
         items, novels, series, errors, isLoading
