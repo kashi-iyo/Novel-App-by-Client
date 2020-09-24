@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 import '../Series.css'
 import './SeriesForm.css'
 import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
+import Flash from '../../CustomHooks/Flash/Flash'
 // import validateSeriesForm from '../../CustomHooks/ValidateHooks/validateNovels/validateSeriesForm'
 // import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
 
@@ -15,8 +16,8 @@ function SeriesForm(props) {
     const {
         values,
         release,
-        successful,
-        errors,
+        itemSuccess,
+        itemErrors,
         handleChange,
         handleSubmit,
         handleStatusChange,
@@ -44,93 +45,94 @@ function SeriesForm(props) {
     const buttonClass = classNames("button", { "noButton": tLength > 50 || tLength === 0 || dLength > 300 })
 
     return (
-        <div className="SeriesForm">
-            {/* ボタンの文字列によって表示を切り替える */}
-            <div className="FormHeader">
-                {
-                    props.button === "作成する" ?
-                        <h3>╋シリーズ作成</h3> :
-                        <h3>╋シリーズ編集</h3>
-                }
-                {
-                    props.formType === "edit" ?
-                    <div className="SeriesForm__SeriesPage">
-                        <Link to={`/novel_series/${id}`}>シリーズ管理画面へ戻る</Link>
-                    </div> :
-                    null
-                }
+        <React.Fragment>
+            <Flash Success={itemSuccess} Errors={itemErrors} />
+            <div className="SeriesForm">
+                {/* ボタンの文字列によって表示を切り替える */}
+                <div className="FormHeader">
+                    {
+                        props.button === "作成する" ?
+                            <h3>╋シリーズ作成</h3> :
+                            <h3>╋シリーズ編集</h3>
+                    }
+                    {
+                        props.formType === "edit" ?
+                        <div className="SeriesForm__SeriesPage">
+                            <Link to={`/novel_series/${id}`}>シリーズ管理画面へ戻る</Link>
+                        </div> :
+                        null
+                    }
+                </div>
+
+                {/* ボタンの文字列によってイベントを切り替える */}
+                <form onSubmit={handleSubmit}>
+
+                    {/* シリーズタイトル */}
+                    <div className="TitleWrapper">
+                        {title ? null : <span className={titleClass}>【入力必須】</span>}
+                        <label htmlFor="series_title" className="Title">シリーズタイトル</label>
+                        <span className={titleClass}>
+                            {tLength}／50文字
+                            {tLength > 50 ?
+                                <span className={titleClass}>【50文字以内で入力してください】</span> :
+                                null
+                            }
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="タイトル"
+                            id="series_title"
+                            name="series_title"
+                            className="SeriesForm_title"
+                            value={title}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <br></br>
+                    {/* ========== */}
+
+                    {/* シリーズあらすじ */}
+                    <div className="DescriptionWrapper">
+                        <label htmlFor="series_description" className="Description">
+                            あらすじ
+                        </label>
+                        <span className={descriptionClass}>
+                            {dLength}／300文字
+                            {dLength > 300 ?
+                                <span className={descriptionClass}>
+                                    【300文字以内で入力してください】
+                                </span> :
+                                null
+                            }
+                        </span>
+                        <textarea
+                            placeholder="あらすじ"
+                            name="series_description"
+                            id="series_description"
+                            className="SeriesForm_description"
+                            value={description}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    {/* ========== */}
+
+                    {/* 公開チェックボックス */}
+                    <div className="releaseWrapper">
+                        <input
+                            type="checkbox"
+                            name="release"
+                            id="release"
+                            className="release"
+                            checked={release}
+                            onChange={handleStatusChange}
+                        />
+                        <label htmlFor="release" className="releaseLabel">公開する</label>
+                    </div>
+                    {/* ========== */}
+                    <button type="submit" className={buttonClass}>{props.button}</button>
+                </form>
             </div>
-
-            {/* ボタンの文字列によってイベントを切り替える */}
-            <form onSubmit={handleSubmit}>
-                {errors ? <p className="error">{errors}</p> : null}
-
-                {/* シリーズタイトル */}
-                <div className="TitleWrapper">
-                    {title ? null : <span className={titleClass}>【入力必須】</span>}
-                    <label htmlFor="series_title" className="Title">シリーズタイトル</label>
-                    <span className={titleClass}>
-                        {tLength}／50文字
-                        {tLength > 50 ?
-                            <span className={titleClass}>【50文字以内で入力してください】</span> :
-                            null
-                        }
-                    </span>
-                    <input
-                        type="text"
-                        placeholder="タイトル"
-                        id="series_title"
-                        name="series_title"
-                        className="SeriesForm_title"
-                        value={title}
-                        onChange={handleChange}
-                    />
-                </div>
-                <br></br>
-                {/* ========== */}
-
-                {/* シリーズあらすじ */}
-                <div className="DescriptionWrapper">
-                    <label htmlFor="series_description" className="Description">
-                        あらすじ
-                    </label>
-                    <span className={descriptionClass}>
-                        {dLength}／300文字
-                        {dLength > 300 ?
-                            <span className={descriptionClass}>
-                                【300文字以内で入力してください】
-                            </span> :
-                            null
-                        }
-                    </span>
-                    <textarea
-                        placeholder="あらすじ"
-                        name="series_description"
-                        id="series_description"
-                        className="SeriesForm_description"
-                        value={description}
-                        onChange={handleChange}
-                    />
-                </div>
-                {/* ========== */}
-
-                {/* 公開チェックボックス */}
-                <div className="releaseWrapper">
-                    <input
-                        type="checkbox"
-                        name="release"
-                        id="release"
-                        className="release"
-                        checked={release}
-                        onChange={handleStatusChange}
-                    />
-                    <label htmlFor="release" className="releaseLabel">公開する</label>
-                </div>
-                {/* ========== */}
-                {successful ? <p className="successful">{successful}</p>: null}
-                <button type="submit" className={buttonClass}>{props.button}</button>
-            </form>
-        </div>
+        </React.Fragment>
     )
 }
 
