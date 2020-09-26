@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './NovelsContents.css'
-import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
@@ -12,7 +11,6 @@ import Flash from '../../CustomHooks/Flash/Flash'
 // 小説1話分の内容を表示
 function NovelsContents(props) {
     const url = props.match.url
-    const { currentUser } = useLoggedIn()
     const { series, novels, errors } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`
@@ -48,7 +46,7 @@ function NovelsContents(props) {
                                     </span>
                                 </div>
                                 {
-                                currentUser === novels.author ?
+                                props.currentUser === novels.author ?
                                     <Link to={editUrl} className="NovelsContents__Edit" >
                                         編集する
                                     </Link> :
@@ -84,7 +82,7 @@ function NovelsContents(props) {
                 <RemoveFeatures
                     theme="話"
                     author={novels.author}
-                    currentUser={currentUser}
+                    currentUser={props.currentUser}
                     handleClick={handleClick}
                     confirmation={confirmation}
                     handleOkRemove={handleOkRemove}
@@ -95,9 +93,9 @@ function NovelsContents(props) {
     }
 
     const renderer = () => {
-        if (!novels.release && novels.author === currentUser) {
+        if (!novels.release && novels.author === props.currentUser) {
             return rendererNovelsContents()
-        } else if (!novels.release && novels.author !== currentUser) {
+        } else if (!novels.release && novels.author !== props.currentUser) {
             return <ErrorMessages errors={errors} />
         } else if (novels.release) {
             return rendererNovelsContents()
