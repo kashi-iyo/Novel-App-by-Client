@@ -11,6 +11,7 @@ export default function useFetchItems({method, url}) {
     const { isLoading, setIsLoading } = useLoggedIn()
 
     useEffect(() => {
+        let mount = true
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
@@ -19,21 +20,21 @@ export default function useFetchItems({method, url}) {
                     let key = res.keyword
                     let ok = res.status === 200
                     // シリーズ全件取得
-                    if (ok && key === 'index_of_series') {
+                    if (mount && ok && key === 'index_of_series') {
                         setItems({ ...res.novel_series })
                         setIsLoading(false)
-                    } else if (ok && key === 'novel_count') {
+                    } else if (mount && ok && key === 'novel_count') {
                         setItems(res.novel_count)
                         setIsLoading(false)
                     // 1つのシリーズ取得
-                    } else if (ok && key === 'show_of_series') {
+                    } else if (mount && ok && key === 'show_of_series') {
                         console.log(res)
                         // setItems({ ...res })
                         setNovels(res.novel_in_series)
                         setSeries(res.novel_series)
                         setIsLoading(false)
                     // 1つのシリーズが所有する小説全件取得
-                    } else if (ok && key === 'index_of_novels') {
+                    } else if (mount && ok && key === 'index_of_novels') {
                         let novel = res.novel_in_series
                         let novelId = res.novel_id
                         let seriesTitle = res.series_title
@@ -42,7 +43,7 @@ export default function useFetchItems({method, url}) {
                         setNovels({ ...novel, novelId })
                         setIsLoading(false)
                     // 非公開時のデータ
-                    } else if (key === 'unrelease') {
+                    } else if (mount &&key === 'unrelease') {
                         setErrors(res.messages)
                         setIsLoading(false)
                     }
@@ -53,7 +54,8 @@ export default function useFetchItems({method, url}) {
                 })
         }
         getItems()
-    }, [method, url])
+        return () => { mount =false }
+    }, [method, url, setItems, setIsLoading])
 
     return {
         items, novels, series, errors, isLoading
