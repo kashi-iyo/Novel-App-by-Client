@@ -1,5 +1,5 @@
 
-function useRedirect({history}) {
+function useRedirect({ history }) {
 
     const redirect = (url) => {
         history.push(url)
