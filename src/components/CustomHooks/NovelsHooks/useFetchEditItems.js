@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
+import useRedirect from "../Redirect/useRedirect"
 
 // Railsから編集用データを取得。
 // →SeriesEdit, で使う
@@ -9,12 +10,9 @@ export default function useEditItems({method, url, props}) {
     const [keyword, setKeyword] = useState("")  //handleSubmitにて送るデータを区別するのに使う
     const [errors, setErrors] = useState("")
     const [mounted, setMount] = useState(false)
+    const { redirect } = useRedirect({ history: props.history })
 
     useEffect(() => {
-        // ホームへリダイレクト
-        const redirect = () => {
-            props.history.push("/")
-        }
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
@@ -35,7 +33,7 @@ export default function useEditItems({method, url, props}) {
                     // 別のユーザーが編集しようとした場合のエラー
                     } else if (res.status === 401) {
                         setErrors(res.messages)
-                        setTimeout(() => { redirect() }, 3000)
+                        setTimeout(() => { redirect('/') }, 3000)
                     } else if (key === 'unrelease') {
                         setErrors(res.messages)
                     }
@@ -44,7 +42,7 @@ export default function useEditItems({method, url, props}) {
         }
         getItems()
         setMount(true)
-    }, [mounted, method, url])
+    }, [mounted, method, url, redirect])
 
     return {
         items, paramId, keyword, errors, mounted, setMount
