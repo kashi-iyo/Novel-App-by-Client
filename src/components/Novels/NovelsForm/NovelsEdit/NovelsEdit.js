@@ -1,5 +1,4 @@
 import React from 'react'
-import useLoggedIn from '../../../CustomHooks/Auth/useLoggedIn'
 
 import useFetchEditItems from '../../../CustomHooks/NovelsHooks/useFetchEditItems'
 import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
@@ -8,7 +7,6 @@ import NovelsForm from '../NovelsForm'
 
 function NovelsEdit(props) {
     const url = props.match.url
-    const { loggedInStatus, currentUser } = useLoggedIn()
     const { items, paramId, errors, mounted, setMount } = useFetchEditItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`,
@@ -16,7 +14,6 @@ function NovelsEdit(props) {
     })
     const seriesId = paramId.seriesId
     const novelsId = paramId.novelsId
-    console.log(props)
 
     // 編集フォームをレンダリングする
     const novelsEditForm = () => {
@@ -38,7 +35,7 @@ function NovelsEdit(props) {
                         novelsId={novelsId}
                         mounted={mounted}
                         setMount={setMount}
-                        currentUser={currentUser}
+                        currentUser={props.currentUser}
                         formType="edit"
                         dataType="novel"
                         button="編集を完了する"
@@ -50,11 +47,11 @@ function NovelsEdit(props) {
 
     // ログインユーザーと作者が一致しており尚且つエラーの存在しない場合に、編集フォームを表示
     const renderer = () => {
-        if (!loggedInStatus || errors) {
-            return <ErrorMessages errors={errors} loggedInStatus={loggedInStatus} />
-        } else if (currentUser !== items.author) {
-            return <ErrorMessages errors={errors} loggedInStatus={loggedInStatus} />
-        } else if (currentUser === items.author) {
+        if (!props.loggedInStatus || errors) {
+            return <ErrorMessages errors={errors} loggedInStatus={props.loggedInStatus} />
+        } else if (props.currentUser !== items.author) {
+            return <ErrorMessages errors={errors} loggedInStatus={props.loggedInStatus} />
+        } else if (props.currentUser === items.author) {
             return novelsEditForm()
         }
     }
