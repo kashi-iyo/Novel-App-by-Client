@@ -5,7 +5,6 @@ import './NovelsFeed.css'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
 import Novels from '../Novels'
-import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
 import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
@@ -22,7 +21,6 @@ function NovelsFeed(props) {
         keyword: "series",
         history: props.history
     })
-    const { loggedInStatus, currentUser } = useLoggedIn()
     const seriesId = series.id
     const editUrl = `/novel_series/${seriesId}/edit`    //シリーズ編集リンク
     const addUrl = `/novel_series/${seriesId}/add_novels`    //小説追加リンク
@@ -73,7 +71,7 @@ function NovelsFeed(props) {
                             </ul>
                         </div>
                         {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
-                        {series.author === currentUser && loggedInStatus ?
+                        {series.author === props.currentUser && props.loggedInStatus ?
                             <div className="SeriesFeed__editLinkWrap">
                                 <React.Fragment>
                                     <Link to={editUrl} className="SeriesFeed__editLink" >
@@ -95,7 +93,7 @@ function NovelsFeed(props) {
                                     <Novels {...props}
                                         key={novel.id}
                                         novel={novel}
-                                        currentUser={currentUser}
+                                        currentUser={props.currentUser}
                                     />
                                 )) : null
                         }
@@ -106,7 +104,7 @@ function NovelsFeed(props) {
                 <RemoveFeatures
                         theme="シリーズ"
                         author={series.author}
-                        currentUser={currentUser}
+                        currentUser={props.currentUser}
                         handleClick={handleClick}
                         confirmation={confirmation}
                         handleOkRemove={handleOkRemove}
@@ -118,7 +116,7 @@ function NovelsFeed(props) {
 
     const handleRenderer = () => {
         // 非公開&ログインユーザーが作者でない場合
-        if (!series.release && series.author !== currentUser) {
+        if (!series.release && series.author !== props.currentUser) {
             return <ErrorMessages {...props} errors={errors} />
         // 公開の場合
         } else if (series.release) {
