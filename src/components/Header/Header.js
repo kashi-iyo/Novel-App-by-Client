@@ -7,7 +7,7 @@ import './Header.css'
 import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 
 function Header(props) {
-    const { currentUser, loggedInStatus, handleLogout } = useLoggedIn()
+    const { handleLogout, userId } = useLoggedIn()
     const [userMenu, setUserMenu] = useState("defaultMenu")
 
     const handleDown = () => {
@@ -37,21 +37,21 @@ function Header(props) {
     }
 
     const rendererUser = () => {
-        if (loggedInStatus && currentUser) {
+        if (props.loggedInStatus && props.currentUser) {
             return (
                 <div>
                     <div className="userstatus">
                         <Link onClick={handleDown} className="nickname">
-                            {currentUser}▼
+                            {props.currentUser}▼
                         </Link>
                         <ul className={userMenu}>
-                            <li><Link>マイページ</Link></li>
+                            <li><Link to={`/users/${userId}`}>マイページ</Link></li>
                             <li><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
                         </ul>
                     </div>
                 </div>
             )
-        } else if (!loggedInStatus && !currentUser) {
+        } else if (!props.loggedInStatus && !props.currentUser) {
             return (
                 <div>
                     <ul className="header__auth">
@@ -72,7 +72,7 @@ function Header(props) {
                         {rendererUser()}
                     </div>
                 </div>
-                {!loggedInStatus &&
+                {!props.loggedInStatus &&
                     <div className="recruitment__form">
                         <Link>採用担当者様専用ログインフォーム</Link>
                     </div>
@@ -80,7 +80,7 @@ function Header(props) {
                 <ul className="header__ul">
                     <li><Link to="/">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
-                    {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
+                    {props.currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
                 </ul>
             </header>
         </div>
