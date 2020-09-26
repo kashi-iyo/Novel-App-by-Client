@@ -56,3 +56,10 @@
     margin: 0;
     color: rgb(73, 73, 73);
   }
+
+.Caption {
+  margin-bottom: 80px;
+  background-color:var(--buttonBackground);
+  color: var(--buttonColor);
+  border-radius: 3px;
+}
