@@ -5,13 +5,11 @@ import './SeriesEdit'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import useFetchEditItems from '../../CustomHooks/NovelsHooks/useFetchEditItems'
-import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 
 // useEditItemsで取得したデータを、SeriesFormへを渡す
 function SeriesEdit(props) {
     const url = props.match.url     // Railsから編集データを取得するのに必要なurl
     const id = props.match.params.id    // SeriesFormへ渡すURLに必要なパラメータ
-    const { loggedInStatus } = useLoggedIn()
     const { items, errors, mounted, setMount } = useFetchEditItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`,
@@ -44,7 +42,7 @@ function SeriesEdit(props) {
     }
 
     const renderer = () => {
-        if (loggedInStatus && !errors) {
+        if (props.loggedInStatus && !errors) {
             return seriesEditForm()
         } else {
             return <ErrorMessages {...props} errors={errors} />
