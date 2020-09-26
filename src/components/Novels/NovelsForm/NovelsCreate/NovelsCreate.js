@@ -1,13 +1,10 @@
 import React, {useState} from 'react'
 
 import NovelsForm from '../NovelsForm'
-
 import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
-import useLoggedIn from '../../../CustomHooks/Auth/useLoggedIn'
 
 // 小説作成フォーム
 function NovelsCreate(props) {
-    const { loggedInStatus, currentUser } = useLoggedIn()
     const [mounted, setMount] = useState(true)
     const seriesId = props.match.params.id
 
@@ -21,7 +18,7 @@ function NovelsCreate(props) {
                     seriesId={seriesId}
                     mounted={mounted}
                     setMount={setMount}
-                    currentUser={currentUser}
+                    currentUser={props.currentUser}
                     formType="create"
                     dataType="novel"
                     button="追加する"
@@ -32,9 +29,9 @@ function NovelsCreate(props) {
 
     // ログインしている場合にフォームをレンダリング
     const renderer = () => {
-        if (!loggedInStatus) {
+        if (!props.loggedInStatus) {
             return <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
-        } else if (loggedInStatus) {
+        } else if (props.loggedInStatus) {
             return novelsCreateForm()
         }
     }
