@@ -5,6 +5,7 @@ import axios from 'axios'
 export default function useLoggedIn() {
     const [loggedInStatus, setLoggedInStatus] = useState(false)
     const [currentUser, setCurrentUser] = useState("")
+    const [userId, setUserId] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
     // 認証系のイベント=======================================================================
@@ -22,16 +23,18 @@ export default function useLoggedIn() {
 
     // ログインステータスの追跡
     useEffect(() => {
+        let mount = true
         const checkLoginStatus = () => {
         axios.get("http://localhost:3001/logged_in",
             { withCredentials: true })
             .then(response => {
                 setIsLoading(true)
                 let res = response.data
-            if (res.logged_in && !loggedInStatus) {
+            if (mount && res.logged_in && !loggedInStatus) {
                 handleLogin(res.user.nickname)
+                setUserId(res.user_id)
                 setIsLoading(false)
-            } else if (!res.logged_in && loggedInStatus) {
+            } else if (mount && !res.logged_in && loggedInStatus) {
                 handleLogout()
                 setIsLoading(false)
             }
@@ -41,7 +44,8 @@ export default function useLoggedIn() {
             })
         }
         checkLoginStatus()
+        return () => { mount = false }
     }, [setIsLoading])
 
-    return { loggedInStatus, currentUser, handleLogin, handleLogout, isLoading, setIsLoading }
+    return { loggedInStatus, currentUser, handleLogin, handleLogout, isLoading, setIsLoading, userId }
 }
