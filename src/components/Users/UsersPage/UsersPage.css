@@ -1,0 +1,54 @@
+.UsersPage {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.UsersPage__Top {
+    margin-bottom: 100px;
+}
+.UsersPage__TopWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.UsersPage__UserName {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.UsersPage__UserProfile {
+    min-height: 10vh;
+    margin-bottom: 30px;
+    word-break: break-all;
+}
+
+.UsersPage__Reviews {
+    margin-bottom: 30px;
+}
+
+.UsersPage__TagWrapper {
+    margin-bottom: 40px;
+}
+.UsersPage__TagHobby {
+    margin-bottom: 10px;
+}
+.UsersPage__TagUl {
+    display: flex;
+    margin-bottom: 10px;
+}
+.messageToUsers {
+    font-size: 0.7rem;
+}
+
+.UsersPage__EditWrapper {
+    background: var(--buttonBackground);
+    padding: 5px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+}
+.UsersPage__EditWrapper > a {
+    text-decoration: none;
+    background: transparent;
+}
