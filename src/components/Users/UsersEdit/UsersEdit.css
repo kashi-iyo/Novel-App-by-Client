@@ -1,0 +1,38 @@
+.UsersPageEditForm {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.editNicknameWrapper {
+    margin-bottom: 30px;
+}
+
+.editProfileWrapper {
+    margin-bottom: 30px;
+}
+
+.editHobbyTagWrapper {
+    margin-bottom: 30px;
+}
+
+textarea {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background:rgba(202, 202, 202, 0.1);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 20px;
+    width: 100%;
+    height: 20vh;
+    letter-spacing: 1px;
+    border: none;
+    resize: none;
+    border: none;
+    box-sizing: border-box;
+}
+.editProfile {
+    line-height: 19px;
+}
+
+.UsersPageEditForm {
+    margin-bottom: 100px;
+}
