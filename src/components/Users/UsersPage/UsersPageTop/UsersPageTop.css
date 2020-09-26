@@ -1,0 +1,6 @@
+h2 {
+    margin: 0;
+}
+.UsersPage__h2 > h2 {
+    margin-bottom: 50px;
+}
