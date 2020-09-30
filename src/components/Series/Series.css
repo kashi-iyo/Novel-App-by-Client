@@ -72,7 +72,11 @@ a {
     margin-bottom: 10px;
 }
 .Series__tagUl {
+    width: 100%;
+    margin: 0 auto;
     display: flex;
+    box-sizing: border-box;
+    border-radius: 3px;
 }
 .Series__tagLi {
     margin-right: 5px;
