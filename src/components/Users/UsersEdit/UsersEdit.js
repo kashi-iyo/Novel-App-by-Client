@@ -2,7 +2,6 @@ import React from 'react'
 import './UsersEdit.css'
 import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
 import Flash from '../../CustomHooks/Flash/Flash'
-import Caption from '../../CustomHooks/Caption/Caption'
 
 function UsersEdit(props) {
     const {
