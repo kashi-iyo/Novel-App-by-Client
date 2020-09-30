@@ -58,8 +58,12 @@
   }
 
 .Caption {
+  margin: 0 auto;
   margin-bottom: 80px;
   background-color:var(--buttonBackground);
   color: var(--buttonColor);
   border-radius: 3px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  width: 95%;
 }
