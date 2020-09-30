@@ -3,8 +3,12 @@ import axios from 'axios'
 import useLoggedIn from "../Auth/useLoggedIn"
 
 // Home, Series, NovelsFeed, Novels, NovelsContents にて使用
-export default function useFetchItems({method, url}) {
+export default function useFetchItems({ method, url }) {
     const [items, setItems] = useState("")
+    const [count, setCount] = useState("")
+    const [tags, setTags] = useState("")
+    const [seriesTags, setSeriesTags] = useState("")
+    const [tagsId, setTagsId] = useState("")
     const [novels, setNovels] = useState("")
     const [series, setSeries] = useState("")
     const [errors, setErrors] = useState("")
@@ -21,15 +25,16 @@ export default function useFetchItems({method, url}) {
                     let ok = res.status === 200
                     // シリーズ全件取得
                     if (mount && ok && key === 'index_of_series') {
+                        setCount(res.series_count)
                         setItems({ ...res.novel_series })
+                        setTags({ ...res.tags })
+                        // setSeriesTags({ ...res.tags_in_series })
                         setIsLoading(false)
-                    } else if (mount && ok && key === 'novel_count') {
-                        setItems(res.novel_count)
-                        setIsLoading(false)
+                    } else if (ok && key === 'series_tags') {
+                        setTagsId(res.series_id)
+                        setSeriesTags(res.series_tags)
                     // 1つのシリーズ取得
                     } else if (mount && ok && key === 'show_of_series') {
-                        console.log(res)
-                        // setItems({ ...res })
                         setNovels(res.novel_in_series)
                         setSeries(res.novel_series)
                         setIsLoading(false)
@@ -57,7 +62,9 @@ export default function useFetchItems({method, url}) {
         return () => { mount =false }
     }, [method, url, setItems, setIsLoading])
 
+
+
     return {
-        items, novels, series, errors, isLoading
+        items, count, tags, seriesTags, tagsId, novels, series, errors, isLoading
     }
 }
