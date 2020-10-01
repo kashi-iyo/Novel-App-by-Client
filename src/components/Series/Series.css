@@ -160,6 +160,7 @@ input[type="text"] {
 }
 .SeriesForm_title {
     height: 60px;
+    
 }
 .SeriesForm_description {
     height: 50vh;
@@ -167,7 +168,7 @@ input[type="text"] {
 }
 .Title, .Description, .Content {
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     margin-right: 10px;
 }
 
@@ -233,7 +234,7 @@ input[type=checkbox]:checked + .releaseLabel:after {
 }
 
 /* ボタン */
-button[type="submit"] {
+.SeriesForm > input[type="button"] {
     margin: 0 auto;
     margin-bottom: 100px;
 }

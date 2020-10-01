@@ -22,7 +22,7 @@
     position: relative;
     top: 60px;
 }
-input[type="button"] {
+.removeModal > input[type="button"] {
     outline: none;
     border: none;
     width: 35%;

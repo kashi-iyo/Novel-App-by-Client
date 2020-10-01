@@ -1,0 +1,57 @@
+.tags-input {
+    padding: 10px;
+    border-radius: 3px;
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.tags-input > h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.tagsul {
+    text-align: center;
+    display: flex;
+    white-space: nowrap;
+    width: 100%;
+    word-break: break-all;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.tagli {
+    background: var(--buttonBackground);
+    padding: 3px 7px;
+    margin-right: 5px;
+    vertical-align: middle;
+    border-radius: 5px;
+    text-align: center;
+    position:relative;
+    width: auto;
+    margin-bottom: 5px;
+}
+
+.tag {
+    color: white;
+    font-weight: 600;
+    position: relative;
+    top: -2px;
+    font-size: 0.9rem;
+}
+
+.cancel {
+    color: white;
+    width: 0.8rem;
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+}
+.tags-input > input[type="text"]  {
+    padding: 5px 10px;
+    height: 40px;
+    font-size: 0.8rem;
+    width: 100%;
+    margin-bottom: 10px;
+}

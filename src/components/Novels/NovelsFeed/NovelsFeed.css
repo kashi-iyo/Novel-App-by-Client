@@ -27,7 +27,7 @@
 }
 .SeriesFeed__title {
     font-weight: 600;
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     letter-spacing: 1.2px;
     margin-bottom: 5px;
 }
@@ -73,13 +73,7 @@
 .SeriesFeed__tagUl {
     display: flex;
 }
-.SeriesFeed__tagLi {
-    margin-bottom: 15px;
-}
-.SeriesFeed__tagLink {
-    color: rgb(0, 103, 143);
-    margin-right: 7px;
-}
+
 
 /* 編集 */
 .SeriesFeed__editLinkWrap {
