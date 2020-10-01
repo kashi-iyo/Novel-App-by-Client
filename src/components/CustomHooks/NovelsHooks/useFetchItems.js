@@ -12,9 +12,11 @@ export default function useFetchItems({ method, url }) {
     const [novels, setNovels] = useState("")
     const [series, setSeries] = useState("")
     const [errors, setErrors] = useState("")
+    // const [mount, setMount] = useState(false)
     const { isLoading, setIsLoading } = useLoggedIn()
 
     useEffect(() => {
+        // setMount(true)
         let mount = true
         const getItems = () => {
             axios[method](url, { withCredentials: true })
@@ -30,7 +32,7 @@ export default function useFetchItems({ method, url }) {
                         setTags({ ...res.tags })
                         // setSeriesTags({ ...res.tags_in_series })
                         setIsLoading(false)
-                    } else if (ok && key === 'series_tags') {
+                    } else if (mount && ok && key === 'series_tags') {
                         setTagsId(res.series_id)
                         setSeriesTags(res.series_tags)
                     // 1つのシリーズ取得
@@ -48,7 +50,7 @@ export default function useFetchItems({ method, url }) {
                         setNovels({ ...novel, novelId })
                         setIsLoading(false)
                     // 非公開時のデータ
-                    } else if (mount &&key === 'unrelease') {
+                    } else if (mount && key === 'unrelease') {
                         setErrors(res.messages)
                         setIsLoading(false)
                     }
@@ -59,12 +61,11 @@ export default function useFetchItems({ method, url }) {
                 })
         }
         getItems()
-        return () => { mount =false }
+        return () => { mount = false }
     }, [method, url, setItems, setIsLoading])
 
 
 
     return {
-        items, count, tags, seriesTags, tagsId, novels, series, errors, isLoading
-    }
+        items, count, tags, seriesTags, tagsId, novels, series, errors, isLoading }
 }

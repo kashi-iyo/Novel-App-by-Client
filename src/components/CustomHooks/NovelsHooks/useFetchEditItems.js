@@ -9,10 +9,11 @@ export default function useEditItems({method, url, props}) {
     const [paramId, setParamId] = useState("")
     const [keyword, setKeyword] = useState("")  //handleSubmitにて送るデータを区別するのに使う
     const [errors, setErrors] = useState("")
-    const [mounted, setMount] = useState(false)
+    // const [mount, setMount] = useState(false)
     const { redirect } = useRedirect({ history: props.history })
 
     useEffect(() => {
+        let mount = true
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
@@ -21,30 +22,30 @@ export default function useEditItems({method, url, props}) {
                     let ok = res.status === 200
                     let series = res.novel_series
                     // 編集用のシリーズデータを取得
-                    if (mounted && ok && key === 'edit_of_series') {
+                    if (mount && ok && key === 'edit_of_series') {
                         setItems(series)
                         setKeyword(key)
-                    } else if (mounted && ok && key === 'edit_of_novels') {
+                    } else if (mount && ok && key === 'edit_of_novels') {
                         let novels = res.novel_in_series
                         let novelsId = res.novels_id
                         let seriesId = res.series_id
                         setParamId({ novelsId, seriesId })
                         setItems(novels)
                     // 別のユーザーが編集しようとした場合のエラー
-                    } else if (res.status === 401) {
+                    } else if (mount && res.status === 401) {
                         setErrors(res.messages)
                         setTimeout(() => { redirect('/') }, 3000)
-                    } else if (key === 'unrelease') {
+                    } else if (mount && key === 'unrelease') {
                         setErrors(res.messages)
                     }
                 })
                 .catch(error => console.log(error))
         }
         getItems()
-        setMount(true)
-    }, [mounted, method, url, redirect])
+        return () => { mount = false }
+    }, [method, url, redirect])
 
     return {
-        items, paramId, keyword, errors, mounted, setMount
+        items, paramId, keyword, errors
     }
 }
