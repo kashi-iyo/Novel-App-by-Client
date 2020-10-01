@@ -9,6 +9,7 @@ import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
 import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
 import Flash from '../../CustomHooks/Flash/Flash'
+import SeriesTags from '../../Series/SeriesTags/SeriesTags'
 
 function NovelsFeed(props) {
     const params = props.match.params.id
@@ -56,22 +57,11 @@ function NovelsFeed(props) {
                         </div>
                         <div className="SeriesFeed__tagWrap">
                             <ul className="SeriesFeed__tagUl">
-                                <li className="SeriesFeed__tagLi">
-                                    <Link className="SeriesFeed__tagLink">タグ</Link>
-                                </li>
-                                <li className="SeriesFeed__tagLi">
-                                    <Link className="SeriesFeed__tagLink">タグ</Link>
-                                </li>
-                                <li className="SeriesFeed__tagLi">
-                                    <Link className="SeriesFeed__tagLink">タグ</Link>
-                                </li>
-                                <li className="SeriesFeed__tagLi">
-                                    <Link className="SeriesFeed__tagLink">タグ</Link>
-                                </li>
+                                <SeriesTags {...props} seriesId={seriesId} />
                             </ul>
                         </div>
                         {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
-                        {series.author === props.currentUser && props.loggedInStatus ?
+                        {series.author === props.currentUser && props.loggedInStatus &&
                             <div className="SeriesFeed__editLinkWrap">
                                 <React.Fragment>
                                     <Link to={editUrl} className="SeriesFeed__editLink" >
@@ -81,8 +71,7 @@ function NovelsFeed(props) {
                                         小説を追加する
                                     </Link>
                                 </React.Fragment>
-                            </div> :
-                            null
+                            </div>
                         }
                     </div>
                     {/* シリーズ内の小説一覧 */}
