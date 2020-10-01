@@ -10,7 +10,7 @@ import useFetchEditItems from '../../CustomHooks/NovelsHooks/useFetchEditItems'
 function SeriesEdit(props) {
     const url = props.match.url     // Railsから編集データを取得するのに必要なurl
     const id = props.match.params.id    // SeriesFormへ渡すURLに必要なパラメータ
-    const { items, errors, mounted, setMount } = useFetchEditItems({
+    const { items, errors } = useFetchEditItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`,
         props: props
@@ -27,8 +27,6 @@ function SeriesEdit(props) {
                     items ?
                         <SeriesForm {...props}
                             novelSeries={items}
-                            mounted={mounted}
-                            setMount={setMount}
                             method="patch"
                             url={`http://localhost:3001/api/v1/novel_series/${id}`}
                             formType="edit"
