@@ -78,7 +78,9 @@ export default function App() {
               />
               <Route
                 exact path="/novel_series/:id"
-                render={props => (<NovelsFeed {...props} />)}
+                render={props => ( <NovelsFeed {...props}
+                  currentUser={currentUser}
+                  loggedInStatus={loggedInStatus} />)}
               />
               <Switch>
                 <Route
