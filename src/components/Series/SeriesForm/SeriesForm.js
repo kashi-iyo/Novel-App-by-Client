@@ -6,8 +6,7 @@ import '../Series.css'
 import './SeriesForm.css'
 import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
 import Flash from '../../CustomHooks/Flash/Flash'
-// import validateSeriesForm from '../../CustomHooks/ValidateHooks/validateNovels/validateSeriesForm'
-// import useLoggedIn from '../../CustomHooks/AuthHooks/useLoggedIn'
+import SeriesTagForm from '../SeriesTagForm/SeriesTagForm'
 
 // シリーズ作成フォームを作成
 function SeriesForm(props) {
@@ -15,9 +14,11 @@ function SeriesForm(props) {
     // props: historyなどの取得のため
     const {
         values,
+        tags, addTags, removeTags,
         release,
         itemSuccess,
         itemErrors,
+        handleFalse,
         handleChange,
         handleSubmit,
         handleStatusChange,
@@ -26,8 +27,6 @@ function SeriesForm(props) {
             props: props,               // historyなど
             url: props.url,             // Railsのルーティング
             method: props.method,        // HTTPリクエスト
-            mounted: props.mounted,     // マウントの値
-            setMount: props.setMount,   // マウントの値をセット
             formType: props.formType,   // craete or edit
             dataType: props.dataType,   // series or novel
             sendItems: props.novelSeries    // 編集用データ
@@ -52,8 +51,8 @@ function SeriesForm(props) {
                 <div className="FormHeader">
                     {
                         props.button === "作成する" ?
-                            <h3>╋シリーズ作成</h3> :
-                            <h3>╋シリーズ編集</h3>
+                            <h3 className="Caption CaptionSeriesForm">╋シリーズ作成</h3> :
+                            <h3 className="Caption CaptionSeriesForm">╋シリーズ編集</h3>
                     }
                     {
                         props.formType === "edit" ?
@@ -65,7 +64,7 @@ function SeriesForm(props) {
                 </div>
 
                 {/* ボタンの文字列によってイベントを切り替える */}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={e => handleFalse(e)}>
 
                     {/* シリーズタイトル */}
                     <div className="TitleWrapper">
@@ -116,6 +115,9 @@ function SeriesForm(props) {
                     </div>
                     {/* ========== */}
 
+                    {/* タグ追加フォーム */}
+                    <SeriesTagForm {...props} tags={tags} addTags={addTags} removeTags={removeTags} />
+
                     {/* 公開チェックボックス */}
                     <div className="releaseWrapper">
                         <input
@@ -129,7 +131,7 @@ function SeriesForm(props) {
                         <label htmlFor="release" className="releaseLabel">公開する</label>
                     </div>
                     {/* ========== */}
-                    <button type="submit" className={buttonClass}>{props.button}</button>
+                    <input type="button" onClick={handleSubmit} value={props.button} className={buttonClass} />
                 </form>
             </div>
         </React.Fragment>
