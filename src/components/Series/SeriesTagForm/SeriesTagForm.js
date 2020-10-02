@@ -1,21 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CancelIcon from '@material-ui/icons/Cancel'
 import './SeriesTagForm.css'
 
 function InputTag(props) {
-    // const [tags, setTags] = useState(["React", "Rails"])
-
-    // const addTags = event => {
-    //     if (event.target.value !== "") {
-    //         setTags([...tags, event.target.value])
-    //         event.target.value = ""
-    //     }
-    // }
-
-    // const removeTags = indexToRemove => {
-    //     // クリックした要素意外の要素だけを返す（＝クリックした要素を消す）
-    //     setTags(tags.filter((_, index) => index !== indexToRemove))
-    // }
 
     return (
         <div className="tags-input">
@@ -26,7 +13,7 @@ function InputTag(props) {
                 onKeyUp={e => (e.key === 'Enter' ? props.addTags(e) : null)}
             />
             <ul className="tagsul">
-                {
+                {props.tags &&
                     props.tags.map((tag, index) => (
                         <li key={index} className="tagli">
                             <span className="tag">{tag}</span>

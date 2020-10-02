@@ -16,8 +16,9 @@ function SeriesTags(props) {
                 tagsId === id &&
                 Object.keys(seriesTags).map(key => {
                     let tagName = seriesTags[key].novel_tag_name
+                    let tagId = String(seriesTags[key].id)
                     return (
-                        <Link key={key} className="SeriesTags__Link">
+                        <Link key={key} to={`/search_series_by_tag/${tagId}`} className="SeriesTags__Link">
                             <li  className="SeriesTags__Li">{tagName}</li>
                         </Link>
                     )

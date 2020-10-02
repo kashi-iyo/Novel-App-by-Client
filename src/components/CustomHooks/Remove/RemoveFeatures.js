@@ -2,7 +2,7 @@ import React from 'react'
 import './RemoveFeatures.css'
 
 function RemoveFeatures({ theme, author, currentUser, handleClick, confirmation, handleOkRemove, handleNoRemove }) {
-    console.log(author, currentUser)
+
     return (
         <div>
             {/* 削除ボタン */}

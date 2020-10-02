@@ -29,7 +29,8 @@ function SeriesForm(props) {
             method: props.method,        // HTTPリクエスト
             formType: props.formType,   // craete or edit
             dataType: props.dataType,   // series or novel
-            sendItems: props.novelSeries    // 編集用データ
+            sendItems: props.novelSeries,    // 編集用データ
+            editTags: props.editTags    // 編集用タグ
         })
 
     const title = values.series_title

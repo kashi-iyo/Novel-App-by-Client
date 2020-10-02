@@ -14,7 +14,6 @@ function SeriesCreate(props) {
                 <SeriesForm {...props}
                     method="post"
                     url={`http://localhost:3001/api/v1/novel_series`}
-                    currentUser={props.currentUser}
                     formType="create"
                     dataType="series"
                     button="作成する"
@@ -24,18 +23,16 @@ function SeriesCreate(props) {
     }
 
     const renderer = () => {
-    console.log(props.loggedInStatus)
         // ユーザーがログインしているかどうかを確認
         if (props.loggedInStatus) {
             return seriesCreateForm()
-        } else {
-            return <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
+        } else if (!props.loggedInStatus) {
+            return <ErrorMessages errors={"アクセス権限がありません。"} />
         }
     }
 
     return (
         <div>
-            
             {renderer()}
         </div>
     )
