@@ -16,6 +16,7 @@ import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
 import Spinner from './components/CustomHooks/Spinner/Spinner'
 import UsersPage from './components/Users/UsersPage/UsersPage'
 import UsersEdit from './components/Users/UsersEdit/UsersEdit'
+import TagsSeries from './components/Series/TagsSeries/TagsSeries'
 
 export default function App() {
   const { loggedInStatus, currentUser, isLoading, userId } = useLoggedIn()
@@ -69,12 +70,13 @@ export default function App() {
               <Route
                 exact path="/series_create"
                 render={props => (
-                  <SeriesCreate {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
-                )}
+                  <SeriesCreate {...props}
+                    loggedInStatus={loggedInStatus} /> )}
               />
               <Route
                 exact path={`/novel_series/:id/edit`}
-                render={props => (<SeriesEdit {...props} loggedInStatu={loggedInStatus} />)}
+                render={props => ( <SeriesEdit {...props}
+                  currentUser={currentUser} /> )}
               />
               <Route
                 exact path="/novel_series/:id"
@@ -101,6 +103,12 @@ export default function App() {
                   exact path="/novel_series/:id/novels/:id/edit"
                   render={props => (
                     <NovelsEdit {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
+                  )}
+              />
+              <Route
+                  exact path="/search_series_by_tag/:id"
+                  render={props => (
+                    <TagsSeries {...props}  />
                   )}
                 />
               </Switch>
