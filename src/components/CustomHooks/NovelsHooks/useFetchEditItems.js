@@ -9,7 +9,7 @@ export default function useEditItems({method, url, props}) {
     const [paramId, setParamId] = useState("")
     const [keyword, setKeyword] = useState("")  //handleSubmitにて送るデータを区別するのに使う
     const [errors, setErrors] = useState("")
-    // const [mount, setMount] = useState(false)
+    const [tags, setTags] = useState("")
     const { redirect } = useRedirect({ history: props.history })
 
     useEffect(() => {
@@ -24,6 +24,7 @@ export default function useEditItems({method, url, props}) {
                     // 編集用のシリーズデータを取得
                     if (mount && ok && key === 'edit_of_series') {
                         setItems(series)
+                        setTags(res.series_tags)
                         setKeyword(key)
                     } else if (mount && ok && key === 'edit_of_novels') {
                         let novels = res.novel_in_series
@@ -43,9 +44,9 @@ export default function useEditItems({method, url, props}) {
         }
         getItems()
         return () => { mount = false }
-    }, [method, url, redirect])
+    }, [method, url])
 
     return {
-        items, paramId, keyword, errors
+        items, tags, paramId, keyword, errors
     }
 }
