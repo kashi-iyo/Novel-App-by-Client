@@ -4,10 +4,11 @@ import useRedirect from '../Redirect/useRedirect'
 
 // 投稿系機能のinputフィールドでの挙動を記述
 // →SeriesForm, NovelsFormにて使用
-function useItemsInput({ method, url, sendItems, props, formType, dataType }) {
+function useItemsInput({ method, url, sendItems, props, formType, dataType, editTags }) {
+
 
     const [values, setValues] = useState(() => {
-        // 初期値
+        // シリーズ／小説データ初期値
         const seriesState = { series_title: "", series_description: "" }
         const novelState = { novel_title: "", novel_description: "", novel_content: "" }
         // ローカルストレージから取得
@@ -29,18 +30,16 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType }) {
     })
     const [tags, setTags] = useState(() => {
         const initialTags = []
-        const editTags = []
         const localTags = JSON.parse(localStorage.getItem("tags"))
-        if (!!localTags) {
-            console.log("localtags ok")
+        if (!!localTags.length) {
             return localTags
         } else if (formType === "create" && dataType === "series") {
-            console.log("initialTags ok")
             return initialTags
         } else if (formType === "edit") {
             return editTags
         }
-    }) // タグ
+    })  // タグ
+
     const [release, setRelease] = useState(sendItems ? sendItems.release : false)           // 公開するかどうか
     const [itemSuccess, setItemSuccess] = useState("")        // 成功メッセージ
     const [itemErrors, setItemErrors] = useState("")                 // エラーメッセージ
