@@ -35,6 +35,8 @@ export default function useFetchItems({ method, url }) {
                     } else if (mount && ok && key === 'series_tags') {
                         setTagsId(res.series_id)
                         setSeriesTags(res.series_tags)
+                    } else if (mount && ok && key === "series_in_tag") {
+                        console.log("ok")
                     // 1つのシリーズ取得
                     } else if (mount && ok && key === 'show_of_series') {
                         setNovels(res.novel_in_series)
