@@ -6,7 +6,7 @@ function UsersPageTop({ users, userId, currentUser}) {
 
     return (
         <div>
-            <h2 className="Caption">╋{users.nickname}さんのページ</h2>
+            <h2 className="Caption UsersPage__Caption">╋{users.nickname}さんのページ</h2>
             <div className="UsersPage__Top">
                 <div className="UsersPage__TopWrapper">
                     {/* ユーザー名 */}
@@ -14,10 +14,6 @@ function UsersPageTop({ users, userId, currentUser}) {
                 </div>
                 {/* プロフィール */}
                 <div className="UsersPage__UserProfile">{users.profile}</div>
-                {/* 貰った評価数 */}
-                <div className="UsersPage__Reviews">
-                    <div>獲得評価数： <span>5</span></div>
-                </div>
                 {/* ユーザーが登録しているタグを表示 */}
                 <div className="UsersPage__TagWrapper">
                     <p className="UsersPage__TagHobby">登録している趣味タグ</p>

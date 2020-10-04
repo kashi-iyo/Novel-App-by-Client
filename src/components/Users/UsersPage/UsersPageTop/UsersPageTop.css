@@ -4,3 +4,6 @@ h2 {
 .UsersPage__h2 > h2 {
     margin-bottom: 50px;
 }
+.UsersPage__Caption {
+    width: 100%;
+}
