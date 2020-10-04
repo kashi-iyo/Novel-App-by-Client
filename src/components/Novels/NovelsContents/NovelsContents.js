@@ -7,6 +7,8 @@ import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
 import Flash from '../../CustomHooks/Flash/Flash'
+import FavoritesButton from './Favorites/FavoritesButton'
+
 
 // 小説1話分の内容を表示
 function NovelsContents(props) {
@@ -22,6 +24,7 @@ function NovelsContents(props) {
     })
     const editUrl = `/novel_series/${series.seriesId}/novels/${novels.novelId}/edit`
     const seriesUrl = `/novel_series/${series.seriesId}`
+
 
     const rendererNovelsContents = () => {
         return (
@@ -45,6 +48,7 @@ function NovelsContents(props) {
                                         <Link>{novels.author}</Link>
                                     </span>
                                 </div>
+                                {/* 編集リンク */}
                                 {
                                 props.currentUser === novels.author ?
                                     <Link to={editUrl} className="NovelsContents__Edit" >
@@ -66,14 +70,28 @@ function NovelsContents(props) {
                                 {novels.novel_content}
                             </div>
                         </div>
-                        {/* 小説への評価 */}
-                        <div className="NovelsContents__Options">
-                            <div className="NovelsContents__OptionsFavorites"></div>
-                            <div className="NovelsContents__OptionsReviews"></div>
-                            <div className="NovelsContents__OptionsComments"></div>
-                        </div>
-                        {/* 小説のページネーション */}
                     </div>
+                    {/* 小説への評価 */}
+                    <div className="NovelsContents__Options">
+                        {props.currentUser && props.loggedInStatus &&
+                            <FavoritesButton {...props} />
+                        }
+                        {/* <div className="NovelsContents__Favorites">
+                            {
+                                <div className="FavoritesWrapper" onClick={handleFavorites}>
+                                    <FavoriteIcon fontSize="default" color="action" className="FavoritesIcon" />
+                                    <span className="FavoritesSpan">お気に入りする</span>
+                                </div>
+                            }
+                            <p className="FavoritesCount">数字</p>
+                        </div> */}
+                        <div className="NovelsContents__Reviews"></div>
+                        <div className="NovelsContents__Comments">
+                            <p className="Comments">コメント： </p>
+                        </div>
+                    </div>
+                    {/* 小説のページネーション */}
+                    <div className="Pagination">ページネーション</div>
                     {/* シリーズ内の小説全話を一覧する */}
                     <div className="SeriesContents"></div>
                 </div>

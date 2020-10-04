@@ -1,11 +1,12 @@
 .NovelsContents {
     padding: 15px;
     box-sizing: border-box;
+    /* display: none; */
 }
 
 .NovelsContens__Series {
     text-align: center;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
 }
 .NovelsContents__SeriesTitle {
     font-size: 2.3rem;
@@ -34,6 +35,7 @@
 
 .NovelsContents__Novels {
     text-align: center;
+    margin-bottom: 100px;
 }
 .NovelsContents__NovelsTitle {
     font-size: 1.4rem;
@@ -60,4 +62,31 @@
     text-align: left;
     word-break: break-all;
     white-space: pre-wrap;
+}
+
+.NovelsContents__Options {
+    position: relative;
+    height: 9vh;
+    display: flex;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.NovelsContents__Comments {
+    height: 100%;
+    width: 50%;
+    position: relative;
+}
+.Comments {
+    position:absolute;
+    top: 30%;
+    left:20%;
+}
+
+.Pagination {
+    width: 100%;
+    height: 10vh;
+    margin-bottom: 50px;
+    background: rgba(135, 207, 235, 0.438);
 }
