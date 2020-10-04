@@ -45,9 +45,6 @@ function NovelsFeed(props) {
                             <p className="SeriesFeed__description">{series.series_description}</p>
                         </div>
                         <div className="SeriesFeed__bottom">
-                            <div className="SeriesFeed__reviews">評価数:
-                                <Link className="SeriesFeed__Link">5</Link>
-                            </div>
                             <div className="SeriesFeed__favorites">お気に入り数:
                                 <Link className="SeriesFeed__Link">5</Link>
                             </div>

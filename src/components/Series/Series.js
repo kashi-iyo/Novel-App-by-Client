@@ -15,7 +15,7 @@ function Series(props) {
                 <div className="Series">
                     <div className="Series__top">
                         <div className="Series__title">
-                            <Link to={`novel_series/${seriesId}`} className="Series__titleLink" >{seriesTitle}</Link>
+                        <Link to={`/novel_series/${seriesId}`} className="Series__titleLink" >{seriesTitle}</Link>
                         </div>
                         <div className="Series__WriterWrapper">
                             <div className="Series__writer">作者:
@@ -30,7 +30,6 @@ function Series(props) {
                         <div className="Series__description">{seriesDescription}</div>
                     </div>
                     <div className="Series__bottom">
-                        <div className="Series__reviews">評価数: <Link>5</Link></div>
                         <div className="Series__favorites">お気に入り数: <Link>5</Link></div>
                         <div className="Series__comments">コメント数: <Link>5</Link></div>
                     </div>

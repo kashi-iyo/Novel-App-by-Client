@@ -5,7 +5,6 @@ import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
 
 // 小説作成フォーム
 function NovelsCreate(props) {
-    const [mounted, setMount] = useState(true)
     const seriesId = props.match.params.id
 
     const novelsCreateForm = () => {
@@ -16,9 +15,6 @@ function NovelsCreate(props) {
                     method="post"
                     url={`http://localhost:3001/api/v1/novel_series/${seriesId}/novels`}
                     seriesId={seriesId}
-                    mounted={mounted}
-                    setMount={setMount}
-                    currentUser={props.currentUser}
                     formType="create"
                     dataType="novel"
                     button="追加する"
