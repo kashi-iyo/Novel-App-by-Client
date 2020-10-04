@@ -1,14 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import UsersOneSeries from '../UsersOneSeries/UsersOneSeries'
 import './UsersSeries.css'
 
 function UsersSeries(props) {
 
     return (
         <div className="UsersSeries">
-            <li className="UsersSeris__Li">
-                <Link to={`novel_series/${props.series.id}`} >{props.series.series_title}</Link>
-            </li>
+            <UsersOneSeries
+                seriesId={String(props.series.id)}
+                author={props.series.author}
+                seriesTitle={props.series.series_title}
+                count={props.series.count}
+                release={props.series.release}
+            />
         </div>
     )
 }
