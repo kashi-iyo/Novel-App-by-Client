@@ -90,8 +90,8 @@ export default function App() {
                   render={props => (<NovelsFeed {...props} currentUser={currentUser} loggedInStatus={loggedInStatus}  />)}
                 />
                 <Route
-                  exact path="/novel_series/:id/novels/:id"
-                  render={props => (<NovelsContents {...props} currentUser={currentUser} />)}
+                  exact path="/novel_series/:id/novels/:novel_id"
+                  render={props => (<NovelsContents {...props} loggedInStatus={loggedInStatus} currentUser={currentUser} userId={userId} />)}
                 />
                 <Route
                   exact path="/novel_series/:id/add_novels"

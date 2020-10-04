@@ -1,6 +1,8 @@
   body {
     --buttonColor: rgb(255, 255, 255);
     --buttonBackground:  rgba(0, 143, 168, 0.9);
+    --linkColor: rgb(0, 103, 143);
+    --borderColor: rgba(202, 202, 202, 0.1);
   }
 
   html {
@@ -40,7 +42,7 @@
     word-break: break-all;
     letter-spacing: 0.5px;
     /* background-color: rgba(173, 214, 231, 0.2); */
-    color: rgb(0, 103, 143);
+    color: var(--linkColor);
     border-radius: 3px;
   }
 
@@ -66,4 +68,8 @@
   font-size: 1.3rem;
   font-weight: 600;
   width: 95%;
+  padding: 5px 0;
+  padding-right: 5px;
+  box-sizing: border-box;
+  word-break: break-all;
 }
