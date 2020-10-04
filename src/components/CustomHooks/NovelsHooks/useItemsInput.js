@@ -31,11 +31,11 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
     const [tags, setTags] = useState(() => {
         const initialTags = []
         const localTags = JSON.parse(localStorage.getItem("tags"))
-        if (!!localTags.length) {
+        if (!!localTags) {
             return localTags
         } else if (formType === "create" && dataType === "series") {
             return initialTags
-        } else if (formType === "edit") {
+        } else if (formType === "edit" && dataType === 'series') {
             return editTags
         }
     })  // タグ
@@ -113,7 +113,6 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
                     novel_description: values.novel_description,
                     novel_content: values.novel_content,
                     release: release,
-                    novel_tag_name: tags.join()
                 }
             }
         }
