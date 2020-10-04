@@ -43,6 +43,8 @@ export default function useEditItems({method, url, props}) {
                 .catch(error => console.log(error))
         }
         getItems()
+        localStorage.removeItem("key")
+        localStorage.removeItem("tags")
         return () => { mount = false }
     }, [method, url])
 

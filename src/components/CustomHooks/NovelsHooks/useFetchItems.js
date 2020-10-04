@@ -30,13 +30,16 @@ export default function useFetchItems({ method, url }) {
                         setCount(res.series_count)
                         setItems({ ...res.novel_series })
                         setTags({ ...res.tags })
-                        // setSeriesTags({ ...res.tags_in_series })
                         setIsLoading(false)
                     } else if (mount && ok && key === 'series_tags') {
                         setTagsId(res.series_id)
                         setSeriesTags(res.series_tags)
+                        setIsLoading(false)
                     } else if (mount && ok && key === "series_in_tag") {
-                        console.log("ok")
+                        setTags(res.tag)
+                        setCount(res.series_count)
+                        setItems({ ...res.series_in_tag })
+                        setIsLoading(false)
                     // 1つのシリーズ取得
                     } else if (mount && ok && key === 'show_of_series') {
                         setNovels(res.novel_in_series)
@@ -63,6 +66,8 @@ export default function useFetchItems({ method, url }) {
                 })
         }
         getItems()
+        localStorage.removeItem("key")
+        localStorage.removeItem("tags")
         return () => { mount = false }
     }, [method, url, setItems, setIsLoading])
 
