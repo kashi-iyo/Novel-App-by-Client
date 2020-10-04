@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+
 import './UsersPage.css'
 import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
@@ -8,6 +8,7 @@ import UsersPageTop from './UsersPageTop/UsersPageTop'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
+import UsersFavoriteSeries from '../UsersFavoriteSeries/UsersFavoriteSeries'
 
 function UsersPage(props) {
     const {
@@ -15,6 +16,7 @@ function UsersPage(props) {
         usersSeries,
         usersErrors,
         seriesCount,
+        favoriteSeries,
         handleFormDisplay, } = useFetchUserItems({
             method: "get",
             url: `http://localhost:3001/users/${props.userId}`,
@@ -54,13 +56,11 @@ function UsersPage(props) {
                                     <TabPanel>
                                         <ul className="UsersPage__UsersFavoritesUl">
                                             {/* お気に入り作品達 */}
-                                            <p><Link>aaaaaa</Link></p>
-                                            <p><Link>aaaaaa</Link></p>
-                                            <p><Link>aaaaaa</Link></p>
-                                            <p><Link>aaaaaa</Link></p>
-                                            <p><Link>aaaaaa</Link></p>
-                                            <p><Link>aaaaaa</Link></p>
-                                            <p><Link>aaaaaa</Link></p>
+                                            {favoriteSeries &&
+                                                Object.keys(favoriteSeries).map(key => (
+                                                    <UsersFavoriteSeries key={key} favoriteSeries={favoriteSeries[key]} />
+                                                ))
+                                            }
                                         </ul>
                                     </TabPanel>
                                 </div>
