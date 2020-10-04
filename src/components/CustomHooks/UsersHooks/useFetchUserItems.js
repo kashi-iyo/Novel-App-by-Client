@@ -12,6 +12,7 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
     const [errors, setErrors] = useState("")
     const [usersErrors, setUsersErrors] = useState("")
     const [seriesCount, setSeriesCount] = useState("")
+    const [favoriteSeries, setFavoriteSeries] = useState("")
     const { redirect } = useRedirect({history: props.history})
 
     const handleChange = e => {
@@ -33,6 +34,7 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
                         setUsers(res.user)
                         setUsersSeries(res.users_series)
                         setSeriesCount(res.series_count)
+                        setFavoriteSeries(res.favorite_series)
                     } else if (mount && ok && res.keyword === "edit_of_user") {
                         setEditUsers(res.user)
                     } else if (mount && res.status === 401) {
@@ -52,7 +54,6 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
         e.preventDefault()
         axios[updateMethod](updateUrl, { user: editUsers }, { withCredentials: true })
             .then(response => {
-                console.log(response)
                 let res = response.data
                 if (res.status === "ok" && res.keyword === "update_of_user") {
                     console.log("ok")
@@ -73,6 +74,7 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
         usersSeries,
         usersErrors,
         seriesCount,
+        favoriteSeries,
         handleChange,
         handleSubmit,
         success,
