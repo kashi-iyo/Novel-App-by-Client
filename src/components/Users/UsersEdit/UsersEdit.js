@@ -1,16 +1,13 @@
 import React from 'react'
+import classNames from 'classnames'
 import './UsersEdit.css'
 import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
 import Flash from '../../CustomHooks/Flash/Flash'
+import InputTag from '../../Series/SeriesTagForm/SeriesTagForm'
 
+// ユーザー編集フォーム
 function UsersEdit(props) {
-    const {
-        editUsers,
-        handleChange,
-        handleSubmit,
-        success,
-        errors
-    } = useFetchUserItems({
+    const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit, success, errors } = useFetchUserItems({
         method: "get",
         url: `http://localhost:3001/users/${props.userId}/edit`,
         updateMethod: "patch",
@@ -18,13 +15,16 @@ function UsersEdit(props) {
         userId: props.userId,
         props: props
     })
+    const limitErrors = usersTags.length > 5 ? true : false
+    const buttonClass = classNames("button", { "noButton":usersTags.length > 5 })
 
     return (
         <div>
             <Flash Success={success} Errors={errors} />
             <div className="UsersPageEditForm">
-                <h2 className="Caption">╋プロフィール編集</h2>
-                <form onSubmit={handleSubmit} >
+                <h2 className="Caption UsersCaption">╋プロフィール編集</h2>
+                {/* Enterでの送信阻止 */}
+                <form onSubmit={e => handleFalse(e)} className="UsersEditForm" >
                     <div className="editNicknameWrapper">
                         <label htmlFor="nickname">ニックネーム</label>
                         <input
@@ -47,15 +47,16 @@ function UsersEdit(props) {
                         />
                     </div>
                     <div className="editHobbyTagWrapper">
-                        <label htmlFor="hobbyTag">趣味タグ（5つまで追加できます。）</label>
-                        <input
-                            type="text"
-                            id="hobbyTag"
-                            className="editHobbyTag"
+                        {/* タグフォーム */}
+                        <InputTag
+                            tags={usersTags}
+                            addTags={addTags}
+                            removeTags={removeTags}
+                            tagTitle="趣味タグ（5個まで）"
+                            limitErrors={limitErrors}
                         />
-                        <p>（記入例： ライトノベル,野球,React.js,...）</p>
                     </div>
-                    <button type="submit" className="button">変更を保存する</button>
+                    <button type="button" onClick={handleSubmit} className={buttonClass}>変更を保存する</button>
                 </form>
             </div>
         </div>

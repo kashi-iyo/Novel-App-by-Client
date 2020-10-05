@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './UsersOneSeries.css'
 
+// ユーザーページに表示するシリーズ1件
 function UsersOneSeries({seriesId, seriesTitle, author, release}) {
     const handleNovel = () => {
         return (

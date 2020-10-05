@@ -10,14 +10,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import UsersFavoriteSeries from '../UsersFavoriteSeries/UsersFavoriteSeries'
 
+// ユーザーページ
 function UsersPage(props) {
-    const {
-        users,
-        usersSeries,
-        usersErrors,
-        seriesCount,
-        favoriteSeries,
-        handleFormDisplay, } = useFetchUserItems({
+    const { users, usersTags, usersSeries, usersErrors, seriesCount, favoriteSeries, favoriteSeriesCount } = useFetchUserItems({
             method: "get",
             url: `http://localhost:3001/users/${props.userId}`,
             editUrl: `http://localhost:3001/users/${props.userId}/edit`,
@@ -28,22 +23,24 @@ function UsersPage(props) {
         <React.Fragment>
             {
                 usersErrors ? <ErrorMessages loggedInStatus={props.loggedInStatus} errors={usersErrors} /> :
-                <div className="UsersPage">
+                    <div className="UsersPage">
+                    {/* ユーザーページ上部 */}
                     <UsersPageTop {...props}
                         users={users}
                         userId={props.userId}
-                        handleFormDisplay={handleFormDisplay}
+                        usersTags={usersTags}
                         currentUser={props.currentUser}
                     />
                     <div className="UsersPage__Bottom">
                         <div className="UsersPage__BottomWrapper">
                             <Tabs>
-                                {/* 投稿作品のシリーズタイトル */}
+                                {/* 投稿作品とお気に入りのシリーズタイトル */}
                                 <div className="UsersPage__PostedSeriesWrapper">
                                     <TabList>
                                         <Tab><p className="Tab">投稿作品{seriesCount && <span>（{seriesCount}）</span>}</p></Tab>
-                                        <Tab><p className="Tab">お気に入り作品</p></Tab>
+                                        <Tab><p className="Tab">お気に入り作品{favoriteSeriesCount && <span>（{favoriteSeriesCount}）</span>}</p></Tab>
                                     </TabList>
+                                    {/* 投稿作品たち */}
                                     <TabPanel>
                                         <ul>
                                             {
@@ -53,9 +50,9 @@ function UsersPage(props) {
                                             }
                                         </ul>
                                     </TabPanel>
+                                    {/* お気に入り作品達 */}
                                     <TabPanel>
                                         <ul className="UsersPage__UsersFavoritesUl">
-                                            {/* お気に入り作品達 */}
                                             {favoriteSeries &&
                                                 Object.keys(favoriteSeries).map(key => (
                                                     <UsersFavoriteSeries key={key} favoriteSeries={favoriteSeries[key]} />

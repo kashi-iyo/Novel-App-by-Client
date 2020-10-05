@@ -55,3 +55,11 @@
     width: 100%;
     margin-bottom: 10px;
 }
+
+.limitErrors {
+    font-size: 0.9rem;
+    background:rgba(201, 201, 201, 0.3);
+    padding: 5px;
+    border-radius: 3px;
+    text-align: center;
+}

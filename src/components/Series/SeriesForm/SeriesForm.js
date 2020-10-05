@@ -117,7 +117,13 @@ function SeriesForm(props) {
                     {/* ========== */}
 
                     {/* タグ追加フォーム */}
-                    <SeriesTagForm {...props} tags={tags} addTags={addTags} removeTags={removeTags} />
+                    <SeriesTagForm
+                        {...props}
+                        tags={tags}
+                        addTags={addTags}
+                        removeTags={removeTags}
+                        tagTitle="タグ追加"
+                    />
 
                     {/* 公開チェックボックス */}
                     <div className="releaseWrapper">

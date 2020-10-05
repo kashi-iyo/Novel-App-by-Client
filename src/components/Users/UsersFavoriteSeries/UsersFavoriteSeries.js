@@ -2,6 +2,7 @@ import React from 'react'
 import UsersOneSeries from '../UsersOneSeries/UsersOneSeries'
 import './UsersFavoriteSeries.css'
 
+// ユーザーがお気に入りにしたシリーズ
 function UsersFavoriteSeries(props) {
     return (
         <div className="UsersFavoritesSeries">

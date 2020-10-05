@@ -1,8 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
+import OneTags from '../../CustomHooks/Tags/OneTags/OneTags'
 import './SeriesTags.css'
 
+// シリーズが所有するタグ
 function SeriesTags(props) {
     const id = String(props.seriesId)
     const { seriesTags, tagsId } = useFetchItems({
@@ -15,12 +16,10 @@ function SeriesTags(props) {
             {
                 tagsId === id &&
                 Object.keys(seriesTags).map(key => {
-                    let tagName = seriesTags[key].novel_tag_name
-                    let tagId = String(seriesTags[key].id)
+                    let tag = seriesTags[key].novel_tag_name
+                    let id = String(seriesTags[key].id)
                     return (
-                        <Link key={key} to={`/search_series_by_tag/${tagId}`} className="SeriesTags__Link">
-                            <li  className="SeriesTags__Li">{tagName}</li>
-                        </Link>
+                        <OneTags key={key} tag={tag} link={`/search_series_by_tag/${id}`}  />
                     )
                 })
             }

@@ -1,9 +1,38 @@
 h2 {
     margin: 0;
 }
-.UsersPage__h2 > h2 {
+
+.UsersPage__Top {
+    width: 95%;
+    margin: 0 auto;
+    padding: 20px 10px;
+    box-sizing: border-box;
     margin-bottom: 50px;
 }
-.UsersPage__Caption {
-    width: 100%;
+
+.UsersPage__TagWrapper {
+    padding: 7px;
+    box-sizing: border-box;
+}
+.UsersPage__TagHobby {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.UsersPage__TagUl {
+    display: flex;
+    border-radius: 3px;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+
+.messageToUsers {
+    font-weight: 600;
+    background: var(--borderColor);
+    color: var(--buttonBackground);
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    text-align: center;
 }

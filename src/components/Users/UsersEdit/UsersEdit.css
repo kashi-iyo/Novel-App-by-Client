@@ -1,18 +1,25 @@
 .UsersPageEditForm {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 
+.UsersEditForm {
+    width: 95%;
+    margin: 0 auto;
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+
 .editNicknameWrapper {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 .editProfileWrapper {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 .editHobbyTagWrapper {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
 textarea {
