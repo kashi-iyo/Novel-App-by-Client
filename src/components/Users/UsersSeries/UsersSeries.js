@@ -2,6 +2,7 @@ import React from 'react'
 import UsersOneSeries from '../UsersOneSeries/UsersOneSeries'
 import './UsersSeries.css'
 
+// ユーザーが投稿したシリーズ
 function UsersSeries(props) {
 
     return (
