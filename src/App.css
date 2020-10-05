@@ -2,7 +2,8 @@
     --buttonColor: rgb(255, 255, 255);
     --buttonBackground:  rgba(0, 143, 168, 0.9);
     --linkColor: rgb(0, 103, 143);
-    --borderColor: rgba(202, 202, 202, 0.1);
+    --borderColor: rgba(202, 202, 202, 0.2);
+    --hobbyBackground: rgba(0, 168, 84, 0.9);
   }
 
   html {
@@ -61,7 +62,7 @@
 
 .Caption {
   margin: 0 auto;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   background-color:var(--buttonBackground);
   color: var(--buttonColor);
   border-radius: 3px;

@@ -17,11 +17,12 @@ import Spinner from './components/CustomHooks/Spinner/Spinner'
 import UsersPage from './components/Users/UsersPage/UsersPage'
 import UsersEdit from './components/Users/UsersEdit/UsersEdit'
 import TagsSeries from './components/Series/TagsSeries/TagsSeries'
+import TagHasUsers from './components/Users/TagHasUsers/TagHasUsers'
 
 export default function App() {
   const { loggedInStatus, currentUser, isLoading, userId } = useLoggedIn()
 
-  
+
   return (
     <div className="App">
       <React.Fragment>
@@ -65,14 +66,21 @@ export default function App() {
                       userId={userId} />
                   )}
                 />
-
-              {/* 小説系機能へのルーティング =================================== */}
+              <Route
+                    exact path="/tag_has_users/:id"
+                    render={props => (
+                      <TagHasUsers {...props}  />
+                    )}
+                />
+            {/* 小説系機能へのルーティング =================================== */}
+              {/* シリーズ作成 */}
               <Route
                 exact path="/series_create"
                 render={props => (
                   <SeriesCreate {...props}
                     loggedInStatus={loggedInStatus} /> )}
               />
+              {/* シリーズ編集 */}
               <Route
                 exact path={`/novel_series/:id/edit`}
                 render={props => ( <SeriesEdit {...props}
@@ -85,31 +93,38 @@ export default function App() {
                   loggedInStatus={loggedInStatus} />)}
               />
               <Switch>
+                {/* シリーズ詳細 */}
                 <Route
                   exact path="/novel_series/:id"
-                  render={props => (<NovelsFeed {...props} currentUser={currentUser} loggedInStatus={loggedInStatus}  />)}
+                  render={props => (<NovelsFeed {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
+                )}
                 />
+                {/* 小説1話分 */}
                 <Route
                   exact path="/novel_series/:id/novels/:novel_id"
-                  render={props => (<NovelsContents {...props} loggedInStatus={loggedInStatus} currentUser={currentUser} userId={userId} />)}
+                  render={props => (<NovelsContents {...props} loggedInStatus={loggedInStatus} currentUser={currentUser} userId={userId} />
+                )}
                 />
+                {/* 小説作成 */}
                 <Route
                   exact path="/novel_series/:id/add_novels"
                   render={props => (
                     <NovelsCreate {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
                   )}
                 />
+                {/* 小説編集 */}
                 <Route
                   exact path="/novel_series/:id/novels/:id/edit"
                   render={props => (
                     <NovelsEdit {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
                   )}
-              />
-              <Route
-                  exact path="/search_series_by_tag/:id"
-                  render={props => (
-                    <TagsSeries {...props}  />
-                  )}
+                />
+                {/* 特定のタグを持つシリーズ */}
+                <Route
+                    exact path="/search_series_by_tag/:id"
+                    render={props => (
+                      <TagsSeries {...props}  />
+                    )}
                 />
               </Switch>
               {/* ============================================================== */}
