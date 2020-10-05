@@ -1,12 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import OneTags from '../../../CustomHooks/Tags/OneTags/OneTags'
 import './UsersPageTop.css'
 
-function UsersPageTop({ users, userId, currentUser}) {
+// ユーザーページの上部
+function UsersPageTop({ users, userId, usersTags, currentUser}) {
 
     return (
         <div>
-            <h2 className="Caption UsersPage__Caption">╋{users.nickname}さんのページ</h2>
+            <h2 className="Caption UsersCaption">╋{users.nickname}さんのページ</h2>
             <div className="UsersPage__Top">
                 <div className="UsersPage__TopWrapper">
                     {/* ユーザー名 */}
@@ -19,15 +21,22 @@ function UsersPageTop({ users, userId, currentUser}) {
                     <p className="UsersPage__TagHobby">登録している趣味タグ</p>
                     <ul className="UsersPage__TagUl">
                         {/* タグ達 */}
-                        <li className="UsersPage__tagLi"><Link className="UsersPage__tagLink">タグ</Link></li>
-                        <li className="UsersPage__tagLi"><Link className="UsersPage__tagLink">タグ</Link></li>
-                        <li className="UsersPage__tagLi"><Link className="UsersPage__tagLink">タグ</Link></li>
+                        {
+                            Object.keys(usersTags).map(key => {
+                                let id = usersTags[key].id
+                                let tag = usersTags[key].user_tag_name
+                                return (
+                                    <OneTags key={key} link={`/tag_has_users/${id}`} tag={tag} />
+                                )
+                            })
+                        }
                     </ul>
                     {
                         currentUser === users.nickname &&
-                        <p className="messageToUsers">趣味タグを登録して、同じ趣味を持つユーザーと繋がろう</p>
+                        <p className="messageToUsers">好みのジャンル・アニメなどをタグ登録して<br></br>同じ趣味を持つユーザーと繋がろう</p>
                     }
                 </div>
+                {/* 編集ボタン */}
                 {
                     currentUser === users.nickname &&
                     <div className="UsersPage__EditWrapper">
