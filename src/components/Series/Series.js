@@ -34,6 +34,7 @@ function Series(props) {
                         <div className="Series__comments">コメント数: <Link>5</Link></div>
                     </div>
                     <div className="Series__tagWrap">
+                        {/* シリーズが所有するタグ */}
                         <ul className="Series__tagUl">
                             <SeriesTags {...props} seriesId={seriesId} />
                         </ul>
