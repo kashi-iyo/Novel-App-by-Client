@@ -9,11 +9,12 @@ import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
 import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
 import Flash from '../../CustomHooks/Flash/Flash'
-import SeriesTags from '../../Series/SeriesTags/SeriesTags'
+import SeriesTags from '../../Tags/SeriesTags/SeriesTags'
+import Spinner from '../../CustomHooks/Spinner/Spinner'
 
 function NovelsFeed(props) {
     const params = props.match.params.id
-    const { novels, series, errors } = useFetchItems({
+    const { novels, series, errors, isLoading } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1/novel_series/${params}`
     })
@@ -22,10 +23,13 @@ function NovelsFeed(props) {
         keyword: "series",
         history: props.history
     })
-    const seriesId = series.id
+    const { favoritesCount } = useFetchItems({
+        method: "get",
+        url: `http://localhost:3001/api/v1/series_has_favorites/${params}`
+    })
+    const seriesId = String(series.id)
     const editUrl = `/novel_series/${seriesId}/edit`    //シリーズ編集リンク
     const addUrl = `/novel_series/${seriesId}/add_novels`    //小説追加リンク
-
 
     // シリーズデータを表示
     const handleNovelsFeed = () => {
@@ -38,7 +42,7 @@ function NovelsFeed(props) {
                         <div className="SeriesFeed__top">
                             <p className="SeriesFeed__title">{series.series_title}</p>
                             <p className="SeriesFeed__writer">作者:
-                                <Link className="SeriesFeed__writerName">{series.author}</Link>
+                                <Link to={`/users/${series.user_id}`} className="SeriesFeed__writerName">{series.author}</Link>
                             </p>
                         </div>
                         <div className="SeriesFeed__center">
@@ -46,10 +50,10 @@ function NovelsFeed(props) {
                         </div>
                         <div className="SeriesFeed__bottom">
                             <div className="SeriesFeed__favorites">お気に入り数:
-                                <Link className="SeriesFeed__Link">5</Link>
+                                <span>{String(favoritesCount)}</span>
                             </div>
                             <div className="SeriesFeed__comments">コメント数:
-                                <Link className="SeriesFeed__Link">5</Link>
+                                <span></span>
                             </div>
                         </div>
                         <div className="SeriesFeed__tagWrap">
@@ -95,7 +99,7 @@ function NovelsFeed(props) {
                         confirmation={confirmation}
                         handleOkRemove={handleOkRemove}
                         handleNoRemove={handleNoRemove}
-                    />
+                />
             </React.Fragment>
         )
     }
@@ -112,7 +116,7 @@ function NovelsFeed(props) {
 
     return (
         <div>
-            {handleRenderer()}
+            {isLoading ? <Spinner /> : handleRenderer()}
         </div>
     )
 }

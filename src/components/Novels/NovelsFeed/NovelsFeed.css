@@ -57,12 +57,16 @@
 /* シリーズUI下部 */
 .SeriesFeed__bottom {
     display: flex;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 600;
 }
 .SeriesFeed__reviews, .SeriesFeed__favorites, .SeriesFeed__comments {
     margin-right: 15px;
     margin-bottom: 15px;
+}
+.SeriesFeed__favorites > span {
+    margin-left: 5px;
 }
 
 /* タグ */
