@@ -1,45 +1,50 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import SeriesTags from './SeriesTags/SeriesTags'
+import useFetchItems from '../CustomHooks/NovelsHooks/useFetchItems'
+import SeriesTags from '../Tags/SeriesTags/SeriesTags'
 import './Series.css'
 
-function Series(props) {
-    const seriesId = props.items.id
-    const seriesTitle = props.items.series_title
-    const seriesDescription = props.items.series_description
-    const author = props.items.author
-    const release = props.items.release
+function Series({props, userId, id, title, description, author, release, count}) {
+    const { favoritesCount } = useFetchItems({
+        method: "get",
+        url: `http://localhost:3001/api/v1/series_has_favorites/${id}`
+    })
 
     const handleNovel = () => {
         return (
-                <div className="Series">
-                    <div className="Series__top">
-                        <div className="Series__title">
-                        <Link to={`/novel_series/${seriesId}`} className="Series__titleLink" >{seriesTitle}</Link>
+            <div className="Series">
+                <div className="Series__top">
+                    <div className="Series__title">
+                    <Link to={`/novel_series/${id}`} className="Series__titleLink" >{title}</Link>
+                    </div>
+                    <div className="Series__WriterWrapper">
+                        <div className="Series__writer">作者:
+                            <Link to={`/users/${userId}`} className="Series__writerName">
+                                {author}
+                            </Link>
                         </div>
-                        <div className="Series__WriterWrapper">
-                            <div className="Series__writer">作者:
-                                <Link className="Series__writerName"> {author}</Link>
-                            </div>
-                            <div className="Series__count">
-                                （全 {props.items.count} 話）
-                            </div>
+                        <div className="Series__count">
+                            （全 {count} 話）
                         </div>
-                    </div>
-                    <div className="Series__center">
-                        <div className="Series__description">{seriesDescription}</div>
-                    </div>
-                    <div className="Series__bottom">
-                        <div className="Series__favorites">お気に入り数: <Link>5</Link></div>
-                        <div className="Series__comments">コメント数: <Link>5</Link></div>
-                    </div>
-                    <div className="Series__tagWrap">
-                        {/* シリーズが所有するタグ */}
-                        <ul className="Series__tagUl">
-                            <SeriesTags {...props} seriesId={seriesId} />
-                        </ul>
                     </div>
                 </div>
+                <div className="Series__center">
+                    <div className="Series__description">{description}</div>
+                </div>
+                <div className="Series__bottom">
+                <div className="Series__favorites">お気に入り数:
+                    <span>{String(favoritesCount)}</span>
+                </div>
+                <div className="Series__comments">コメント数:
+                    </div>
+                </div>
+                <div className="Series__tagWrap">
+                    {/* シリーズが所有するタグ */}
+                    <ul className="Series__tagUl">
+                        <SeriesTags {...props} seriesId={id} />
+                    </ul>
+                </div>
+            </div>
         )
     }
 

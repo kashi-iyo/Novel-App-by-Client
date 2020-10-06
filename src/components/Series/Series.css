@@ -31,6 +31,7 @@ a {
 }
 .Series__writer {
     font-size: 0.8rem;
+    font-weight: 600;
 }
 .Series__writerName {
     font-size: 0.8rem;
@@ -66,6 +67,10 @@ a {
     margin-right: 10px;
     margin-bottom: 20px;
     font-size: 0.9rem;
+    font-weight: 600;
+}
+.Series__favorites > span {
+    margin-left: 5px;
 }
 
 .Series__tagWrap {
