@@ -1,22 +1,20 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
-import useLoggedIn from "../Auth/useLoggedIn"
 
 // Home, Series, NovelsFeed, Novels, NovelsContents にて使用
 export default function useFetchItems({ method, url }) {
     const [items, setItems] = useState("")
     const [count, setCount] = useState("")
+    const [favoritesCount, setFavoritesCount] = useState("")
     const [tags, setTags] = useState("")
     const [seriesTags, setSeriesTags] = useState("")
     const [tagsId, setTagsId] = useState("")
     const [novels, setNovels] = useState("")
     const [series, setSeries] = useState("")
     const [errors, setErrors] = useState("")
-    // const [mount, setMount] = useState(false)
-    const { isLoading, setIsLoading } = useLoggedIn()
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        // setMount(true)
         let mount = true
         const getItems = () => {
             axios[method](url, { withCredentials: true })
@@ -29,12 +27,20 @@ export default function useFetchItems({ method, url }) {
                     if (mount && ok && key === 'index_of_series') {
                         setCount(res.series_count)
                         setItems({ ...res.novel_series })
+                        setIsLoading(false)
+                    } else if (mount && ok && key === "series_has_favorites") {
+                        setFavoritesCount(res.count)
+                        setIsLoading(false)
+                    // タグフィード
+                    } else if (mount && ok && key === "tags_feed") {
                         setTags({ ...res.tags })
                         setIsLoading(false)
+                    // シリーズが所有するタグ
                     } else if (mount && ok && key === 'series_tags') {
                         setTagsId(res.series_id)
                         setSeriesTags(res.series_tags)
                         setIsLoading(false)
+                    // タグに紐付けられたシリーズ
                     } else if (mount && ok && key === "series_in_tag") {
                         setTags(res.tag)
                         setCount(res.series_count)
@@ -74,5 +80,5 @@ export default function useFetchItems({ method, url }) {
 
 
     return {
-        items, count, tags, seriesTags, tagsId, novels, series, errors, isLoading }
+        items, count, favoritesCount, tags, seriesTags, tagsId, novels, series, errors, isLoading }
 }
