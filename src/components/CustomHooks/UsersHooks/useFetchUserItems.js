@@ -15,6 +15,7 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
     const [seriesCount, setSeriesCount] = useState("")
     const [favoriteSeries, setFavoriteSeries] = useState("")
     const [favoriteSeriesCount, setFavoriteSeriesCount] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
     const { redirect } = useRedirect({history: props.history})
 
     const handleChange = e => {
@@ -30,6 +31,7 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
         const getUserItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
+                    setIsLoading(true)
                     let res = response.data
                     let ok = res.status === 200
                     if (mount && ok && res.keyword === "show_of_user") {
@@ -39,18 +41,24 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
                         setSeriesCount(res.series_count)
                         setFavoriteSeries(res.favorite_series)
                         setFavoriteSeriesCount(res.favorite_series_count)
+                        setIsLoading(false)
                     } else if (mount && ok && res.keyword === "edit_of_user") {
                         setEditUsers(res.user)
                         setUsersTags(res.user_tags)
+                        setIsLoading(false)
                     } else if (mount && ok && res.keyword === "tag_has_users") {
                         setUsersTags(res.tags)
                         setUsers(res.users)
+                        setIsLoading(false)
                     } else if (mount && ok && res.keyword === "tags_feed") {
                         setUsersTags(res.tags)
+                        setIsLoading(false)
                     } else if (mount && res.status === 401) {
                         setUsersErrors(res.errors)
+                        setIsLoading(false)
                     } else if (mount && res.status === 500) {
                         setUsersErrors(res.errors)
+                        setIsLoading(false)
                     }
                 })
                 .catch(err => console.log(err))
@@ -123,7 +131,8 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
         handleChange,
         handleSubmit,
         success,
-        errors
+        errors,
+        isLoading
     }
 
 }
