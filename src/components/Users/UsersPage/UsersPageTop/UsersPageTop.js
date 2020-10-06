@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import OneTags from '../../../CustomHooks/Tags/OneTags/OneTags'
+import OneTags from '../../../Tags/OneTags/OneTags'
 import './UsersPageTop.css'
 
 // ユーザーページの上部
@@ -8,7 +8,7 @@ function UsersPageTop({ users, userId, usersTags, currentUser}) {
 
     return (
         <div>
-            <h2 className="Caption UsersCaption">╋{users.nickname}さんのページ</h2>
+            <h1 className="Caption">╋{users.nickname}さんのページ</h1>
             <div className="UsersPage__Top">
                 <div className="UsersPage__TopWrapper">
                     {/* ユーザー名 */}

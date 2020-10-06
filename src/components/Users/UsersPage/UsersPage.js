@@ -9,19 +9,21 @@ import UsersPageTop from './UsersPageTop/UsersPageTop'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import UsersFavoriteSeries from '../UsersFavoriteSeries/UsersFavoriteSeries'
+import Spinner from '../../CustomHooks/Spinner/Spinner'
 
 // ユーザーページ
 function UsersPage(props) {
-    const { users, usersTags, usersSeries, usersErrors, seriesCount, favoriteSeries, favoriteSeriesCount } = useFetchUserItems({
+    const userId = props.match.params.id
+    const { users, usersTags, usersSeries, usersErrors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
             method: "get",
-            url: `http://localhost:3001/users/${props.userId}`,
-            editUrl: `http://localhost:3001/users/${props.userId}/edit`,
+            url: `http://localhost:3001/users/${userId}`,
+            editUrl: `http://localhost:3001/users/${userId}/edit`,
             props: props,
     })
 
     return (
         <React.Fragment>
-            {
+            {isLoading ? <Spinner /> :
                 usersErrors ? <ErrorMessages loggedInStatus={props.loggedInStatus} errors={usersErrors} /> :
                     <div className="UsersPage">
                     {/* ユーザーページ上部 */}
