@@ -8,15 +8,13 @@ import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
 
 function Header(props) {
     const { handleLogout, userId } = useLoggedIn()
-    const [userMenu, setUserMenu] = useState("defaultMenu")
+    const [menu, setMenu] = useState(false)
 
     const handleDown = () => {
-        if (userMenu === "defaultMenu") {
-            setUserMenu("")
-            setUserMenu("downMenu")
-        } else if (userMenu === "downMenu") {
-            setUserMenu("")
-            setUserMenu("defaultMenu")
+        if (menu) {
+            setMenu(false)
+        } else if (!menu) {
+            setMenu(true)
         }
     }
 
@@ -44,10 +42,13 @@ function Header(props) {
                         <Link onClick={handleDown} className="nickname">
                             {props.currentUser}▼
                         </Link>
-                        <ul className={userMenu}>
-                            <li><Link to={`/users/${userId}`}>マイページ</Link></li>
-                            <li><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
-                        </ul>
+                        {
+                            menu &&
+                            <ul className="downMenu">
+                                <li><Link to={`/users/${userId}`}>マイページ</Link></li>
+                                <li><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
+                            </ul>
+                        }
                     </div>
                 </div>
             )
@@ -81,6 +82,8 @@ function Header(props) {
                     <li><Link to="/">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
                     {props.currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
+                    <li><Link to="/users_tags_feed">趣味タグクラウド</Link></li>
+                    <li><Link to="/series_tags_feed">小説タグクラウド</Link></li>
                 </ul>
             </header>
         </div>
