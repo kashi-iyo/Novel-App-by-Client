@@ -16,8 +16,10 @@ import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
 import Spinner from './components/CustomHooks/Spinner/Spinner'
 import UsersPage from './components/Users/UsersPage/UsersPage'
 import UsersEdit from './components/Users/UsersEdit/UsersEdit'
-import TagsSeries from './components/Series/TagsSeries/TagsSeries'
-import TagHasUsers from './components/Users/TagHasUsers/TagHasUsers'
+import TagsSeries from './components/Tags/TagsSeries/TagsSeries'
+import TagHasUsers from './components/Tags/TagHasUsers/TagHasUsers'
+import UsersTagsFeed from './components/Tags/UsersTagsFeed/UsersTagsFeed'
+import SeriesTagsFeed from './components/Tags/SeriesTagsFeed/SeriesTagsFeed'
 
 export default function App() {
   const { loggedInStatus, currentUser, isLoading, userId } = useLoggedIn()
@@ -26,7 +28,7 @@ export default function App() {
   return (
     <div className="App">
       <React.Fragment>
-        {!isLoading &&
+        {isLoading ? <Spinner /> :
           <BrowserRouter>
             <Route render={props => (
               <Header {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
@@ -53,7 +55,9 @@ export default function App() {
               <Route
                 exact path="/users/:id"
                 render={props => (
-                  <UsersPage {...props} loggedInStatus={loggedInStatus} currentUser={currentUser} userId={userId} />
+                  <UsersPage {...props}
+                    loggedInStatus={loggedInStatus}
+                    currentUser={currentUser} />
                 )}
               />
               <Route
@@ -67,11 +71,17 @@ export default function App() {
                   )}
                 />
               <Route
-                    exact path="/tag_has_users/:id"
-                    render={props => (
-                      <TagHasUsers {...props}  />
-                    )}
-                />
+                exact path="/tag_has_users/:id"
+                render={props => (
+                  <TagHasUsers {...props}  />
+                )}
+              />
+              <Route
+                  exact path="/users_tags_feed"
+                  render={props => (
+                    <UsersTagsFeed {...props}  />
+                  )}
+              />
             {/* 小説系機能へのルーティング =================================== */}
               {/* シリーズ作成 */}
               <Route
@@ -86,23 +96,27 @@ export default function App() {
                 render={props => ( <SeriesEdit {...props}
                   currentUser={currentUser} /> )}
               />
+              {/* シリーズ詳細ページ */}
               <Route
                 exact path="/novel_series/:id"
-                render={props => ( <NovelsFeed {...props}
+              render={props => (<NovelsFeed {...props}
                   currentUser={currentUser}
                   loggedInStatus={loggedInStatus} />)}
               />
               <Switch>
                 {/* シリーズ詳細 */}
-                <Route
-                  exact path="/novel_series/:id"
-                  render={props => (<NovelsFeed {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
-                )}
-                />
+                    {/* <Route
+                      exact path="/novel_series/:id"
+                      render={props => (<NovelsFeed {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
+                    )}
+                /> */}
                 {/* 小説1話分 */}
                 <Route
                   exact path="/novel_series/:id/novels/:novel_id"
-                  render={props => (<NovelsContents {...props} loggedInStatus={loggedInStatus} currentUser={currentUser} userId={userId} />
+                  render={props => (<NovelsContents {...props}
+                    loggedInStatus={loggedInStatus}
+                    currentUser={currentUser}
+                    userId={userId} />
                 )}
                 />
                 {/* 小説作成 */}
@@ -119,6 +133,13 @@ export default function App() {
                     <NovelsEdit {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
                   )}
                 />
+                {/* シリーズタグフィード */}
+                <Route
+                  exact path="/series_tags_feed"
+                  render={props => (
+                    <SeriesTagsFeed {...props}  />
+                  )}
+                />
                 {/* 特定のタグを持つシリーズ */}
                 <Route
                     exact path="/search_series_by_tag/:id"
@@ -131,7 +152,6 @@ export default function App() {
             </Switch>
         </BrowserRouter>
         }
-        {isLoading && <Spinner />}
       </React.Fragment>
     </div>
   )

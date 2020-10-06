@@ -62,7 +62,6 @@
 
 .Caption {
   margin: 0 auto;
-  margin-bottom: 40px;
   background-color:var(--buttonBackground);
   color: var(--buttonColor);
   border-radius: 3px;
