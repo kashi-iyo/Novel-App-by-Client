@@ -1,0 +1,15 @@
+.TagsFeed {
+    display: flex;
+    border-radius: 3px;
+    text-align: center;
+    flex-wrap: wrap;
+    background: var(--borderColor);
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    margin-bottom: 40px;
+    overflow: scroll;
+    max-height: 90vh;
+    width: 95%;
+    margin: 0 auto;
+}

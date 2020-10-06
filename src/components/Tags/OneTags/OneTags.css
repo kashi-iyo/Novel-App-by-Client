@@ -1,0 +1,21 @@
+.UsersPage__tagLink{
+    text-decoration: none;
+    background: var(--buttonBackground);
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 4px 7px;
+    width: auto;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+.UsersPage__tagLi {
+    color: var(--buttonColor);
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.UsersPage__tagLi > span {
+    color: var(--buttonColor);
+}
