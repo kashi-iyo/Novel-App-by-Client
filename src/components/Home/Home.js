@@ -1,44 +1,49 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import './Home.css'
-import SeriesRanking from './SeriesRanking/SeriesRanking'
-import Series from '../Series/Series'
+import SeriesWrapper from '../Series/SeriesWrapper/SeriesWrapper'
 import useFetchItems from '../CustomHooks/NovelsHooks/useFetchItems'
 import Spinner from '../CustomHooks/Spinner/Spinner'
+import Pagination from '../Pagination/Pagination'
 
-
-function Home() {
+// ホームページ
+function Home({ seriesNo }) {
+    const [currentPage] = useState(seriesNo)
+    const [postsPerPage] = useState(5)
     const { items, count, isLoading } = useFetchItems({
         method: "get",
-        url: 'http://localhost:3001'
+        url: 'http://localhost:3001',
     })
+
+    // ページネーション用の投稿データ
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost)
 
     return (
         <React.Fragment>
             {isLoading ? <Spinner /> :
                 <div className="home">
+                    <Pagination
+                        postsPerPage={postsPerPage}  //1Pに表示する記事の数
+                        totalPosts={items.length} // 記事数
+                        seriesNo={currentPage}
+                        paginateHref={`/Series/`}
+                    />
                     <p className="Caption">╋作品一覧（全 {count} 件）</p>
-                    <div className="home__ranking">
-                        <SeriesRanking>
+                    <div className="homeWrapper">
                         {
-                            Object.keys(items).map(key => {
-                                let id = items[key].id
-                                let title = items[key].series_title
-                                let description = items[key].series_description
-                                let author = items[key].author
-                                let release = items[key].release
-                                let count = items[key].count
-                                let userId = items[key].user_id
-                                return (
-                                    <Series
-                                        key={key} userId={userId}
-                                        id={id} title={title} description={description}
-                                        author={author} release={release} count={count}
-                                    />)
-                            })
+                            Object.keys(currentPosts).map(key => (
+                            <SeriesWrapper key={key} items={currentPosts[key]} />
+                            ))
                         }
-                        </SeriesRanking>
                     </div>
+                    <Pagination
+                        postsPerPage={postsPerPage}  //1Pに表示する記事の数
+                        totalPosts={items.length} // 記事数
+                        seriesNo={currentPage}
+                        paginateHref={`/Series/`}
+                    />
                 </div>
             }
         </React.Fragment>

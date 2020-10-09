@@ -1,7 +1,8 @@
 .home {
     width: 100%;
+    margin-bottom: 100px;
 }
-.home__ranking {
+.homeWrapper {
     background: rgba(197, 197, 255, 0.1);
 }
 
