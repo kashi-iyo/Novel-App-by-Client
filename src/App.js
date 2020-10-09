@@ -30,14 +30,16 @@ export default function App() {
       <React.Fragment>
         {isLoading ? <Spinner /> :
           <BrowserRouter>
+            {/* ヘッダー */}
             <Route render={props => (
               <Header {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
             )} />
             <Switch>
-              <Route exact path={"/"} render={props => (
-                <Home {...props} />
+              {/* ホーム */}
+              <Route exact path={"/Series/:series_no"} render={props => (
+                <Home {...props} seriesNo={props.match.params.series_no} />
               )} />
-
+              {/* <Redirect from="/" to="/Series/1" /> */}
               {/* 認証系機能へのルーティング===================== */}
               {!loggedInStatus &&
                 <Route exact path={"/login"} render={props => (
@@ -116,7 +118,8 @@ export default function App() {
                   render={props => (<NovelsContents {...props}
                     loggedInStatus={loggedInStatus}
                     currentUser={currentUser}
-                    userId={userId} />
+                    userId={userId}
+                  />
                 )}
                 />
                 {/* 小説作成 */}

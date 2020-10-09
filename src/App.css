@@ -65,11 +65,12 @@
   background-color:var(--buttonBackground);
   color: var(--buttonColor);
   border-radius: 3px;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 600;
   width: 95%;
   padding: 5px 0;
   padding-right: 5px;
   box-sizing: border-box;
   word-break: break-all;
+  margin-bottom: 20px;
 }
