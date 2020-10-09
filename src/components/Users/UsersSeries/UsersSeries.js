@@ -1,18 +1,18 @@
 import React from 'react'
-import UsersOneSeries from '../UsersOneSeries/UsersOneSeries'
+import Series from '../../Series/Series'
 import './UsersSeries.css'
 
 // ユーザーが投稿したシリーズ
 function UsersSeries(props) {
 
     return (
-        <div className="UsersSeries">
-            <UsersOneSeries
-                seriesId={String(props.series.id)}
-                author={props.series.author}
-                seriesTitle={props.series.series_title}
-                count={props.series.count}
+        <div className="UsersSeries" >
+            <Series
+                id={String(props.series.id)}
+                title={props.series.series_title}
                 release={props.series.release}
+                author={props.series.author}
+                count={props.series.count}
             />
         </div>
     )
