@@ -30,15 +30,16 @@ a {
     font-size: 1.4rem;
 }
 .Series__writer {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 .Series__writerName {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: rgb(0, 4, 255);
 }
 .Series__count {
     font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .Series__center {
