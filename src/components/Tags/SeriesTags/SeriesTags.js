@@ -1,13 +1,12 @@
 import React from 'react'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
-import Spinner from '../../CustomHooks/Spinner/Spinner'
 import OneTags from '../OneTags/OneTags'
 import './SeriesTags.css'
 
 // シリーズが所有するタグ
 function SeriesTags(props) {
     const id = String(props.seriesId)
-    const { seriesTags, tagsId, isLoading } = useFetchItems({
+    const { seriesTags, tagsId } = useFetchItems({
         method: 'get',
         url: `http://localhost:3001/api/v1/series_tags/${id}`
     })

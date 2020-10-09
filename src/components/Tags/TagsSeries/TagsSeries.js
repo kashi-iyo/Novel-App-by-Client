@@ -2,7 +2,7 @@ import React from 'react'
 
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import Series from '../../Series/Series'
-import SeriesRanking from '../../Home/SeriesRanking/SeriesRanking'
+import SeriesRanking from '../../Series/SeriesWrapper/SeriesWrapper'
 import './TagsSeries.css'
 
 // タグに関連付けられたシリーズの表示
@@ -26,9 +26,10 @@ function TagsSeries(props) {
                             let author = items[key].author
                             let release = items[key].release
                             let count = items[key].count
+                            let userId = items[key].user_id
                             return (
                                 <Series
-                                    key={key}
+                                    key={key} userId={userId}
                                     id={id} title={title} description={description}
                                     author={author} release={release} count={count}
                                 />)
