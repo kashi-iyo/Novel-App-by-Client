@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Home, Series, NovelsFeed, Novels, NovelsContents にて使用
 export default function useFetchItems({ method, url }) {
-    const [items, setItems] = useState("")
+    const [items, setItems] = useState([])
     const [count, setCount] = useState("")
     const [favoritesCount, setFavoritesCount] = useState("")
     const [tags, setTags] = useState("")
@@ -26,7 +26,7 @@ export default function useFetchItems({ method, url }) {
                     // シリーズ全件取得
                     if (mount && ok && key === 'index_of_series') {
                         setCount(res.series_count)
-                        setItems({ ...res.novel_series })
+                        setItems([ ...res.novel_series ])
                         setIsLoading(false)
                     } else if (mount && ok && key === "series_has_favorites") {
                         setFavoritesCount(res.count)
@@ -75,7 +75,7 @@ export default function useFetchItems({ method, url }) {
         localStorage.removeItem("key")
         localStorage.removeItem("tags")
         return () => { mount = false }
-    }, [method, url, setItems, setIsLoading])
+    }, [method, url, setIsLoading])
 
 
 
