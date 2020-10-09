@@ -1,0 +1,5 @@
+button[type="submit"] {
+    border: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
