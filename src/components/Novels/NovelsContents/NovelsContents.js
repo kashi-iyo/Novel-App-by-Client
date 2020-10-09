@@ -8,11 +8,14 @@ import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
 import Flash from '../../CustomHooks/Flash/Flash'
 import FavoritesButton from './Favorites/FavoritesButton'
+import NovelPagination from './NovelPagination/NovelPagination'
 
 
 // 小説1話分の内容を表示
 function NovelsContents(props) {
     const url = props.match.url
+    const novelId = parseInt(props.match.params.novel_id)
+    const seriesId = parseInt(props.match.params.id)
     const { series, novels, errors } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`
@@ -22,15 +25,18 @@ function NovelsContents(props) {
         keyword: "novel",
         history: props.history
     })
-    const editUrl = `/novel_series/${series.seriesId}/novels/${novels.novelId}/edit`
-    const seriesUrl = `/novel_series/${series.seriesId}`
-
+    const editUrl = `/novel_series/${seriesId}/novels/${novelId}/edit`
+    const seriesUrl = `/novel_series/${seriesId}`
 
     const rendererNovelsContents = () => {
         return (
             <React.Fragment>
                 <Flash Errors={removeErrors} Success={removeSuccess} />
                 <div>
+                    {/* 小説のページネーション */}
+                    <div className="PaginationTop">
+                        <NovelPagination seriesId={series.seriesId} novelId={novelId} />
+                    </div>
                     <div className="NovelsContents">
                         {/* シリーズタイトルと作者 */}
                         <div className="NovelsContens__Series">
@@ -76,22 +82,15 @@ function NovelsContents(props) {
                         {props.currentUser && props.loggedInStatus &&
                             <FavoritesButton {...props} />
                         }
-                        {/* <div className="NovelsContents__Favorites">
-                            {
-                                <div className="FavoritesWrapper" onClick={handleFavorites}>
-                                    <FavoriteIcon fontSize="default" color="action" className="FavoritesIcon" />
-                                    <span className="FavoritesSpan">お気に入りする</span>
-                                </div>
-                            }
-                            <p className="FavoritesCount">数字</p>
-                        </div> */}
                         <div className="NovelsContents__Reviews"></div>
                         <div className="NovelsContents__Comments">
                             <p className="Comments">コメント： </p>
                         </div>
                     </div>
                     {/* 小説のページネーション */}
-                    <div className="Pagination">ページネーション</div>
+                    <div className="Pagination">
+                        <NovelPagination seriesId={series.seriesId} novelId={novelId} />
+                    </div>
                     {/* シリーズ内の小説全話を一覧する */}
                     <div className="SeriesContents"></div>
                 </div>

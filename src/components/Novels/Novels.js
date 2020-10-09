@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import './Novels.css'
 
+// NovelsFeedに表示する小説全件
 function Novels(props) {
     const novelTitle = props.novel.novel_title
     const novelId = props.novel.id
