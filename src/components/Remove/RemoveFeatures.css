@@ -1,0 +1,56 @@
+
+.SeriesFeed__RemoveWrapper {
+    position:absolute;
+    bottom: 200px;
+    width: 100%;
+}
+.removeModal {
+    opacity: 1;
+    height: 200px;
+    width: 95%;
+    margin: 0 auto;
+    background: rgba(0, 143, 168);
+    border-radius: 3px;
+}
+.removeModal__Message {
+    color: rgb(51, 51, 51);
+    width: 90%;
+    margin: 0 auto;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    top: 60px;
+}
+.removeModal > input[type="button"] {
+    outline: none;
+    border: none;
+    width: 35%;
+    height: 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 3px;
+    position: absolute;
+}
+.okRemove {
+    background-color: rgb(250, 101, 101);
+    color: white;
+    top: 110px;
+    left: 35px;
+}
+.noRemove {
+    background-color: rgb(226, 226, 226);
+    top: 110px;
+    right: 35px;
+}
+
+.removeButton {
+    width: 200px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+.removeButton > .button {
+    background-color: rgb(152, 0, 0);
+    font-size: 0.9rem;
+}
