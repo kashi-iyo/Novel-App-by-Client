@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom'
 import './NovelsContents.css'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
-import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
+import RemoveFeatures from '../../Remove/RemoveFeatures'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
-import Flash from '../../CustomHooks/Flash/Flash'
+import Flash from '../../Flash/Flash'
 import FavoritesButton from './Favorites/FavoritesButton'
 import NovelPagination from './NovelPagination/NovelPagination'
+import CommentWrapper from '../../Comment/RenderComment/CommentWrapper'
 
 
 // 小説1話分の内容を表示
@@ -80,12 +81,16 @@ function NovelsContents(props) {
                     {/* 小説への評価 */}
                     <div className="NovelsContents__Options">
                         {props.currentUser && props.loggedInStatus &&
-                            <FavoritesButton {...props} />
+                            <React.Fragment>
+                                <FavoritesButton
+                                    {...props}
+                                    userId={parseInt(props.userId)}
+                                    novelId={novelId}
+                                    currentUser={props.currentUser}
+                                />
+                                <CommentWrapper novelId={novelId} />
+                            </React.Fragment>
                         }
-                        <div className="NovelsContents__Reviews"></div>
-                        <div className="NovelsContents__Comments">
-                            <p className="Comments">コメント： </p>
-                        </div>
                     </div>
                     {/* 小説のページネーション */}
                     <div className="Pagination">
