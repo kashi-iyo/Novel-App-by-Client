@@ -1,0 +1,41 @@
+.NovelsContents__Comments {
+    height: 100%;
+    width:100%;
+    position: relative;
+}
+.Comments__ButtonWrapper {
+    text-align: center;
+    height: 100%;
+    width: 50%;
+}
+.DisplayComment {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-weight: 600;
+    outline: none;
+    background: transparent;
+}
+.NovelsContents__Comments > button[type="submit"] {
+    padding: 0;
+}
+.Comments__count {
+    font-size: 1rem;
+}
+.sankaku {
+    color: var(--linkColor);
+    border-bottom: 1px solid var(--linkColor);
+}
+
+.Comments__Ul {
+    background: rgb(228, 247, 255);
+    width: 170%;
+    position: absolute;
+    z-index: 2;
+    left: -135px;
+    top: 60px;
+    padding: 10px;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    font-size: 0.8rem;
+}
