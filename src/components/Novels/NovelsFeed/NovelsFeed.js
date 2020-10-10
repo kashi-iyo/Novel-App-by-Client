@@ -7,10 +7,10 @@ import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
 import Novels from '../Novels'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
-import RemoveFeatures from '../../CustomHooks/Remove/RemoveFeatures'
-import Flash from '../../CustomHooks/Flash/Flash'
+import RemoveFeatures from '../../Remove/RemoveFeatures'
+import Flash from '../../Flash/Flash'
 import SeriesTags from '../../Tags/SeriesTags/SeriesTags'
-import Spinner from '../../CustomHooks/Spinner/Spinner'
+import Spinner from '../../Spinner/Spinner'
 
 function NovelsFeed(props) {
     const params = props.match.params.id

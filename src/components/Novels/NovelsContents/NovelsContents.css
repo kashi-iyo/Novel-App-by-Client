@@ -1,6 +1,7 @@
 .NovelsContents {
     padding: 15px;
     box-sizing: border-box;
+    display: none;
 }
 
 .NovelsContens__Series {
@@ -68,20 +69,12 @@
     height: 9vh;
     display: flex;
     margin: 25px 0;
-    padding: 10px;
+    align-items: center;
     box-sizing: border-box;
+    width: 100%;
 }
 
-.NovelsContents__Comments {
-    height: 100%;
-    width: 50%;
-    position: relative;
-}
-.Comments {
-    position:absolute;
-    top: 30%;
-    left:20%;
-}
+
 
 .Pagination, .PaginationTop {
     width: 95%;

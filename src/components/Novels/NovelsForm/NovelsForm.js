@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import '../../Series/Series.css'
 import './NovelsForm.css'
 import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
-import Flash from '../../CustomHooks/Flash/Flash'
+import Flash from '../../Flash/Flash'
 
 // シリーズ作成フォームを作成
 function SeriesForm(props) {

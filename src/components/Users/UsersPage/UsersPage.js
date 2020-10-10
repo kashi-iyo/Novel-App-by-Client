@@ -8,7 +8,7 @@ import UsersPageTop from './UsersPageTop/UsersPageTop'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
-import Spinner from '../../CustomHooks/Spinner/Spinner'
+import Spinner from '../../Spinner/Spinner'
 import UsersPagination from '../../Pagination/UsersPagination'
 
 // ユーザーページ

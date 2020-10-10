@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import './Home.css'
 import SeriesWrapper from '../Series/SeriesWrapper/SeriesWrapper'
 import useFetchItems from '../CustomHooks/NovelsHooks/useFetchItems'
-import Spinner from '../CustomHooks/Spinner/Spinner'
+import Spinner from '../Spinner/Spinner'
 import Pagination from '../Pagination/Pagination'
 
 // ホームページ

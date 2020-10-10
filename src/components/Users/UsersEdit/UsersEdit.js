@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import './UsersEdit.css'
 import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
-import Flash from '../../CustomHooks/Flash/Flash'
+import Flash from '../../Flash/Flash'
 import InputTag from '../../Series/SeriesTagForm/SeriesTagForm'
 
 // ユーザー編集フォーム

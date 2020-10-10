@@ -1,11 +1,14 @@
 .NovelsContents__Favorites {
-    border-right: 1px solid  rgba(128, 128, 128, 0.2);
+    border-right: 1px solid  rgba(128, 128, 128, 0.3);
     height: 100%;
-    width: 50%;
+    width: 100%;
+}
+.NovelsContents__Favorites > button[type="submmit"] {
+    padding: 0;
 }
 
 .favoritesErrorsWrapper {
-    background: rgba(199, 199, 199, 0.199);
+    background: rgb(255, 239, 239);
     position: absolute;
     top: -60px;
     left: 5%;
@@ -33,20 +36,23 @@
     width: auto;
     white-space: nowrap;
     left: 30px;
-    font-size: 1rem;
-    font-weight: 600;
 }
 .FavoritesSpan {
+    font-size: 0.9rem;
+    font-weight: 600;
     color: var(--linkColor);
 }
 .FavoritedSpan {
+    font-size: 0.9rem;
+    font-weight: 600;
     color: rgb(255, 103, 103);
 }
 .FavoritesCount {
-    /* position: absolute;
-    top: 60%;
-    left: 20%; */
     text-align: center;
+}
+.FavoritesCount > span {
+    border-bottom: 1px solid;
+    color: var(--linkColor);
 }
 
 .FavoritesButton {
@@ -55,5 +61,7 @@
     border: none;
     background: transparent;
     outline: none;
+    display: flex;
+    justify-content: center;
 }
 
