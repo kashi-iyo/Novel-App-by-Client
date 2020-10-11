@@ -1,0 +1,12 @@
+.CommentForm > form > input[type="text"] {
+    background: white;
+    font-size: 0.9rem;
+}
+
+.CommentForm > form > input[type="submit"] {
+    height: 10%;
+}
+
+.CommentForm {
+    margin-bottom: 40px;
+}
