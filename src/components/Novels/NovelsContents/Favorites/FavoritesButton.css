@@ -65,3 +65,18 @@
     justify-content: center;
 }
 
+.Favorites__Ul {
+    background: rgb(255, 219, 219);
+    padding: 10px;
+    position: relative;
+    top: 10px;
+    z-index: 2;
+    max-width: 150%;
+}
+
+.FavoritesUsersWrapper {
+    padding: 5px;
+}
+.tuitate {
+    color: rgb(202, 202, 202);
+}
