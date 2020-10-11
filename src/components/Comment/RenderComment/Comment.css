@@ -6,3 +6,11 @@
     font-size: 0.9rem;
     font-weight: 600;
 }
+.CommentRemove {
+    font-weight: 600;
+    background: rgb(255, 81, 81);
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    margin: 5px 0;
+}
