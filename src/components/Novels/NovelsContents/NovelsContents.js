@@ -17,7 +17,7 @@ function NovelsContents(props) {
     const url = props.match.url
     const novelId = parseInt(props.match.params.novel_id)
     const seriesId = parseInt(props.match.params.id)
-    const { series, novels, errors } = useFetchItems({
+    const { series, novels, commentsCount, favoritesCount, errors } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1${url}`
     })
@@ -80,17 +80,23 @@ function NovelsContents(props) {
                     </div>
                     {/* 小説への評価 */}
                     <div className="NovelsContents__Options">
-                        {props.currentUser && props.loggedInStatus &&
-                            <React.Fragment>
-                                <FavoritesButton
-                                    {...props}
-                                    userId={parseInt(props.userId)}
-                                    novelId={novelId}
-                                    currentUser={props.currentUser}
-                                />
-                                <CommentWrapper novelId={novelId} />
-                            </React.Fragment>
-                        }
+                        <React.Fragment>
+                            {/* お気に入りボタン */}
+                            <FavoritesButton
+                                {...props}
+                                userId={parseInt(props.userId)}
+                                novelId={novelId}
+                                favoritesCount={favoritesCount}
+                                currentUser={props.currentUser}
+                            />
+                            {/* コメント機能 */}
+                            <CommentWrapper
+                                novelId={novelId}
+                                commentsCount={commentsCount}
+                                userId={parseInt(props.userId)}
+                                currentUser={props.currentUser}
+                            />
+                        </React.Fragment>
                     </div>
                     {/* 小説のページネーション */}
                     <div className="Pagination">

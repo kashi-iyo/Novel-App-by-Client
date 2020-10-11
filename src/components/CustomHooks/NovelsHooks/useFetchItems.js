@@ -6,6 +6,7 @@ export default function useFetchItems({ method, url }) {
     const [items, setItems] = useState([])
     const [count, setCount] = useState("")
     const [favoritesCount, setFavoritesCount] = useState("")
+    const [commentsCount, setCommentsCount] = useState("")
     const [tags, setTags] = useState("")
     const [seriesTags, setSeriesTags] = useState("")
     const [tagsId, setTagsId] = useState("")
@@ -59,6 +60,8 @@ export default function useFetchItems({ method, url }) {
                         let seriesId = res.series_id
                         setSeries({seriesId, seriesTitle})
                         setNovels({ ...novel, novelId })
+                        setCommentsCount(res.comment_count)
+                        setFavoritesCount(res.favorites_count)
                         setIsLoading(false)
                     // 非公開時のデータ
                     } else if (mount && key === 'unrelease') {
@@ -80,5 +83,5 @@ export default function useFetchItems({ method, url }) {
 
 
     return {
-        items, count, favoritesCount, tags, seriesTags, tagsId, novels, series, errors, isLoading }
+        items, count, commentsCount, favoritesCount, tags, seriesTags, tagsId, novels, series, errors, isLoading }
 }

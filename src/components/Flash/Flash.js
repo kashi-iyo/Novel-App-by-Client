@@ -3,7 +3,7 @@ import './Flash.css'
 
 function Flash({Success, Errors}) {
     return (
-        <div>
+        <div className="Flash">
             {Success &&
                 <div className="SuccessWrapper">
                     <p className="SuccessFlash">{Success}</p>
