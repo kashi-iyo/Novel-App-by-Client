@@ -25,7 +25,7 @@
     width: 140px;
     margin: 0 auto;
 }
-.FavoritedIcon {
+.FavoritedIcon, .FavoritesIcon {
     width: 23px;
     height: 23px;
     object-fit: contain;

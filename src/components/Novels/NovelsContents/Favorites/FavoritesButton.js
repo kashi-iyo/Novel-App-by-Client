@@ -3,15 +3,15 @@ import FavoriteIcon from '@material-ui/icons/FavoriteBorder'
 import './FavoritesButton.css'
 import useFavorites from '../../../CustomHooks/Favorites/useFavorites'
 import favoritesIcon from '../../../../img/favorites.png'
+import favoritesIcon2 from '../../../../img/favorites2.png'
 import FavoritesUsersWrapper from './FavoritesUsersWrapper'
 
-function FavoritesButton({ props, userId, novelId, currentUser, favoritesCount }) {
+function FavoritesButton({ userId, novelId, currentUser }) {
     const [on, setOn] = useState(false)
-    const { favorite, updateFavoritesCount, favoriter, errors, handleFavorites, handleUnFavorites } = useFavorites({
-        props: props,
+    const { favorite, favoriter, count, errors, handleFavorites, handleUnFavorites } = useFavorites({
         novelId: novelId,
         userId: userId,
-        currentUser: currentUser
+        currentUser: currentUser,
     })
 
     // お気に入りユーザーを開く
@@ -28,22 +28,25 @@ function FavoritesButton({ props, userId, novelId, currentUser, favoritesCount }
             { errors && <div className="favoritesErrorsWrapper"><p className="error favoritesErrors">{errors}</p></div>}
             <div className="NovelsContents__Favorites">
                 {/* お気に入りされているかどうかで表示切り替え */}
-                {!favorite ?
-                    <button type="submit" className="FavoritesButton" onClick={handleFavorites} >
-                            <FavoriteIcon fontSize="default" color="action" className="FavoritesIcon" />
+                {/* {!favorite ? */}
+                <button type="submit" className="FavoritesButton" onClick={() => !favorite ? handleFavorites(novelId, userId) : handleUnFavorites(novelId, userId)} >
+                    {!favorite ?
+                        // お気に入りON
+                        <React.Fragment>
+                            <img src={favoritesIcon2} alt="favorites" className="FavoritesIcon" />
                             <span className="FavoritesSpan">お気に入りする</span>
-                    </button> :
-                    <button type="submit" className="FavoritesButton" onClick={handleUnFavorites} >
+                        </React.Fragment>
+                        :
+                        // お気に入りOFF
+                        <React.Fragment>
                             <img src={favoritesIcon} alt="favorites" className="FavoritedIcon "/>
                             <span className="FavoritedSpan">お気に入り済</span>
+                        </React.Fragment>
+                        }
                     </button>
-                }
                 {/* お気に入り数の表示切り替え */}
                 <p className="FavoritesCount" onClick={() => handleOn()}>
-                    {updateFavoritesCount ?
-                        <span>{updateFavoritesCount}</span> :
-                        <span>{favoritesCount}</span>
-                    }
+                    <span>{count}</span>
                 </p>
                 {/* クリックによりユーザーを表示 */}
                 {on &&

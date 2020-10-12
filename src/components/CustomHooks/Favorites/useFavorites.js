@@ -2,27 +2,25 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 function useFavorites({ novelId, userId, currentUser }) {
-    const [favorite, setFavorite] = useState(false)
-    const [update, setUpdate] = useState("initial")
-    // const [favoriteCount, setFavoriteCount] = useState("")
-    const [updateFavoritesCount, setUpdateFavoritesCount] = useState("")
-    const [favoriter, setFavoriter] = useState([])
+    const [favorite, setFavorite] = useState(false)     // お気に入りボタンの状態
+    const [count, setCount] = useState(parseInt(0))    // お気に入り数
+    const [favoriter, setFavoriter] = useState([])      // お気に入りしたユーザー
     const [errors, setErrors] = useState("")
 
     // マウント時にお気に入りのステータスをチェックする
     useEffect(() => {
         let mount = true
         const getFavorites = () => {
-            axios.get(`http://localhost:3001/api/v1/novel_favorites/${novelId}`, { withCredentials: true })
+            axios.get(`http://localhost:3001/api/v1/novels/${novelId}/novel_favorites`, { withCredentials: true })
             .then(response => {
                 let res = response.data
                 if (mount && res.status === 200) {
-                    setUpdateFavoritesCount(res.favorites_count)
                     setFavoriter(res.favorites)
+                    setCount(res.favorites_count)
                     res.favorites.forEach(favorite => {
                         let userId2 = parseInt(favorite.user_id)
-                        if (userId === userId2) {
-                            setFavorite(true)
+                        if (userId === userId2) {   // お気に入りしたユーザーIDとログインユーザーのIDが一致した場合
+                            setFavorite(true)   // お気に入りの状態をオンにする
                         }
                     })
                 }
@@ -30,12 +28,12 @@ function useFavorites({ novelId, userId, currentUser }) {
         }
         getFavorites()
         return () => { mount = false }
-    },[update, novelId, userId])
+    },[novelId, userId])
 
     // お気に入り時の挙動
-    const handleFavorites = () => {
+    const handleFavorites = (novelId, userId) => {
         axios.post(
-            `http://localhost:3001/api/v1/novel_favorites/${novelId}`,
+            `http://localhost:3001/api/v1/novels/${novelId}/novel_favorites`,
             {
                 novel_favorite: {
                     user_id: userId,
@@ -46,9 +44,10 @@ function useFavorites({ novelId, userId, currentUser }) {
             { withCredentials: true })
             .then(response => {
                 let res = response.data
-                if (res.status === 'created') {
+                // レスが"created"で、お気に入りの状態がOFFなら
+                if (res.status === 'created' && !favorite) {
                     setFavorite(true)
-                    setUpdate("on")
+                    setCount(count + 1)
                 } else if (res.status === "unprocessable_entity") {
                     setErrors(res.errors)
                 } else if (res.status === 401) {
@@ -59,18 +58,19 @@ function useFavorites({ novelId, userId, currentUser }) {
     }
 
     // お気に入りを解除時の挙動
-    const handleUnFavorites = () => {
-        axios.delete(`http://localhost:3001/api/v1/novel_favorites/${novelId}/${userId}`, { withCredentials: true })
+    const handleUnFavorites = (novelId, userId) => {
+        axios.delete(`http://localhost:3001/api/v1/novels/${novelId}/novel_favorites/${userId}`, { withCredentials: true })
             .then(response => {
-                if (response.data.head === 'no_content') {
+                // レスが"no_content"で、お気に入りの状態がONなら
+                if (response.data.head === 'no_content' && favorite) {
                     setFavorite(false)
-                    setUpdate("off")
+                    setCount(count - 1)
                 }
             })
             .catch(err => console.log(err))
     }
 
-    return {favorite, updateFavoritesCount, favoriter, errors, handleFavorites, handleUnFavorites}
+    return {favorite, count, favoriter, errors, handleFavorites, handleUnFavorites}
 }
 
 export default useFavorites
