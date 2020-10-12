@@ -3,10 +3,10 @@ import React from 'react'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import Series from '../../Series/Series'
 import SeriesRanking from '../../Series/SeriesWrapper/SeriesWrapper'
-import './TagsSeries.css'
+import './TagHasSeries.css'
 
 // タグに関連付けられたシリーズの表示
-function TagsSeries(props) {
+function TagHasSeries(props) {
     let id = String(props.match.params.id)
     const { items, count, tags } = useFetchItems({
         method: "get",
@@ -20,18 +20,16 @@ function TagsSeries(props) {
                 <SeriesRanking>
                     {
                         Object.keys(items).map(key => {
-                            let id = items[key].id
-                            let title = items[key].series_title
-                            let description = items[key].series_description
-                            let author = items[key].author
-                            let release = items[key].release
-                            let count = items[key].count
-                            let userId = items[key].user_id
                             return (
                                 <Series
-                                    key={key} userId={userId}
-                                    id={id} title={title} description={description}
-                                    author={author} release={release} count={count}
+                                    key={items[key].id}
+                                    id={items[key].id}
+                                    count={items[key].count}
+                                    author={items[key].author}
+                                    release={items[key].release}
+                                    userId={items[key].user_id}
+                                    title={items[key].series_title}
+                                    description={items[key].series_description}
                                 />)
                         })
                     }
@@ -41,4 +39,4 @@ function TagsSeries(props) {
     )
 }
 
-export default TagsSeries
+export default TagHasSeries

@@ -1,15 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import useFetchItems from '../CustomHooks/NovelsHooks/useFetchItems'
 import SeriesTags from '../Tags/SeriesTags/SeriesTags'
 import './Series.css'
 
 // 1つのシリーズを表示
-function Series({props, userId, id, title, description, author, release, count}) {
-    const { favoritesCount } = useFetchItems({
-        method: "get",
-        url: `http://localhost:3001/api/v1/series_has_favorites/${id}`
-    })
+function Series({id, author, commentsCount, favoritesCount, release, description, title, novelsCount, tags, userId}) {
 
     const handleNovel = () => {
         return (
@@ -25,7 +20,7 @@ function Series({props, userId, id, title, description, author, release, count})
                             </Link>
                         </div>
                         <div className="Series__count">
-                            （全 {count} 話）
+                            （全 {novelsCount} 話）
                         </div>
                     </div>}
                 </div>
@@ -33,16 +28,17 @@ function Series({props, userId, id, title, description, author, release, count})
                     <div className="Series__description">{description}</div>
                 </div>}
                 <div className="Series__bottom">
-                <div className="Series__favorites">お気に入り総数:
-                    <span>{String(favoritesCount)}</span>
-                </div>
-                <div className="Series__comments">コメント数:
+                    <div className="Series__favorites">お気に入り総数:
+                        <span>{favoritesCount}</span>
+                    </div>
+                    <div className="Series__comments">コメント総数:
+                        <span>{commentsCount}</span>
                     </div>
                 </div>
                 <div className="Series__tagWrap">
                     {/* シリーズが所有するタグ */}
                     <ul className="Series__tagUl">
-                        <SeriesTags {...props} seriesId={id} />
+                        <SeriesTags tags={tags} />
                     </ul>
                 </div>
             </div>
@@ -51,7 +47,7 @@ function Series({props, userId, id, title, description, author, release, count})
 
     return (
         <div>
-            {release ? handleNovel() : null}
+            {!!release && handleNovel()}
         </div>
     )
 }

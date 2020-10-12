@@ -3,13 +3,13 @@ import axios from 'axios'
 
 // Home, Series, NovelsFeed, Novels, NovelsContents にて使用
 export default function useFetchItems({ method, url }) {
-    const [items, setItems] = useState([])
-    const [count, setCount] = useState("")
-    const [favoritesCount, setFavoritesCount] = useState("")
+    const [items, setItems] = useState([])  // 投稿データ
+    const [count, setCount] = useState("")  // 投稿数
+    const [favoritesCount] = useState("")    // お気に入り数
     const [commentsCount, setCommentsCount] = useState("")
     const [tags, setTags] = useState("")
-    const [seriesTags, setSeriesTags] = useState("")
-    const [tagsId, setTagsId] = useState("")
+    const [seriesTags] = useState("")
+    const [tagsId] = useState("")
     const [novels, setNovels] = useState("")
     const [series, setSeries] = useState("")
     const [errors, setErrors] = useState("")
@@ -27,19 +27,11 @@ export default function useFetchItems({ method, url }) {
                     // シリーズ全件取得
                     if (mount && ok && key === 'index_of_series') {
                         setCount(res.series_count)
-                        setItems([ ...res.novel_series ])
-                        setIsLoading(false)
-                    } else if (mount && ok && key === "series_has_favorites") {
-                        setFavoritesCount(res.count)
+                        setItems([...res.all_series])
                         setIsLoading(false)
                     // タグフィード
                     } else if (mount && ok && key === "tags_feed") {
                         setTags({ ...res.tags })
-                        setIsLoading(false)
-                    // シリーズが所有するタグ
-                    } else if (mount && ok && key === 'series_tags') {
-                        setTagsId(res.series_id)
-                        setSeriesTags(res.series_tags)
                         setIsLoading(false)
                     // タグに紐付けられたシリーズ
                     } else if (mount && ok && key === "series_in_tag") {
@@ -47,12 +39,11 @@ export default function useFetchItems({ method, url }) {
                         setCount(res.series_count)
                         setItems({ ...res.series_in_tag })
                         setIsLoading(false)
-                    // 1つのシリーズ取得
+                    // 1つのシリーズ取得 & このシリーズが所有する小説全件を取得
                     } else if (mount && ok && key === 'show_of_series') {
-                        setNovels(res.novel_in_series)
-                        setSeries(res.novel_series)
+                        setItems([...res.series])
                         setIsLoading(false)
-                    // 1つのシリーズが所有する小説全件取得
+                    // 小説1話分を取得
                     } else if (mount && ok && key === 'index_of_novels') {
                         let novel = res.novel_in_series
                         let novelId = res.novel_id
@@ -61,7 +52,6 @@ export default function useFetchItems({ method, url }) {
                         setSeries({seriesId, seriesTitle})
                         setNovels({ ...novel, novelId })
                         setCommentsCount(res.comment_count)
-                        setFavoritesCount(res.favorites_count)
                         setIsLoading(false)
                     // 非公開時のデータ
                     } else if (mount && key === 'unrelease') {
@@ -83,5 +73,5 @@ export default function useFetchItems({ method, url }) {
 
 
     return {
-        items, count, commentsCount, favoritesCount, tags, seriesTags, tagsId, novels, series, errors, isLoading }
+        items, count, favoritesCount, commentsCount, tags, seriesTags, tagsId, novels, series, errors, isLoading }
 }

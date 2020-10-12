@@ -4,19 +4,21 @@ import Series from '../Series'
 import './SeriesWrapper.css'
 
 // 1つのシリーズのラッパー
-function NovelWrapper(props) {
+function SeriesWrapper(props) {
 
     return (
         <React.Fragment>
             <ul>
-                {/* <li>{props.children}</li> */}
                 <Series
                     id={props.items.id}
-                    title={props.items.series_title}
-                    description={props.items.series_description}
                     author={props.items.author}
+                    commentsCount={props.items.comments_count}
+                    favoritesCount={props.items.favorites_count}
                     release={props.items.release}
-                    count = {props.items.count}
+                    description={props.items.series_description}
+                    title={props.items.series_title}
+                    novelsCount={props.items.novels_count}
+                    tags={props.items.tags}
                     userId={props.items.user_id}
                 />
             </ul>
@@ -24,4 +26,4 @@ function NovelWrapper(props) {
     )
 }
 
-export default NovelWrapper
+export default SeriesWrapper
