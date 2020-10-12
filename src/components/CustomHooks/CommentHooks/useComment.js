@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
 
-function useComment({ novelId, commenter, userId, commentId, update}) {
+function useComment({ novelId, commenter, userId, update}) {
     const [comments, setComments] = useState([])
     const [content, setContent] = useState("")
     const [errors, setErrors] = useState("")
@@ -65,7 +65,7 @@ function useComment({ novelId, commenter, userId, commentId, update}) {
         setTimeout(() => setSuccess(""), 3000)
     }
 
-    const handleRemove = () => {
+    const handleRemove = (commentId) => {
         axios.delete(`http://localhost:3001/api/v1/novels/${novelId}/comments/${commentId}`, { withCredentials: true })
             .then(response => {
                 let res = response.data

@@ -16,7 +16,7 @@ import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
 import Spinner from './components/Spinner/Spinner'
 import UsersPage from './components/Users/UsersPage/UsersPage'
 import UsersEdit from './components/Users/UsersEdit/UsersEdit'
-import TagsSeries from './components/Tags/TagsSeries/TagsSeries'
+import TagHasSeries from './components/Tags/TagHasSeries/TagHasSeries'
 import TagHasUsers from './components/Tags/TagHasUsers/TagHasUsers'
 import UsersTagsFeed from './components/Tags/UsersTagsFeed/UsersTagsFeed'
 import SeriesTagsFeed from './components/Tags/SeriesTagsFeed/SeriesTagsFeed'
@@ -106,12 +106,6 @@ export default function App() {
                   loggedInStatus={loggedInStatus} />)}
               />
               <Switch>
-                {/* シリーズ詳細 */}
-                    {/* <Route
-                      exact path="/novel_series/:id"
-                      render={props => (<NovelsFeed {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
-                    )}
-                /> */}
                 {/* 小説1話分 */}
                 <Route
                   exact path="/novel_series/:id/novels/:novel_id"
@@ -147,7 +141,7 @@ export default function App() {
                 <Route
                     exact path="/search_series_by_tag/:id"
                     render={props => (
-                      <TagsSeries {...props}  />
+                      <TagHasSeries {...props}  />
                     )}
                 />
               </Switch>

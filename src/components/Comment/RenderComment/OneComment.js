@@ -20,7 +20,7 @@ function OneComment({ content, commenter, userId, commenterId, commentId, novelI
                 <span className="Comment__content">{content}</span>
                 {userId === commenterId &&
                     <p>
-                        <button type="submit" onClick={handleRemove} className="CommentRemove">削除</button>
+                        <button type="submit" onClick={() => handleRemove(commentId)} className="CommentRemove">削除</button>
                     </p>
                 }
             </li>
