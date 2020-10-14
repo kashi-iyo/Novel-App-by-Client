@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import './App.css'
 import Home from './components/Home/Home'
@@ -35,6 +35,10 @@ export default function App() {
               <Header {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
             )} />
             <Switch>
+              {/* ルートパスへのアクセスは全て"/Series/1"へ */}
+              <Route exact path="/">
+                <Redirect to="/Series/1" />
+              </Route>
               {/* ホーム */}
               <Route exact path={"/Series/:series_no"} render={props => (
                 <Home {...props} seriesNo={props.match.params.series_no} />
@@ -90,20 +94,29 @@ export default function App() {
                 exact path="/series_create"
                 render={props => (
                   <SeriesCreate {...props}
-                    loggedInStatus={loggedInStatus} /> )}
+                    loggedInStatus={loggedInStatus}
+                    currentUser={currentUser}
+                    isLoading={isLoading}
+                    history={props.history}
+                  />)}
               />
               {/* シリーズ編集 */}
               <Route
                 exact path={`/novel_series/:id/edit`}
                 render={props => ( <SeriesEdit {...props}
-                  currentUser={currentUser} /> )}
+                  currentUser={currentUser}
+                  seriesId={props.match.params.id}
+                  history={props.history}
+                  userId={userId}
+                />)}
               />
               {/* シリーズ詳細ページ */}
               <Route
                 exact path="/novel_series/:id"
-              render={props => (<NovelsFeed {...props}
+                render={props => (<NovelsFeed {...props}
                   currentUser={currentUser}
-                  loggedInStatus={loggedInStatus} />)}
+                  loggedInStatus={loggedInStatus}
+                  userId={userId}/>)}
               />
               <Switch>
                 {/* 小説1話分 */}
