@@ -33,6 +33,7 @@
 }
 .SeriesFeed__writer {
     font-size: 1rem;
+    font-weight: 600;
     margin-bottom: 5px;
 }
 .SeriesFeed__writerName {
@@ -93,6 +94,7 @@
     display: inline-block;
     margin-left: 20px;
     padding: 3px;
+    font-weight: 600;
 }
 
 .SeriesFeed__Link {
