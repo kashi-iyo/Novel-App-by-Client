@@ -5,10 +5,8 @@ import axios from 'axios'
 export default function useFetchItems({ method, url }) {
     const [items, setItems] = useState([])  // 投稿データ
     const [count, setCount] = useState("")  // 投稿数
-    const [favoritesCount] = useState("")    // お気に入り数
     const [commentsCount, setCommentsCount] = useState("")
     const [tags, setTags] = useState("")
-    const [seriesTags] = useState("")
     const [tagsId] = useState("")
     const [novels, setNovels] = useState("")
     const [series, setSeries] = useState("")
@@ -41,7 +39,7 @@ export default function useFetchItems({ method, url }) {
                         setIsLoading(false)
                     // 1つのシリーズ取得 & このシリーズが所有する小説全件を取得
                     } else if (mount && ok && key === 'show_of_series') {
-                        setItems([...res.series])
+                        setItems(res.series)
                         setIsLoading(false)
                     // 小説1話分を取得
                     } else if (mount && ok && key === 'index_of_novels') {
@@ -57,11 +55,15 @@ export default function useFetchItems({ method, url }) {
                     } else if (mount && key === 'unrelease') {
                         setErrors(res.messages)
                         setIsLoading(false)
+                    } else if (mount && key === "not_present") {
+                        setErrors(res.errors)
                     }
                 })
                 .catch(error => {
-                    setIsLoading(true)
-                    console.log(error)
+                    if (mount) {
+                        setIsLoading(true)
+                        console.log(error)
+                    }
                 })
         }
         getItems()
@@ -73,5 +75,5 @@ export default function useFetchItems({ method, url }) {
 
 
     return {
-        items, count, favoritesCount, commentsCount, tags, seriesTags, tagsId, novels, series, errors, isLoading }
+        items, count, commentsCount, tags, tagsId, novels, series, errors, isLoading }
 }
