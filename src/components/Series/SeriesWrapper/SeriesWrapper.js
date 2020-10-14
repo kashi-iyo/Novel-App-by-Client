@@ -10,7 +10,7 @@ function SeriesWrapper(props) {
         <React.Fragment>
             <ul>
                 <Series
-                    id={props.items.id}
+                    seriesId={props.items.id}
                     author={props.items.author}
                     commentsCount={props.items.comments_count}
                     favoritesCount={props.items.favorites_count}
