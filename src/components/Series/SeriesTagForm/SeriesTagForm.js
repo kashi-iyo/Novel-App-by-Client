@@ -3,7 +3,7 @@ import CancelIcon from '@material-ui/icons/Cancel'
 import './SeriesTagForm.css'
 
 // タグ追加用フォーム
-function InputTag({ tags, addTags, removeTags, tagTitle, limitErrors }) {
+function SeriesTagForm({ tags, addTags, removeTags, tagTitle, limitErrors }) {
 
     return (
         <div className="tags-input">
@@ -30,4 +30,4 @@ function InputTag({ tags, addTags, removeTags, tagTitle, limitErrors }) {
     )
 }
 
-export default InputTag
+export default SeriesTagForm
