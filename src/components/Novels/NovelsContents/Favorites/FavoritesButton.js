@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import FavoriteIcon from '@material-ui/icons/FavoriteBorder'
 import './FavoritesButton.css'
 import useFavorites from '../../../CustomHooks/Favorites/useFavorites'
 import favoritesIcon from '../../../../img/favorites.png'
