@@ -1,19 +1,15 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
-
 import './SeriesEdit'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import useFetchEditItems from '../../CustomHooks/NovelsHooks/useFetchEditItems'
 
 // useEditItemsで取得したデータを、SeriesFormへを渡す
-function SeriesEdit(props) {
-    const url = props.match.url     // Railsから編集データを取得するのに必要なurl
-    const id = props.match.params.id    // SeriesFormへ渡すURLに必要なパラメータ
+function SeriesEdit({seriesId, history, currentUser, userId}) {
     const { items, tags, errors } = useFetchEditItems({
         method: "get",
-        url: `http://localhost:3001/api/v1${url}`,
-        props: props
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/edit`,
+        history: history
     })
 
     // 編集フォームをレンダリングする
@@ -25,14 +21,17 @@ function SeriesEdit(props) {
                 {/* <Link to="/novels">このシリーズの小説一覧</Link><br></br> */}
                 {
                     items && tags ?
-                        <SeriesForm {...props}
-                            novelSeries={items}
+                        <SeriesForm
+                            editSeries={items}
                             editTags={tags}
                             method="patch"
-                            url={`http://localhost:3001/api/v1/novel_series/${id}`}
+                            url={`http://localhost:3001/api/v1/novel_series/${seriesId}`}
+                            seriesId={seriesId}
                             formType="edit"
                             dataType="series"
                             button="編集を完了する"
+                            history={history}
+                            currentUser={currentUser}
                         /> :
                         null
                 }
@@ -41,9 +40,9 @@ function SeriesEdit(props) {
     }
 
     const renderer = () => {
-        if (props.currentUser === items.author) {
+        if (userId === items.user_id) {
             return seriesEditForm()
-        } else if (props.currentUser !== items.author) {
+        } else if (errors) {
             return <ErrorMessages errors={errors} />
         }
     }
