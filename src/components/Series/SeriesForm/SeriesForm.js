@@ -9,35 +9,29 @@ import Flash from '../../Flash/Flash'
 import SeriesTagForm from '../SeriesTagForm/SeriesTagForm'
 
 // シリーズ作成フォームを作成
-function SeriesForm(props) {
+function SeriesForm({method, url, formType, dataType, history, editSeries, editTags, button, currentUser, seriesId, setMount}) {
     // method: HTTPリクエスト, url: Railsのルーティング, mount: マウント処理, sendItems: EditItemsから渡されるデータ
     // props: historyなどの取得のため
     const {
-        values,
-        tags, addTags, removeTags,
-        release,
-        itemSuccess,
-        itemErrors,
-        handleFalse,
-        handleChange,
-        handleSubmit,
-        handleStatusChange,
-        } =
-        useItemsInput({
-            props: props,               // historyなど
-            url: props.url,             // Railsのルーティング
-            method: props.method,        // HTTPリクエスト
-            formType: props.formType,   // craete or edit
-            dataType: props.dataType,   // series or novel
-            sendItems: props.novelSeries,    // 編集用データ
-            editTags: props.editTags    // 編集用タグ
+        values, tags, addTags, removeTags, release,
+        itemSuccess, itemErrors,
+        handleFalse, handleChange, handleSubmit, handleStatusChange,
+    } = useItemsInput({
+            url: url,             // Railsのルーティング
+            method: method,        // HTTPリクエスト
+            formType: formType,   // craete or edit
+            dataType: dataType,   // series or novel
+            sendItems: editSeries,    // 編集用データ
+            editTags: editTags,    // 編集用タグ
+            currentUser: currentUser,    // ログインユーザー
+            history: history,    // props.history
+            setMount: setMount
         })
 
     const title = values.series_title
     const description = values.series_description
     const tLength = title ? title.length : 0
     const dLength = description ? description.length : 0
-    const id = props.match.params.id
 
     // フィールドに入力された字数によりクラス名を変更する
     const titleClass = classNames("ok", { "over": tLength > 50, "no": tLength === 0 })
@@ -51,14 +45,14 @@ function SeriesForm(props) {
                 {/* ボタンの文字列によって表示を切り替える */}
                 <div className="FormHeader">
                     {
-                        props.button === "作成する" ?
+                        button === "作成する" ?
                             <h3 className="Caption CaptionSeriesForm">╋シリーズ作成</h3> :
                             <h3 className="Caption CaptionSeriesForm">╋シリーズ編集</h3>
                     }
                     {
-                        props.formType === "edit" ?
+                        formType === "edit" ?
                         <div className="SeriesForm__SeriesPage">
-                            <Link to={`/novel_series/${id}`}>シリーズ管理画面へ戻る</Link>
+                            <Link to={`/novel_series/${seriesId}`}>シリーズ管理画面へ戻る</Link>
                         </div> :
                         null
                     }
@@ -118,7 +112,6 @@ function SeriesForm(props) {
 
                     {/* タグ追加フォーム */}
                     <SeriesTagForm
-                        {...props}
                         tags={tags}
                         addTags={addTags}
                         removeTags={removeTags}
@@ -138,7 +131,7 @@ function SeriesForm(props) {
                         <label htmlFor="release" className="releaseLabel">公開する</label>
                     </div>
                     {/* ========== */}
-                    <input type="button" onClick={handleSubmit} value={props.button} className={buttonClass} />
+                    <input type="button" onClick={handleSubmit} value={button} className={buttonClass} />
                 </form>
             </div>
         </React.Fragment>
