@@ -1,21 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import './Novels.css'
 
 // NovelsFeedに表示する小説全件
-function Novels(props) {
-    const novelTitle = props.novel.novel_title
-    const novelId = props.novel.id
-    const release = props.novel.release
-    const novelAuthor = props.novel.author  // 小説作者
-    const novelSeriesId = props.match.params.id    // シリーズのパラメータ
-    const oneNovelUrl = `/novel_series/${novelSeriesId}/novels/${novelId}`    // 小説1話分へのURL
+function Novels({novelId, novelTitle, release, seriesId, novelUserId, userId}) {
 
     // 公開されているかどうか、また作者かどうかで小説の表示を切り替える
     const handleChangeNovelsRenderer = () => {
+        const oneNovelUrl = `/novel_series/${seriesId}/novels/${novelId}` // 小説1話分へのURL
         // 公開&ログインユーザーと作者が等しい場合
-        if (release && props.currentUser === novelAuthor) {
+        if (release && novelUserId === userId) {
             return (
                 <div className="Novels__Link">
                     <Link to={oneNovelUrl}>
@@ -24,7 +18,7 @@ function Novels(props) {
                 </div>
             )
         // 非公開だがログインユーザーと作者が等しい場合
-        } else if (!release && props.currentUser === novelAuthor) {
+        } else if (!release && novelUserId === userId) {
             return (
                 <div className="Novels__Link">
                     <Link to={oneNovelUrl}>
@@ -49,7 +43,6 @@ function Novels(props) {
                 </div>
             )
         }
-        props.setIsMounted(false)
     }
 
 
