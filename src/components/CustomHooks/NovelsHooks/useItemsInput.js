@@ -4,12 +4,13 @@ import useRedirect from '../Redirect/useRedirect'
 
 // 投稿系機能のinputフィールドでの挙動を記述
 // →SeriesForm, NovelsFormにて使用
-function useItemsInput({ method, url, sendItems, props, formType, dataType, editTags }) {
+function useItemsInput({ method, url, sendItems, history, formType, dataType, editTags, currentUser, setMount }) {
 
-
+    // シリーズ／小説の初期値
     const [values, setValues] = useState(() => {
-        // シリーズ／小説データ初期値
+        // シリーズ
         const seriesState = { series_title: "", series_description: "" }
+        // 小説
         const novelState = { novel_title: "", novel_description: "", novel_content: "" }
         // ローカルストレージから取得
         const localState = JSON.parse(localStorage.getItem("key"))
@@ -18,18 +19,22 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
         if (!!localState) {
             return localState
         // ローカルストレージに値がない、createフォーム、シリーズデータ
-        }   else if (formType === "create" && dataType === "series") {
+        }   else if (dataType === "series" && formType === "create") {
             return seriesState
         // ローカルストレージに値がない、createフォーム、小説データ
-        } else if (formType === "create" && dataType === "novel") {
+        } else if (dataType === "novel" && formType === "create" ) {
             return novelState
         // ローカルストレージに値がない、編集フォーム
         } else if (formType === "edit") {
             return sendItems
         }
     })
+
+    // タグの初期値
     const [tags, setTags] = useState(() => {
+        // 空の配列
         const initialTags = []
+        // ローカルストレージのタグの値
         const localTags = JSON.parse(localStorage.getItem("tags"))
         if (!!localTags) {
             return localTags
@@ -38,23 +43,33 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
         } else if (formType === "edit" && dataType === 'series') {
             return editTags
         }
-    })  // タグ
+    })
 
-    const [release, setRelease] = useState(sendItems ? sendItems.release : false)           // 公開するかどうか
-    const [itemSuccess, setItemSuccess] = useState("")        // 成功メッセージ
-    const [itemErrors, setItemErrors] = useState("")                 // エラーメッセージ
+    // 公開するかどうか
+    const [release, setRelease] = useState(sendItems ? sendItems.release : false)
+     // 成功メッセージ
+    const [itemSuccess, setItemSuccess] = useState("")
+    // エラーメッセージ
+    const [itemErrors, setItemErrors] = useState("")
     // const [mount, setMount] = useState(false)
-    const {redirect} = useRedirect({history: props.history})
+    // リダイレクト
+    const {redirect} = useRedirect({history: history})
 
     // 入力データはブラウザに保存
     useEffect(() => {
-        localStorage.setItem(
-            "key", JSON.stringify(values)
-        )
-        localStorage.setItem(
-            "tags", JSON.stringify(tags)
-        )
-    },[values, tags])
+        let mount = true
+        if (mount) {
+            localStorage.setItem(
+                "key", JSON.stringify(values)
+            )
+            if (mount && dataType === "series") {
+                localStorage.setItem(
+                    "tags", JSON.stringify(tags)
+                )
+            }
+        }
+        return () => mount = false
+    },[values, tags, dataType])
 
     // チェックボックスにチェックを入れた場合にtrueに切り替える。
     const handleStatusChange = () => {
@@ -75,6 +90,7 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
     }
 
     // サブミットボタンをエンターで発火しないようにする
+    // →タグの登録にEnterを使うため
     const handleFalse = e => {
         e.preventDefault()
     }
@@ -101,7 +117,7 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
                 novel_series: {
                     series_title: values.series_title,
                     series_description: values.series_description,
-                    author: props.currentUser,
+                    author: currentUser,
                     release: release,
                     novel_tag_name: tags.join()
                 }
@@ -122,16 +138,14 @@ function useItemsInput({ method, url, sendItems, props, formType, dataType, edit
     // Railsへデータを送信し、画面を遷移
     const handleSubmit = e => {
         e.preventDefault()
-        localStorage.removeItem("key")
-        localStorage.removeItem("tags")
         axios[method](url, sendData(), { withCredentials: true })
             .then(response => {
                 let res = response.data
-                let created = res.status === 'created'
-                let updated = res.status === 'ok'
-                let seriesId = res.series_id
-                let novelsId = res.novels_id
-                let key = res.keyword
+                let created = res.status === 'created'  //作成成功
+                let updated = res.status === 'ok'   //更新成功
+                let seriesId = res.series_id    //シリーズID
+                let novelsId = res.novels_id    //小説ID
+                let key = res.keyword   //データのタイプ
                 if (created && key === "create_of_series") {
                     setItemSuccess(res.successful)
                     setTimeout(() => { redirect(`/novel_series/${seriesId}`) }, 1500)
