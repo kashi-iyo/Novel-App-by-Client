@@ -39,8 +39,10 @@ export default function useLoggedIn() {
                 setIsLoading(false)
             }
             }).catch(error => {
-                setIsLoading(true)
-                console.log("ログインエラー", error)
+                if (mount) {
+                    setIsLoading(true)
+                    console.log("ログインエラー", error)
+                }
             })
         }
         checkLoginStatus()
