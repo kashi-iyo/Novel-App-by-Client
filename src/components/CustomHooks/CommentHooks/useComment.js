@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
 
-function useComment({ novelId, commenter, userId, update}) {
+function useComment({ novelId, currentUser, userId, setCommentData, count, setCount }) {
     const [comments, setComments] = useState([])
     const [content, setContent] = useState("")
     const [errors, setErrors] = useState("")
@@ -32,7 +32,7 @@ function useComment({ novelId, commenter, userId, update}) {
             getComment()
             return () => { mount = false }
         }
-    }, [setComments, id, update])
+    }, [setComments, id])
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -43,7 +43,7 @@ function useComment({ novelId, commenter, userId, update}) {
                         content: content,
                         novel_id: novelId,
                         user_id: userId,
-                        commenter: commenter
+                        commenter: currentUser
                 }},
                 { withCredentials: true })
             .then(response => {
@@ -53,6 +53,10 @@ function useComment({ novelId, commenter, userId, update}) {
                 let key = res.keyword
                 if (st === "created" && key === "create_comment") {
                     setSuccess(res.successful)
+                    setComments(res.comments)
+                    setCount({
+                        commentsCount: count.commentsCount + 1,
+                    })
                 } else if (st === "unprocessable_entity") {
                     setErrors(res.errors)
                 } else if (st === 401) {
@@ -65,12 +69,18 @@ function useComment({ novelId, commenter, userId, update}) {
         setTimeout(() => setSuccess(""), 3000)
     }
 
-    const handleRemove = (commentId) => {
-        axios.delete(`http://localhost:3001/api/v1/novels/${novelId}/comments/${commentId}`, { withCredentials: true })
+    const handleRemove = (commentNovelId, commentId) => {
+        axios.delete(`http://localhost:3001/api/v1/novels/${commentNovelId}/comments/${commentId}`, { withCredentials: true })
             .then(response => {
                 let res = response.data
                 if (res.head === "no_content") {
-                    setSuccess(response.data.success)
+                    setSuccess(res.success)
+                    setCommentData({
+                        commentId: ""
+                    })
+                    setCount({
+                        commentsCount: count.commentsCount - 1,
+                    })
                 } else if (res.status === 401) {
                     setErrors(res.errors)
                     setTimeout(() => setErrors(""), 3000)
