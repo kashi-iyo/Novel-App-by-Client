@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import './FavoritesButton.css'
 import useFavorites from '../../../CustomHooks/Favorites/useFavorites'
+import FavoritesUsersWrapper from './FavoritesUsersWrapper'
 import favoritesIcon from '../../../../img/favorites.png'
 import favoritesIcon2 from '../../../../img/favorites2.png'
-import FavoritesUsersWrapper from './FavoritesUsersWrapper'
 
-function FavoritesButton({ userId, novelId, currentUser }) {
+function FavoritesButton({ favoritesUserId, favoritesData, favoritesCount, userId, novelId, currentUser }) {
+    // プルダウンボタン
     const [on, setOn] = useState(false)
-    const { favorite, favoriter, count, errors, handleFavorites, handleUnFavorites } = useFavorites({
-        novelId: novelId,
-        userId: userId,
+    // お気に入りの状態
+    const [stateOfFavorites, setStateOfFavorites] = useState({
+        count: favoritesCount,
+        isOn: favoritesUserId === userId ? true : false
+    })
+    const { errors, handleFavorites, handleUnFavorites } = useFavorites({
         currentUser: currentUser,
+        stateOfFavorites: stateOfFavorites,
+        setStateOfFavorites: setStateOfFavorites,
     })
 
     // お気に入りユーザーを開く
@@ -26,31 +32,36 @@ function FavoritesButton({ userId, novelId, currentUser }) {
         <React.Fragment>
             { errors && <div className="favoritesErrorsWrapper"><p className="error favoritesErrors">{errors}</p></div>}
             <div className="NovelsContents__Favorites">
-                {/* お気に入りされているかどうかで表示切り替え */}
-                {/* {!favorite ? */}
-                <button type="submit" className="FavoritesButton" onClick={() => !favorite ? handleFavorites(novelId, userId) : handleUnFavorites(novelId, userId)} >
-                    {!favorite ?
+                {/* お気に入りボタン */}
+                <button
+                    type="submit"
+                    onClick={() => !stateOfFavorites.isOn ?
+                        handleFavorites(novelId, String(userId)) :
+                        handleUnFavorites(novelId, String(userId))
+                    }
+                >
+                    {!stateOfFavorites.isOn ?
                         // お気に入りON
-                        <React.Fragment>
+                        <div className="FavoritesButton">
                             <img src={favoritesIcon2} alt="favorites" className="FavoritesIcon" />
                             <span className="FavoritesSpan">お気に入りする</span>
-                        </React.Fragment>
+                        </div>
                         :
                         // お気に入りOFF
-                        <React.Fragment>
+                        <div className="FavoritesButton">
                             <img src={favoritesIcon} alt="favorites" className="FavoritedIcon "/>
                             <span className="FavoritedSpan">お気に入り済</span>
-                        </React.Fragment>
-                        }
-                    </button>
+                        </div>
+                    }
+                </button>
                 {/* お気に入り数の表示切り替え */}
-                <p className="FavoritesCount" onClick={() => handleOn()}>
-                    <span>{count}</span>
-                </p>
+                    <p className="FavoritesCount" onClick={() => handleOn()}>
+                        <span>{stateOfFavorites.count}</span>
+                    </p>
                 {/* クリックによりユーザーを表示 */}
                 {on &&
                     <ul className="Favorites__Ul">
-                        <FavoritesUsersWrapper favoriter={favoriter} />
+                        <FavoritesUsersWrapper favoritesData={favoritesData} />
                     </ul>
                 }
             </div>

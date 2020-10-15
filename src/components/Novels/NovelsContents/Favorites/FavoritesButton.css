@@ -2,9 +2,7 @@
     border-right: 1px solid  rgba(128, 128, 128, 0.3);
     height: 100%;
     width: 100%;
-}
-.NovelsContents__Favorites > button[type="submmit"] {
-    padding: 0;
+    position: relative;
 }
 
 .favoritesErrorsWrapper {
@@ -27,9 +25,10 @@
 }
 .FavoritedIcon, .FavoritesIcon {
     width: 23px;
-    height: 23px;
+    height: 20px;
     object-fit: contain;
     margin-right: 5px;
+    vertical-align: middle;
 }
 
 .FavoritesWrapper > span {
@@ -38,38 +37,55 @@
     left: 30px;
 }
 .FavoritesSpan {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--linkColor);
 }
 .FavoritedSpan {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: rgb(255, 103, 103);
-}
-.FavoritesCount {
-    text-align: center;
 }
 .FavoritesCount > span {
     border-bottom: 1px solid;
     color: var(--linkColor);
 }
 
-.FavoritesButton {
-    width: 100%;
-    height: 50%;
+.NovelsContents__Favorites > button[type="submit"] {
+    padding: 0;
     border: none;
+    width: 80%;
+    height: 30%;
+    margin: 0 auto;
+    display: inline-block;
     background: transparent;
     outline: none;
-    display: flex;
+    cursor: pointer;
+    white-space: nowrap;
     justify-content: center;
+    position: absolute;
+    top: 19%;
+    left: 13%;
+}
+.FavoritesButton {
+    display:flex;
+    align-items: center;
+}
+.FavoritesCount {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    position: absolute;
+    top: 55%;
+    left: 50%;
 }
 
 .Favorites__Ul {
     background: rgb(255, 219, 219);
     padding: 10px;
     position: relative;
-    top: 10px;
+    top: 70px;
     z-index: 2;
     max-width: 150%;
 }
