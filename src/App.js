@@ -126,6 +126,9 @@ export default function App() {
                     loggedInStatus={loggedInStatus}
                     currentUser={currentUser}
                     userId={userId}
+                    seriesId={props.match.params.id}
+                    novelId={props.match.params.novel_id}
+                    history={props.history}
                   />
                 )}
                 />
