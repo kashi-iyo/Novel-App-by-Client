@@ -7,27 +7,22 @@ import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import RemoveFeatures from '../../Remove/RemoveFeatures'
 import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
 import Flash from '../../Flash/Flash'
-import FavoritesButton from './Favorites/FavoritesButton'
 import NovelPagination from './NovelPagination/NovelPagination'
-import CommentWrapper from '../../Comment/RenderComment/CommentWrapper'
+import CommentWrapper from '../../Comment/Comment/CommentWrapper'
+import FavoritesButtonWrapper from './Favorites/FavoritesButtonWrapper'
 
 
 // 小説1話分の内容を表示
-function NovelsContents(props) {
-    const url = props.match.url
-    const novelId = parseInt(props.match.params.novel_id)
-    const seriesId = parseInt(props.match.params.id)
-    const { series, novels, commentsCount, errors } = useFetchItems({
+function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId, history}) {
+    const { items, errors } = useFetchItems({
         method: "get",
-        url: `http://localhost:3001/api/v1${url}`
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`
     })
     const { confirmation, removeErrors, removeSuccess, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
-        url: `http://localhost:3001/api/v1/novel_series/${series.seriesId}/novels/${novels.novelId}`,
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         keyword: "novel",
-        history: props.history
+        history: history
     })
-    const editUrl = `/novel_series/${seriesId}/novels/${novelId}/edit`
-    const seriesUrl = `/novel_series/${seriesId}`
 
     const rendererNovelsContents = () => {
         return (
@@ -36,15 +31,15 @@ function NovelsContents(props) {
                 <div>
                     {/* 小説のページネーション */}
                     <div className="PaginationTop">
-                        <NovelPagination seriesId={series.seriesId} novelId={novelId} />
+                        <NovelPagination seriesId={seriesId} novelId={novelId} />
                     </div>
                     <div className="NovelsContents">
                         {/* シリーズタイトルと作者 */}
                         <div className="NovelsContens__Series">
                             <div className="NovelsContents__SeriesTitle">
                                 <p className="seriesTitle">
-                                    <Link to={seriesUrl}>
-                                        {series.seriesTitle}
+                                    <Link to={`/novel_series/${seriesId}`}>
+                                        {items.series_title}
                                     </Link>
                                 </p>
                             </div>
@@ -52,29 +47,28 @@ function NovelsContents(props) {
                                 <div className="NovelsContents__SeriesWriter">
                                     <span className="writerWrapper">作者名: </span>
                                     <span className="writerName">
-                                        <Link>{novels.author}</Link>
+                                        <Link>{items.author}</Link>
                                     </span>
                                 </div>
                                 {/* 編集リンク */}
                                 {
-                                props.currentUser === novels.author ?
-                                    <Link to={editUrl} className="NovelsContents__Edit" >
+                                userId === items.user_id &&
+                                    <Link to={`/novel_series/${seriesId}/novels/${novelId}/edit`} className="NovelsContents__Edit" >
                                         編集する
-                                    </Link> :
-                                    null
+                                    </Link>
                                 }
                             </div>
                         </div>
                         {/* 小説の内容 */}
                         <div className="NovelsContents__Novels">
                             <div className="NovelsContents__NovelsTitle">
-                                {novels.novel_title}
+                                {items.novel_title}
                             </div>
                             <div className="NovelsContents__NovelsDescription">
-                                {novels.novel_description}
+                                {items.novel_description}
                             </div>
                             <div className="NovelsContents__NovelsContent">
-                                {novels.novel_content}
+                                {items.novel_content}
                             </div>
                         </div>
                     </div>
@@ -82,23 +76,26 @@ function NovelsContents(props) {
                     <div className="NovelsContents__Options">
                         <React.Fragment>
                             {/* お気に入りボタン */}
-                            <FavoritesButton
-                                userId={parseInt(props.userId)}
+                            <FavoritesButtonWrapper
+                                favoritesData={items.favorites_data}
+                                favoritesCount={items.favorites_count}
+                                userId={userId}
                                 novelId={novelId}
-                                currentUser={props.currentUser}
+                                currentUser={currentUser}
                             />
                             {/* コメント機能 */}
                             <CommentWrapper
                                 novelId={novelId}
-                                commentsCount={commentsCount}
-                                userId={parseInt(props.userId)}
-                                currentUser={props.currentUser}
+                                commentsCount={items.comments_count}
+                                commentsData={items.comments_data}
+                                userId={userId}
+                                currentUser={currentUser}
                             />
                         </React.Fragment>
                     </div>
                     {/* 小説のページネーション */}
                     <div className="Pagination">
-                        <NovelPagination seriesId={series.seriesId} novelId={novelId} />
+                        <NovelPagination seriesId={seriesId} novelId={novelId} />
                     </div>
                     {/* シリーズ内の小説全話を一覧する */}
                     <div className="SeriesContents"></div>
@@ -107,8 +104,8 @@ function NovelsContents(props) {
                 {/* 削除ボタン */}
                 <RemoveFeatures
                     theme="話"
-                    author={novels.author}
-                    currentUser={props.currentUser}
+                    author={items.author}
+                    currentUser={currentUser}
                     handleClick={handleClick}
                     confirmation={confirmation}
                     handleOkRemove={handleOkRemove}
@@ -119,11 +116,11 @@ function NovelsContents(props) {
     }
 
     const renderer = () => {
-        if (!novels.release && novels.author === props.currentUser) {
+        if (!items.release && items.user_id === userId) {
             return rendererNovelsContents()
-        } else if (!novels.release && novels.author !== props.currentUser) {
+        } else if (!items.release && items.user_id !== userId) {
             return <ErrorMessages errors={errors} />
-        } else if (novels.release) {
+        } else if (items.release) {
             return rendererNovelsContents()
         }
     }

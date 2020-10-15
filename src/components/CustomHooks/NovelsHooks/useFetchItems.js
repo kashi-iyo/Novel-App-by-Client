@@ -5,11 +5,8 @@ import axios from 'axios'
 export default function useFetchItems({ method, url }) {
     const [items, setItems] = useState([])  // 投稿データ
     const [count, setCount] = useState("")  // 投稿数
-    const [commentsCount, setCommentsCount] = useState("")
     const [tags, setTags] = useState("")
     const [tagsId] = useState("")
-    const [novels, setNovels] = useState("")
-    const [series, setSeries] = useState("")
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
@@ -27,6 +24,14 @@ export default function useFetchItems({ method, url }) {
                         setCount(res.series_count)
                         setItems([...res.all_series])
                         setIsLoading(false)
+                    // 1つのシリーズ取得 & このシリーズが所有する小説全件を取得
+                    } else if (mount && ok && key === 'show_of_series') {
+                        setItems(res.series)
+                        setIsLoading(false)
+                    // 小説1話分を取得
+                    } else if (mount && ok && key === 'show_of_novels') {
+                        setItems(res.novel)
+                        setIsLoading(false)
                     // タグフィード
                     } else if (mount && ok && key === "tags_feed") {
                         setTags({ ...res.tags })
@@ -36,20 +41,6 @@ export default function useFetchItems({ method, url }) {
                         setTags(res.tag)
                         setCount(res.series_count)
                         setItems({ ...res.series_in_tag })
-                        setIsLoading(false)
-                    // 1つのシリーズ取得 & このシリーズが所有する小説全件を取得
-                    } else if (mount && ok && key === 'show_of_series') {
-                        setItems(res.series)
-                        setIsLoading(false)
-                    // 小説1話分を取得
-                    } else if (mount && ok && key === 'index_of_novels') {
-                        let novel = res.novel_in_series
-                        let novelId = res.novel_id
-                        let seriesTitle = res.series_title
-                        let seriesId = res.series_id
-                        setSeries({seriesId, seriesTitle})
-                        setNovels({ ...novel, novelId })
-                        setCommentsCount(res.comment_count)
                         setIsLoading(false)
                     // 非公開時のデータ
                     } else if (mount && key === 'unrelease') {
@@ -75,5 +66,5 @@ export default function useFetchItems({ method, url }) {
 
 
     return {
-        items, count, commentsCount, tags, tagsId, novels, series, errors, isLoading }
+        items, count, tags, tagsId, errors, isLoading }
 }
