@@ -1,0 +1,19 @@
+.Comment {
+    padding: 10px;
+    border-bottom: 1px solid rgba(187, 187, 187, 0.6);
+}
+.Comment__commenter {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.CommentRemove {
+    padding: 5px 10px;
+    font-weight: 600;
+    background: rgb(255, 81, 81);
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    margin: 10px 20px;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
