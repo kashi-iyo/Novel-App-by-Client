@@ -1,38 +1,54 @@
 import React from 'react'
-import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
 import OneUser from './OneUser/OneUser'
 import './TagHasUsers.css'
 import TagsFeed from '../UsersTagsFeed/UsersTagsFeed'
+import usePagination from '../../../CustomHooks/Pagination/usePagination'
+import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
+import Pagination from '../../Pagination/Pagination'
 
 // クリックしたタグを所有するユーザーを一覧で表示
-function TagHasUsers(props) {
-    const {users, usersTags} =  useFetchUserItems({
+function TagHasUsers({tagId, pageNo}) {
+    const {items, tags} =  useFetchTags({
         method: "get",
-        url: `http://localhost:3001/tag_has_users/${props.match.params.id}`,
-        props
+        url: `http://localhost:3001/api/v1/user_tags/${tagId}`,
+    })
+
+    // ページネーション用のデータ
+    const { postsPerPage, currentPage, currentItems} = usePagination({
+        pageNo: pageNo,
+        items: items
     })
 
     return (
         <div className="TagHasUsers">
             <TagsFeed />
-            <h2 className="Caption UsersCaption">╋{usersTags.user_tag_name} を登録しているユーザー</h2>
+            <Pagination
+                postsPerPage={postsPerPage}  //1Pに表示する記事の数
+                totalPosts={items.length} // 記事数
+                currentPage={currentPage}
+                paginateHref={`/search_series_by_tag/${tagId}/page/`}
+            />
+            <h2 className="Caption UsersCaption">╋{tags.tag_name} を登録しているユーザー</h2>
             <ul className="TagHasUsers__Ul">
-                {users &&
-                    Object.keys(users).map(key => {
-                        let id = users[key].id
-                        let name = users[key].nickname
-                        let profile = users[key].profile
+                {currentItems&&
+                    Object.keys(currentItems).map(key => {
                         return (
                             <OneUser
                                 key={key}
-                                link={`/users/${id}`}
-                                name={name}
-                                profile={profile}
+                                link={`/users/${currentItems[key].user_id}`}
+                                name={currentItems[key].nickname}
+                                profile={currentItems[key].profile}
                             />
                         )
                     })
                 }
             </ul>
+            <Pagination
+                postsPerPage={postsPerPage}  //1Pに表示する記事の数
+                totalPosts={items.length} // 記事数
+                currentPage={currentPage}
+                paginateHref={`/search_series_by_tag/${tagId}/page/`}
+            />
         </div>
     )
 }
