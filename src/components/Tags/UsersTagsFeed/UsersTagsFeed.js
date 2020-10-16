@@ -1,19 +1,22 @@
 import React from 'react'
 import TagsFeed from '../TagsFeed/TagsFeed'
-import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
 import './UsersTagsFeed.css'
+import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 
 // 趣味タグフィード
-function UsersTagsFeed(props) {
-    const { usersTags } = useFetchUserItems({
+function UsersTagsFeed() {
+    const { tags } = useFetchTags({
         method: "get",
-        url: 'http://localhost:3001/tags_feed',
-        props
+        url: 'http://localhost:3001/api/v1/user_tags',
     })
 
     return (
         <React.Fragment>
-            <TagsFeed usersTags={usersTags} caption="趣味タグクラウド" />
+            <TagsFeed
+                tags={tags}
+                link="/user_tags/"
+                caption="趣味タグクラウド"
+            />
         </React.Fragment>
     )
 }
