@@ -1,12 +1,12 @@
 import React from 'react'
 import './RemoveFeatures.css'
 
-function RemoveFeatures({ theme, author, currentUser, handleClick, confirmation, handleOkRemove, handleNoRemove }) {
+function RemoveFeatures({ theme, authorId, currentUserId, handleClick, confirmation, handleOkRemove, handleNoRemove }) {
 
     return (
         <div>
             {/* 削除ボタン */}
-            {author === currentUser &&
+            {authorId === currentUserId &&
                 <div className="removeButton">
                     <button onClick={handleClick} className="button ">
                         この{theme}を削除する
