@@ -1,15 +1,20 @@
 import React from 'react'
-import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
+import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 import TagsFeed from '../TagsFeed/TagsFeed'
 
+// 小説タグクラウド
 function SeriesTagsFeed() {
-    const { tags } = useFetchItems({
+    const { tags } = useFetchTags({
         method: "get",
         url: 'http://localhost:3001/api/v1/series_tags_feed'
     })
     return (
         <React.Fragment>
-            <TagsFeed novelTags={tags} caption="小説タグクラウド" />
+            <TagsFeed
+                tags={tags}
+                link="/search_series_by_tag/"
+                caption="小説タグクラウド"
+            />
         </React.Fragment>
     )
 }
