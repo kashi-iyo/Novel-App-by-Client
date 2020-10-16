@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 
 import './UsersPage.css'
-import useFetchUserItems from '../../CustomHooks/UsersHooks/useFetchUserItems'
+import useFetchUserItems from '../../../CustomHooks/UsersHooks/useFetchUserItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import UsersSeries from '../UsersSeries/UsersSeries'
 import UsersPageTop from './UsersPageTop/UsersPageTop'
