@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 
 import '../Series.css'
 import './SeriesForm.css'
-import useItemsInput from '../../CustomHooks/NovelsHooks/useItemsInput'
+import useItemsInput from '../../../CustomHooks/NovelsHooks/useItemsInput'
 import Flash from '../../Flash/Flash'
 import SeriesTagForm from '../SeriesTagForm/SeriesTagForm'
 

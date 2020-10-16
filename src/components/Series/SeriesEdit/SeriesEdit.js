@@ -2,7 +2,7 @@ import React from 'react'
 import './SeriesEdit'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
-import useFetchEditItems from '../../CustomHooks/NovelsHooks/useFetchEditItems'
+import useFetchEditItems from '../../../CustomHooks/NovelsHooks/useFetchEditItems'
 
 // useEditItemsで取得したデータを、SeriesFormへを渡す
 function SeriesEdit({seriesId, history, currentUser, userId}) {

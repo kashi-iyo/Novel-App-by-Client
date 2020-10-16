@@ -3,6 +3,7 @@ import OneTags from '../OneTags/OneTags'
 import './SeriesTags.css'
 
 // シリーズが所有するタグ
+// →Series.jsで使用
 function SeriesTags({tags}) {
     return (
         <React.Fragment>

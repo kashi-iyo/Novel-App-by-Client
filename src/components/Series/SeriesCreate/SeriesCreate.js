@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
-import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
+import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import Spinner from '../../Spinner/Spinner'
 
 // シリーズ作成フォームをレンダリングする。
