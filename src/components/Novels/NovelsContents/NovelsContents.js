@@ -2,14 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './NovelsContents.css'
-import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
+import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import RemoveFeatures from '../../Remove/RemoveFeatures'
-import useRemoveItems from '../../CustomHooks/NovelsHooks/useRemoveItems'
+import useRemoveItems from '../../../CustomHooks/NovelsHooks/useRemoveItems'
 import Flash from '../../Flash/Flash'
 import NovelPagination from './NovelPagination/NovelPagination'
-import CommentWrapper from '../../Comment/Comment/CommentWrapper'
-import FavoritesButtonWrapper from './Favorites/FavoritesButtonWrapper'
+import CommentWrapper from '../../Comment/CommentWrapper'
+import FavoritesButtonWrapper from '../../Favorites/FavoritesButtonWrapper'
 
 
 // 小説1話分の内容を表示
@@ -104,8 +104,8 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                 {/* 削除ボタン */}
                 <RemoveFeatures
                     theme="話"
-                    author={items.author}
-                    currentUser={currentUser}
+                    authorId={items.user_id}
+                    currentUserId={userId}
                     handleClick={handleClick}
                     confirmation={confirmation}
                     handleOkRemove={handleOkRemove}

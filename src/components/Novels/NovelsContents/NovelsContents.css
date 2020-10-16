@@ -68,10 +68,10 @@
     position: relative;
     height: 9vh;
     display: flex;
-    margin: 25px 0;
     align-items: center;
     box-sizing: border-box;
-    width: 100%;
+    width: 95%;
+    margin: 30px auto;
 }
 
 
