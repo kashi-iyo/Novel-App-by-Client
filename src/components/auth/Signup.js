@@ -1,10 +1,10 @@
 import React from 'react'
 
 import './auth.css'
-import validateSaveUser from '../CustomHooks/Validate/AuthValidate/validateSaveUser'
-import signupValidate from '../CustomHooks/Validate/AuthValidate/signupValidate'
-import useInput from '../CustomHooks/Auth/useInput'
-import useAccessAuthLogging from '../CustomHooks/Auth/useAccessAuthLogging'
+import validateSaveUser from '../../CustomHooks/Validate/AuthValidate/validateSaveUser'
+import signupValidate from '../../CustomHooks/Validate/AuthValidate/signupValidate'
+import useInput from '../../CustomHooks/Auth/useInput'
+import useAccessAuthLogging from '../../CustomHooks/Auth/useAccessAuthLogging'
 
 function Signup(props) {
     const { values, handleChange, handleSubmit, errors, saveErrors } = useInput({

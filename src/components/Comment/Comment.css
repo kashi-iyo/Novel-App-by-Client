@@ -5,6 +5,7 @@
 .Comment__commenter {
     font-size: 0.9rem;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 .CommentRemove {
     padding: 5px 10px;
@@ -13,7 +14,11 @@
     color: white;
     text-align: center;
     border-radius: 2px;
-    margin: 10px 20px;
+    margin-left: 20px;
     box-sizing: border-box;
     white-space: nowrap;
+}
+
+.indexNo {
+    font-weight: 600;
 }

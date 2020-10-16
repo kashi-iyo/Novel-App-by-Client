@@ -15,6 +15,7 @@
     font-weight: 600;
     outline: none;
     background: transparent;
+    cursor: pointer;
 }
 .NovelsContents__Comments > button[type="submit"] {
     padding: 0;
@@ -32,7 +33,7 @@
     width: 195%;
     position: absolute;
     z-index: 2;
-    left: -183px;
+    right: 0%;
     top: 70px;
     padding: 25px 15px;
     padding-bottom: 30px;
@@ -40,6 +41,7 @@
     font-size: 0.8rem;
     max-width: 600px;
     margin-bottom: 50px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
 }
 
 .CommentForm > form > input[type="text"] {

@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react"
+import {useState, useEffect} from 'react'
 import axios from 'axios'
 
-// Home, Series, NovelsFeed, Novels, NovelsContents にて使用
-export default function useFetchItems({ method, url }) {
+function useFetchTags({method, url}) {
     const [items, setItems] = useState([])  // 投稿データ
     const [count, setCount] = useState("")  // 投稿数
     const [tags, setTags] = useState("")
-    const [tagsId] = useState("")
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
@@ -19,28 +17,24 @@ export default function useFetchItems({ method, url }) {
                     let res = response.data
                     let key = res.keyword
                     let ok = res.status === 200
-                    // シリーズ全件取得
-                    if (mount && ok && key === 'index_of_series') {
-                        setCount(res.series_count)
-                        setItems([...res.all_series])
-                        setIsLoading(false)
-                    // 1つのシリーズ取得 & このシリーズが所有する小説全件を取得
-                    } else if (mount && ok && key === 'show_of_series') {
-                        setItems(res.series)
-                        setIsLoading(false)
-                    // 小説1話分を取得
-                    } else if (mount && ok && key === 'show_of_novels') {
-                        setItems(res.novel)
-                        setIsLoading(false)
                     // タグフィード
-                    } else if (mount && ok && key === "tags_feed") {
+                    if (mount && ok && key === "tags_feed") {
                         setTags({ ...res.tags })
                         setIsLoading(false)
                     // タグに紐付けられたシリーズ
                     } else if (mount && ok && key === "series_in_tag") {
                         setTags(res.tag)
                         setCount(res.series_count)
-                        setItems({ ...res.series_in_tag })
+                        setItems([ ...res.series_in_tag ])
+                        setIsLoading(false)
+                    // タグに紐付けられたユーザー
+                    } else if (mount && ok && res.keyword === "users_in_tag") {
+                        setTags(res.tags)
+                        setItems([...res.users])
+                        setIsLoading(false)
+                    // 趣味タグフィード
+                    } else if (mount && ok && res.keyword === "tags_feed") {
+                        setTags({ ...res.tags })
                         setIsLoading(false)
                     // 非公開時のデータ
                     } else if (mount && key === 'unrelease') {
@@ -58,13 +52,14 @@ export default function useFetchItems({ method, url }) {
                 })
         }
         getItems()
-        localStorage.removeItem("key")
-        localStorage.removeItem("tags")
         return () => { mount = false }
     }, [method, url, setIsLoading])
 
 
 
     return {
-        items, count, tags, tagsId, errors, isLoading }
+        items, count, tags, errors, isLoading
+    }
 }
+
+export default useFetchTags

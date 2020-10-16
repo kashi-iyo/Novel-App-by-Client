@@ -54,9 +54,8 @@
 .NovelsContents__Favorites > button[type="submit"] {
     padding: 0;
     border: none;
-    width: 80%;
+    width: 100%;
     height: 30%;
-    margin: 0 auto;
     display: inline-block;
     background: transparent;
     outline: none;
@@ -65,11 +64,12 @@
     justify-content: center;
     position: absolute;
     top: 19%;
-    left: 13%;
+    text-align: center;
 }
 .FavoritesButton {
     display:flex;
     align-items: center;
+    justify-content: center;
 }
 .FavoritesCount {
     text-align: center;

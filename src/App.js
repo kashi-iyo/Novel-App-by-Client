@@ -12,7 +12,7 @@ import NovelsFeed from './components/Novels/NovelsFeed/NovelsFeed'
 import NovelsContents from './components/Novels/NovelsContents/NovelsContents'
 import NovelsCreate from './components/Novels/NovelsForm/NovelsCreate/NovelsCreate'
 import NovelsEdit from './components/Novels/NovelsForm/NovelsEdit/NovelsEdit'
-import useLoggedIn from './components/CustomHooks/Auth/useLoggedIn'
+import useLoggedIn from './CustomHooks/Auth/useLoggedIn'
 import Spinner from './components/Spinner/Spinner'
 import UsersPage from './components/Users/UsersPage/UsersPage'
 import UsersEdit from './components/Users/UsersEdit/UsersEdit'
@@ -75,11 +75,23 @@ export default function App() {
                       currentUser={currentUser}
                       userId={userId} />
                   )}
-                />
+              />
+              {/* 登録している趣味タグを持つユーザー一覧 */}
+              {/* リダイレクト */}
+              <Route exact path="/user_tags/:id"
+                  render={props => (
+                    <Redirect {...props}
+                      to={`/user_tags/${props.match.params.id}/page/1`}
+                    />
+                  )}
+              />
               <Route
-                exact path="/tag_has_users/:id"
+                exact path="/user_tags/:id/page/:page_no"
                 render={props => (
-                  <TagHasUsers {...props}  />
+                  <TagHasUsers {...props}
+                    tagId={props.match.params.id}
+                    pageNo={props.match.params.page_no}
+                  />
                 )}
               />
               <Route
@@ -154,10 +166,21 @@ export default function App() {
                   )}
                 />
                 {/* 特定のタグを持つシリーズ */}
+                {/* リダイレクト */}
+                <Route exact path="/search_series_by_tag/:id"
+                  render={props => (
+                    <Redirect {...props}
+                      to={`/search_series_by_tag/${props.match.params.id}/page/1`}
+                    />
+                  )}
+                />
                 <Route
-                    exact path="/search_series_by_tag/:id"
+                    exact path="/search_series_by_tag/:id/page/:page_no"
                     render={props => (
-                      <TagHasSeries {...props}  />
+                      <TagHasSeries {...props}
+                        tagId={props.match.params.id}
+                        pageNo={props.match.params.page_no}
+                      />
                     )}
                 />
               </Switch>

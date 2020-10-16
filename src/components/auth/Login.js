@@ -1,11 +1,11 @@
 import React from 'react'
 
 import './auth.css'
-import useInput from '../CustomHooks/Auth/useInput'
-import loginValidate from '../CustomHooks/Validate/AuthValidate/loginValidate'
-import useAccessAuthLogging from '../CustomHooks/Auth/useAccessAuthLogging'
+import useInput from '../../CustomHooks/Auth/useInput'
+import loginValidate from '../../CustomHooks/Validate/AuthValidate/loginValidate'
+import useAccessAuthLogging from '../../CustomHooks/Auth/useAccessAuthLogging'
 import ErrorMessages from '../ErrorMessages/ErrorMessages'
-import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
+import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 
 function Login(props) {
     const { values, handleChange, handleSubmit, errors,}

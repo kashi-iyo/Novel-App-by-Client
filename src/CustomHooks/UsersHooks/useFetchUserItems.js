@@ -46,13 +46,6 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
                         setEditUsers(res.user)
                         setUsersTags(res.user_tags)
                         setIsLoading(false)
-                    } else if (mount && ok && res.keyword === "tag_has_users") {
-                        setUsersTags(res.tags)
-                        setUsers(res.users)
-                        setIsLoading(false)
-                    } else if (mount && ok && res.keyword === "tags_feed") {
-                        setUsersTags(res.tags)
-                        setIsLoading(false)
                     } else if (mount && res.status === 401) {
                         setUsersErrors(res.errors)
                         setIsLoading(false)

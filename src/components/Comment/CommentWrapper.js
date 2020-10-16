@@ -6,17 +6,17 @@ import classNames from 'classnames'
 
 // コメント機能
 function CommentWrapper({ commentsCount, commentsData, novelId, userId, currentUser }) {
-    const [on, setOn] = useState(false)
-    const [count, setCount] = useState({
-        commentsCount: commentsCount
-    })
 
-    const { content, success, errors, handleChange, handleSubmit } = useComment({
-        novelId: novelId,
-        userId: userId,
-        currentUser: currentUser,
-        count: count,
-        setCount: setCount,
+    // クリックしたときにコメント一覧を表示させる
+    const [on, setOn] = useState(false)
+
+    // content, handleChange, handleSubitなどフォームで扱う関数
+    const { commentItems, content, success, errors, handleChange, handleSubmit } = useComment({
+        novelId: novelId,   //バックエンドに送信するデータ
+        userId: userId,     //バックエンドに送信するデータ
+        currentUser: currentUser,       //バックエンドに送信するデータ
+        commentsCount: commentsCount,   // カウントの初期値
+        commentsData: commentsData,     // コメントデータの初期値
     })
 
     const buttonClass = classNames("button", { "noButton": content.length === 0  })
@@ -34,7 +34,7 @@ function CommentWrapper({ commentsCount, commentsData, novelId, userId, currentU
         <div className="NovelsContents__Comments">
             <button type="submit" className="DisplayComment" onClick={handleOn}>
                 <p className="Comments__count">コメント：
-                    {count.commentsCount}
+                    {commentItems.commentsCount}
                 </p>
                 <span className="sankaku">▼</span>
             </button>
@@ -60,12 +60,12 @@ function CommentWrapper({ commentsCount, commentsData, novelId, userId, currentU
                         </form>
                     </div>
                     {success && <span className="success">{success}</span>}
-                    <OneCommentWrapper
-                        userId={userId}
-                        commentsData={commentsData}
-                        count={count}
-                        setCount={setCount}
-                    />
+                    {commentItems &&
+                        <OneCommentWrapper
+                            userId={userId}
+                            commentItems={commentItems}
+                        />
+                    }
                 </ul>
             }
             </div>

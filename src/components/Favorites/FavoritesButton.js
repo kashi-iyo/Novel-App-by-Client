@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import './FavoritesButton.css'
-import useFavorites from '../../../CustomHooks/Favorites/useFavorites'
+import useFavorites from '../../CustomHooks/Favorites/useFavorites'
 import FavoritesUsersWrapper from './FavoritesUsersWrapper'
-import favoritesIcon from '../../../../img/favorites.png'
-import favoritesIcon2 from '../../../../img/favorites2.png'
+import favoritesIcon from '../../img/favorites.png'
+import favoritesIcon2 from '../../img/favorites2.png'
 
 function FavoritesButton({ favoritesUserId, favoritesData, favoritesCount, userId, novelId, currentUser }) {
     // プルダウンボタン
