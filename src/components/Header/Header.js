@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import Logo from '../.././img/logo.png'
 import './Header.css'
-import useLoggedIn from '../CustomHooks/Auth/useLoggedIn'
+import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 
 function Header(props) {
     const { handleLogout, userId } = useLoggedIn()
