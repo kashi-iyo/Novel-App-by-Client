@@ -4,28 +4,22 @@ import './TagsFeed.css'
 
 // タグクラウド
 // UsersTagsFeed, SeriesTagsFeedからデータが渡ってくる
-function TagsFeed({novelTags, usersTags, caption}) {
+function TagsFeed({ tags, link, caption }) {
+
     return (
         <React.Fragment>
             <p className="Caption">╋{caption}</p>
             <div className="TagsFeed">
                 {
-                    novelTags && Object.keys(novelTags).map(key => {
-                        let id = novelTags[key].id
-                        let tag = novelTags[key].novel_tag_name
-                        let count = novelTags[key].count
+                    tags && Object.keys(tags).map(key => {
+                        let tagId = tags[key].tag_id
                         return (
-                            <OneTags key={key} link={`/search_series_by_tag/${id}`} tag={tag} count={count} />
-                        )
-                    })
-                }
-                {
-                    usersTags && Object.keys(usersTags).map(key => {
-                        let id = usersTags[key].id
-                        let tag = usersTags[key].user_tag_name
-                        let count = usersTags[key].count
-                        return (
-                            <OneTags key={key} tag={tag} link={`/tag_has_users/${id}`} count={count} />
+                            <OneTags
+                                key={key}
+                                link={link + tagId}
+                                tagName={tags[key].tag_name}
+                                count={tags[key].count}
+                            />
                         )
                     })
                 }
