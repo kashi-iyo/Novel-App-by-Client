@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useFetchEditItems from '../../../CustomHooks/NovelsHooks/useFetchEditItems'
+import useFetchEditItems from '../../../../CustomHooks/NovelsHooks/useFetchEditItems'
 import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
 import NovelsForm from '../NovelsForm'
 
