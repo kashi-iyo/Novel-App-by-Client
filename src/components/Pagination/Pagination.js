@@ -1,8 +1,8 @@
 import React from 'react'
 import './Pagination.css'
 
-function Pagination({ postsPerPage, totalPosts, seriesNo, paginateHref }) {
-    const activePage = parseInt(seriesNo)
+function Pagination({ postsPerPage, totalPosts, currentPage, paginateHref }) {
+    const activePage = parseInt(currentPage)
     const makePaginationHref = () => {
         const totalPages = []
 
