@@ -6,7 +6,7 @@ import TagsFeed from '../TagsFeed/TagsFeed'
 function SeriesTagsFeed() {
     const { tags } = useFetchTags({
         method: "get",
-        url: 'http://localhost:3001/api/v1/series_tags_feed'
+        url: 'http://localhost:3001/api/v1/novel_tags'
     })
     return (
         <React.Fragment>

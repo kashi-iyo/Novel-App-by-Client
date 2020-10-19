@@ -143,23 +143,27 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
                 let res = response.data
                 let created = res.status === 'created'  //作成成功
                 let updated = res.status === 'ok'   //更新成功
-                let seriesId = res.series_id    //シリーズID
-                let novelsId = res.novels_id    //小説ID
                 let key = res.keyword   //データのタイプ
+                //Create NovelSeriesオブジェクトを生成
                 if (created && key === "create_of_series") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${seriesId}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.created_object}`) }, 1500)
+                //Update NovelSeriesオブジェクトを更新
                 } else if (updated && key === "update_of_series") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${seriesId}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.updated_object}`) }, 1500)
+                //Create Novelsオブジェクトを生成
                 } else if (created && key === "create_of_novels") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${seriesId}/novels/${novelsId}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.cread_object.series_id}/novels/${res.cread_object.novel_id}`) }, 1500)
+                //Update Novelsオブジェクトを更新
                 } else if (updated && key === "update_of_novels") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${seriesId}/novels/${novelsId}`) }, 1500)
-                } else if (res.status === 401) {
+                    setTimeout(() => { redirect(`/novel_series/${res.updated_object.series_id}/novels/${res.updated_object.novel_id}`) }, 1500)
+                //error 未認証の場合
+                } else if (res.status === "unauthorized") {
                     setItemErrors(res.messages)
+                //error オブジェクトの生成または更新に失敗した場合
                 } else if (res.status === "unprocessable_entity") {
                     setItemErrors(res.errors)
                 }

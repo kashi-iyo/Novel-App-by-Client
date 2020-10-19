@@ -25,11 +25,13 @@ function useRemoveItems({url, keyword, history}) {
         axios.delete(url, { withCredentials: true })
             .then(response => {
                 let res = response.data
+                //Destroy 削除に成功
                 if (res.head === "no_content") {
                     setRemoveSuccess(res.success)
                     setTimeout(() => setRemoveSuccess(""), 2000)
                     setTimeout(() => redirect("/"), 2000)
-                } else if (res.status === 401) {
+                //error 未認証の場合
+                } else if (res.status === "unauthorized") {
                     setRemoveErrors(res.messages)
                     setTimeout(() => setRemoveErrors(""), 2000)
                 }

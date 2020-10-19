@@ -6,10 +6,8 @@ import useRedirect from "../Redirect/useRedirect"
 // →SeriesEdit, で使う
 export default function useEditItems({method, url, history}) {
     const [items, setItems] = useState("")
-    const [paramId, setParamId] = useState("")
     const [keyword, setKeyword] = useState("")  //handleSubmitにて送るデータを区別するのに使う
     const [errors, setErrors] = useState("")
-    const [tags, setTags] = useState("")
     const { redirect } = useRedirect({ history: history })
 
     useEffect(() => {
@@ -17,34 +15,26 @@ export default function useEditItems({method, url, history}) {
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
-                    let res = response.data
+                    let editObject = response.data.object_for_edit
                     let key = res.keyword
                     let ok = res.status === 200
-                    // 編集用のシリーズデータを取得
-                    // → SeriesEditにて使用
+                    //Edit NovelSeriesオブジェクト編集用データ
                     if (mount && ok && key === 'edit_of_series') {
-                        setItems(res.novel_series)
-                        setTags(res.series_tags)
+                        setItems(editObject)
                         setKeyword(key)
+                    //Edit Novelsオブジェクト編集用データ
                     } else if (mount && ok && key === 'edit_of_novels') {
-                        let novels = res.novel_in_series
-                        let novelsId = res.novels_id
-                        let seriesId = res.series_id
-                        setParamId({ novelsId, seriesId })
-                        setItems(novels)
-                    // 別のユーザーが編集しようとした場合のエラー
-                    } else if (mount && res.status === 401) {
+                        setItems(editObject)
+                    //error 未認証の場合
+                    } else if (mount && res.status === "unauthorized") {
                         setErrors(res.messages)
                         setTimeout(() => { redirect('/') }, 3000)
+                    //error 非公開の場合
                     } else if (mount && key === 'unrelease') {
                         setErrors(res.messages)
                     }
                 })
-                .catch(error => {
-                    if (mount) {
-                        console.log(error)
-                    }
-                })
+                .catch(error => console.log(error))
         }
         getItems()
         localStorage.removeItem("key")
@@ -53,6 +43,6 @@ export default function useEditItems({method, url, history}) {
     }, [method, url, redirect])
 
     return {
-        items, tags, paramId, keyword, errors
+        items, keyword, errors
     }
 }

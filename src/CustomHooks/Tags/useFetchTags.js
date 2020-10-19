@@ -17,29 +17,35 @@ function useFetchTags({method, url}) {
                     let res = response.data
                     let key = res.keyword
                     let ok = res.status === 200
-                    // タグフィード
-                    if (mount && ok && key === "tags_feed") {
-                        setTags({ ...res.tags })
+                    let obj = res.read_object
+                    let tags = [...obj]             //タグ
+                    let count = obj.objects_count   //オブジェクト総数
+                    let arr = [...obj.objects]      //オブジェクト
+                    //Read NovelTagsフィード
+                    if (mount && ok && key === "index_of_series_tags") {
+                        setTags(tags)
                         setIsLoading(false)
-                    // タグに紐付けられたシリーズ
-                    } else if (mount && ok && key === "series_in_tag") {
-                        setTags(res.tag)
-                        setCount(res.series_count)
-                        setItems([ ...res.series_in_tag ])
+                    //Read NovelTagsに紐付けられたNovelSeries
+                    } else if (mount && ok && key === "show_of_series_in_tag") {
+                        setTags(obj.tag)
+                        setCount(count)
+                        setItems(arr)
                         setIsLoading(false)
-                    // タグに紐付けられたユーザー
-                    } else if (mount && ok && res.keyword === "users_in_tag") {
-                        setTags(res.tags)
-                        setItems([...res.users])
+                    //Read UserTagsフィード
+                    } else if (mount && ok && res.keyword === "index_of_user_tags") {
+                        setTags(tags)
                         setIsLoading(false)
-                    // 趣味タグフィード
-                    } else if (mount && ok && res.keyword === "tags_feed") {
-                        setTags({ ...res.tags })
+                    //Read UserTagsに紐付けられたUsers
+                    } else if (mount && ok && res.keyword === "show_of_users_in_tag") {
+                        setTags(obj.tag)
+                        setCount(count)
+                        setItems(arr)
                         setIsLoading(false)
-                    // 非公開時のデータ
+                    //error 非公開時のデータ
                     } else if (mount && key === 'unrelease') {
                         setErrors(res.messages)
                         setIsLoading(false)
+                    //error データが存在しない場合
                     } else if (mount && key === "not_present") {
                         setErrors(res.errors)
                     }
