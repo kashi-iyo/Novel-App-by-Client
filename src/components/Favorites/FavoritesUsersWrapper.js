@@ -6,11 +6,11 @@ function FavoritesUsersWrapper({favoritesData}) {
     return (
         <React.Fragment>
             {favoritesData &&
-                favoritesData.map(data => (
+                Object.keys(favoritesData).map(key => (
                     <FavoritesUsers
-                    key={data.favorites_id}
-                    favoritesUserId={data.favorites_user_id}
-                    favoriter={data.favoriter}
+                        key={key}
+                        favoritesUserId={favoritesData[key].favorites_user_id}
+                        favoriter={favoritesData[key].favoriter}
                     />
                 ))
             }
