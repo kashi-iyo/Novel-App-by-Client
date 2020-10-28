@@ -3,7 +3,6 @@ import axios from 'axios'
 
 function useFetchTags({method, url}) {
     const [items, setItems] = useState([])  // 投稿データ
-    const [count, setCount] = useState("")  // 投稿数
     const [tags, setTags] = useState("")
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
@@ -15,38 +14,31 @@ function useFetchTags({method, url}) {
                 .then(response => {
                     setIsLoading(true)
                     let res = response.data
-                    let key = res.keyword
-                    let ok = res.status === 200
-                    let obj = res.read_object
-                    let tags = [...obj]             //タグ
-                    let count = obj.objects_count   //オブジェクト総数
-                    let arr = [...obj.objects]      //オブジェクト
+                    let data_type = res.data_type
+                    let crud_type = res.crud_type
+                    let status = res.status
+                    let obj = res.object
+                    // let tags = [...obj]             //タグ
                     //Read NovelTagsフィード
-                    if (mount && ok && key === "index_of_series_tags") {
-                        setTags(tags)
+                    if (mount && status === 200 && data_type === "series_tag" && crud_type === "index") {
+                        setItems(obj)
                         setIsLoading(false)
                     //Read NovelTagsに紐付けられたNovelSeries
-                    } else if (mount && ok && key === "show_of_series_in_tag") {
+                    } else if (mount && status === 200 && data_type === "series_tag" && crud_type === "show") {
                         setTags(obj.tag)
-                        setCount(count)
-                        setItems(arr)
+                        setItems(obj.series)
                         setIsLoading(false)
                     //Read UserTagsフィード
-                    } else if (mount && ok && res.keyword === "index_of_user_tags") {
-                        setTags(tags)
+                    } else if (mount && status === 200 && data_type === "user_tag" && crud_type === "index") {
+                        setItems(obj)
                         setIsLoading(false)
                     //Read UserTagsに紐付けられたUsers
-                    } else if (mount && ok && res.keyword === "show_of_users_in_tag") {
+                    } else if (mount && status === 200 && data_type === "user_tag" && crud_type === "show") {
                         setTags(obj.tag)
-                        setCount(count)
-                        setItems(arr)
+                        setItems(obj.users)
                         setIsLoading(false)
-                    //error 非公開時のデータ
-                    } else if (mount && key === 'unrelease') {
-                        setErrors(res.messages)
-                        setIsLoading(false)
-                    //error データが存在しない場合
-                    } else if (mount && key === "not_present") {
+                    //error 存在しないタグにアクセスした場合
+                    } else if (mount && res.head === "no_content") {
                         setErrors(res.errors)
                     }
                 })
@@ -64,7 +56,7 @@ function useFetchTags({method, url}) {
 
 
     return {
-        items, count, tags, errors, isLoading
+        items, tags, errors, isLoading
     }
 }
 

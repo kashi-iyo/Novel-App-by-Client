@@ -8,11 +8,12 @@ export default function useLoggedIn() {
     const [userId, setUserId] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
-    // 認証系のイベント=======================================================================
+
     // ログイン
-    const handleLogin = (name) => {
+    const handleLogin = (user) => {
         setLoggedInStatus(true)
-        setCurrentUser(name)
+        setCurrentUser(user.nickname)
+        setUserId(user.user_id)
     }
 
     // ログアウト
@@ -31,19 +32,13 @@ export default function useLoggedIn() {
                 setIsLoading(true)
                 let res = response.data
             if (mount && res.logged_in && !loggedInStatus) {
-                handleLogin(res.user.nickname)
-                setUserId(res.user_id)
+                handleLogin(res.user)
                 setIsLoading(false)
             } else if (mount && !res.logged_in && loggedInStatus) {
                 handleLogout()
                 setIsLoading(false)
             }
-            }).catch(error => {
-                if (mount) {
-                    setIsLoading(true)
-                    console.log("ログインエラー", error)
-                }
-            })
+            }).catch(error => console.log("ログインエラー", error))
         }
         checkLoginStatus()
         return () => { mount = false }

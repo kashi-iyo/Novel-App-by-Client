@@ -4,7 +4,7 @@ import useRedirect from '../Redirect/useRedirect'
 
 // 投稿系機能のinputフィールドでの挙動を記述
 // →SeriesForm, NovelsFormにて使用
-function useItemsInput({ method, url, sendItems, history, formType, dataType, editTags, currentUser, setMount }) {
+function useItemsInput({ method, url, sendItems, history, formType, dataType, editTags, currentUser }) {
 
     // シリーズ／小説の初期値
     const [values, setValues] = useState(() => {
@@ -51,7 +51,6 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
     const [itemSuccess, setItemSuccess] = useState("")
     // エラーメッセージ
     const [itemErrors, setItemErrors] = useState("")
-    // const [mount, setMount] = useState(false)
     // リダイレクト
     const {redirect} = useRedirect({history: history})
 
@@ -143,34 +142,35 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
                 let res = response.data
                 let created = res.status === 'created'  //作成成功
                 let updated = res.status === 'ok'   //更新成功
-                let key = res.keyword   //データのタイプ
+                let data_type = res.data_type
+                let crud_type = res.crud_type
                 //Create NovelSeriesオブジェクトを生成
-                if (created && key === "create_of_series") {
+                if (created && data_type === "series" && crud_type === "create") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.created_object}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.object}`) }, 1500)
                 //Update NovelSeriesオブジェクトを更新
-                } else if (updated && key === "update_of_series") {
+                } else if (updated && data_type === "series" && crud_type === "update") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.updated_object}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.object}`) }, 1500)
                 //Create Novelsオブジェクトを生成
-                } else if (created && key === "create_of_novels") {
+                } else if (created && data_type === "novel" && crud_type === "create") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.cread_object.series_id}/novels/${res.cread_object.novel_id}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`) }, 1500)
                 //Update Novelsオブジェクトを更新
-                } else if (updated && key === "update_of_novels") {
+                } else if (updated && data_type === "novel" && crud_type === "update") {
                     setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.updated_object.series_id}/novels/${res.updated_object.novel_id}`) }, 1500)
+                    setTimeout(() => { redirect(`/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`) }, 1500)
                 //error 未認証の場合
                 } else if (res.status === "unauthorized") {
                     setItemErrors(res.messages)
+                    setTimeout(() => setItemErrors(""), 3000)
                 //error オブジェクトの生成または更新に失敗した場合
                 } else if (res.status === "unprocessable_entity") {
                     setItemErrors(res.errors)
+                    setTimeout(() => setItemErrors(""), 3000)
                 }
             })
             .catch(err => setItemErrors(err))
-        setItemSuccess("")
-        setTimeout(() => setItemErrors(""), 3000)
     }
 
     return {

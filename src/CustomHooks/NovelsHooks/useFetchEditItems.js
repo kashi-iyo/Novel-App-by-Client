@@ -15,22 +15,25 @@ export default function useEditItems({method, url, history}) {
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
-                    let editObject = response.data.object_for_edit
-                    let key = res.keyword
-                    let ok = res.status === 200
+                    console.log(response.data)
+                    let res = response.data
+                    let object = res.object
+                    let crud_type = res.crud_type
+                    let data_type = res.data_type
+                    let status = res.status
                     //Edit NovelSeriesオブジェクト編集用データ
-                    if (mount && ok && key === 'edit_of_series') {
-                        setItems(editObject)
-                        setKeyword(key)
+                    if (mount && status === 200 && crud_type === 'edit' && data_type === "series") {
+                        setItems(object)
+                        setKeyword(data_type)
                     //Edit Novelsオブジェクト編集用データ
-                    } else if (mount && ok && key === 'edit_of_novels') {
-                        setItems(editObject)
+                    } else if (mount && status === 200 && crud_type === 'edit' && data_type === "novel") {
+                        setItems(object)
                     //error 未認証の場合
-                    } else if (mount && res.status === "unauthorized") {
+                    } else if (mount && status === "unauthorized") {
                         setErrors(res.messages)
                         setTimeout(() => { redirect('/') }, 3000)
                     //error 非公開の場合
-                    } else if (mount && key === 'unrelease') {
+                    } else if (mount && status === 'forbidden') {
                         setErrors(res.messages)
                     }
                 })
@@ -40,7 +43,7 @@ export default function useEditItems({method, url, history}) {
         localStorage.removeItem("key")
         localStorage.removeItem("tags")
         return () => { mount = false }
-    }, [method, url, redirect])
+    }, [method, url])
 
     return {
         items, keyword, errors

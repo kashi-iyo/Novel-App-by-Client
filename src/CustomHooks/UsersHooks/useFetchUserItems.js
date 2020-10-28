@@ -4,7 +4,7 @@ import useRedirect from '../Redirect/useRedirect'
 
 // ユーザーデータを取得、ユーザーデータの更新
 // UsersEdit, UsersPageTop, UsersSeriesにて使用
-function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
+function useFetchUserItems({ method, url, updateMethod, updateUrl, history }) {
     const [users, setUsers] = useState("")
     const [editUsers, setEditUsers] = useState({ nickname: "", profile: "" })
     const [usersTags, setUsersTags] = useState("")
@@ -16,7 +16,7 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
     const [favoriteSeries, setFavoriteSeries] = useState("")
     const [favoriteSeriesCount, setFavoriteSeriesCount] = useState("")
     const [isLoading, setIsLoading] = useState(true)
-    const { redirect } = useRedirect({history: props.history})
+    const { redirect } = useRedirect({history: history})
 
     const handleChange = e => {
         const { name, value } = e.target
@@ -33,18 +33,19 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
                 .then(response => {
                     setIsLoading(true)
                     let res = response.data
+                    let object = res.object
                     let ok = res.status === 200
-                    if (mount && ok && res.keyword === "show_of_user") {
-                        setUsers(res.user)
-                        setUsersTags(res.user_tags)
-                        setUsersSeries(res.users_series)
-                        setSeriesCount(res.series_count)
-                        setFavoriteSeries(res.favorite_series)
-                        setFavoriteSeriesCount(res.favorite_series_count)
+                    if (mount && ok && res.crud_type === "show") {
+                        setUsers(object.user)
+                        setUsersTags(object.user_tags)
+                        setSeriesCount(object.user_series_count)
+                        setUsersSeries(object.user_series)
+                        setFavoriteSeries(object.user_favorites_series)
+                        setFavoriteSeriesCount(object.user_favorites_series_count)
                         setIsLoading(false)
-                    } else if (mount && ok && res.keyword === "edit_of_user") {
-                        setEditUsers(res.user)
-                        setUsersTags(res.user_tags)
+                    } else if (mount && ok && res.crud_type === "edit") {
+                        setEditUsers(object)
+                        setUsersTags(object.user_tags)
                         setIsLoading(false)
                     } else if (mount && res.status === 401) {
                         setUsersErrors(res.errors)
@@ -90,25 +91,23 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, props }) {
                     user: {
                         "nickname": editUsers.nickname,
                         "profile": editUsers.profile,
-                        "user_tag_name": usersTags.join()
+                        "user_tag_name": usersTags ? usersTags.join() : null
                     }
                 },
                 { withCredentials: true }
             ).then(response => {
                 let res = response.data
-                if (res.status === "ok" && res.keyword === "update_of_user") {
-                    console.log("ok")
-                    console.log(res.successful, res.user_id)
+                if (res.status === "ok" && res.crud_type === "update") {
                     setSuccess(res.successful)
-                    setTimeout(() => redirect(`/users/${res.user_id}`), 2000)
-                } else if (res.status === "unprocessable_entity" || res.status === 401) {
+                    setTimeout(() => redirect(`/users/${res.object}`), 2000)
+                } else if (res.status === "unprocessable_entity" || res.status === "unauthorized") {
                     setErrors(res.errors)
                 }
             }).catch(err => console.log(err))
             setErrors("")
             setSuccess("")
         } else if (usersTags.length > 5) {
-            usersTags.length > 5 && setErrors("入力内容に誤りがあります。")
+            usersTags.length > 5 && setErrors("趣味タグは5つ以内まで登録できます。")
             setTimeout(() => setErrors(""), 2000)
         }
     }

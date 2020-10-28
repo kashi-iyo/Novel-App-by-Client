@@ -15,27 +15,30 @@ export default function useFetchItems({ method, url }) {
                 .then(response => {
                     setIsLoading(true)
                     let res = response.data
-                    let key = res.keyword
-                    let ok = res.status === 200
+                    let obj = res.object
+                    let data_type = res.data_type
+                    let crud_type = res.crud_type
+                    let status = res.status
                     //Read シリーズ全件取得
-                    if (mount && ok && key === 'index_of_series') {
-                        setCount(res.read_object.series_count)
-                        setItems([...res.read_object.all_series])
+                    if (mount && status === 200 && data_type === 'series' && crud_type === "index") {
+                        setCount(obj.series_count)
+                        setItems(obj.series)
                         setIsLoading(false)
                     //Read 1つのシリーズ取得 & このシリーズが所有する小説全件を取得
-                    } else if (mount && ok && key === 'show_of_series') {
-                        setItems(res.read_object)
+                    } else if (mount && status === 200 && data_type === 'series' && crud_type === "show") {
+                        setItems(obj)
                         setIsLoading(false)
                     //Read 小説1話分を取得
-                    } else if (mount && ok && key === 'show_of_novels') {
-                        setItems(res.read_object)
+                    } else if (mount && status === 200 && data_type === 'novel' && crud_type === "show") {
+                        console.log("novelのshowがマウントされる")
+                        setItems(obj)
                         setIsLoading(false)
                     //error 非公開時のデータ
-                    } else if (mount && res.status === "forbidden" && key === 'unrelease') {
+                    } else if (mount && status === "forbidden") {
                         setErrors(res.messages)
                         setIsLoading(false)
                     //error データが存在しない場合
-                    } else if (mount && res.status === "no_content" && key === "not_present") {
+                    } else if (mount && res.head === "no_content") {
                         setErrors(res.errors)
                         setIsLoading(false)
                     }
@@ -43,10 +46,14 @@ export default function useFetchItems({ method, url }) {
                 .catch(error => console.log(error))
         }
         getItems()
+        return () => {
+            console.log("novelのshowアンマウントされる")
+        }
         localStorage.removeItem("key")
         localStorage.removeItem("tags")
+        
         return () => { mount = false }
-    }, [method, url, setIsLoading])
+    }, [url, setIsLoading])
 
 
 
