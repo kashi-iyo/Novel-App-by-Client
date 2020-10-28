@@ -1,18 +1,17 @@
 import { useState } from "react"
 import axios from 'axios'
 
-function useComment({ novelId, currentUser, userId, commentsCount, commentsData }) {
+function useComment({ novelId, currentUser, userId, commentsCount, commentsUser, setAfterRemove, setRemoveSuccess }) {
     // コメントのデータ
-    const [commentItems, setCommentItems] = useState({
+    const [commentsItems, setCommentsItems] = useState({
         commentsCount: commentsCount,
-        commentsData: commentsData,
+        commentsUser: commentsUser ? commentsUser : [],
     })
-    // 削除時に画面から消すのに使う
-    const [commentState, setCommentState] = useState(true)
     // フォームで使用する
     const [content, setContent] = useState("")
     const [errors, setErrors] = useState("")
     const [success, setSuccess] = useState("")
+    const [removeMessage, setRemoveMessage] = useState("")
 
     // 入力した内容を保持
     const handleChange = e => {
@@ -35,23 +34,24 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsData 
             .then(response => {
                 let res = response.data
                 let st = res.status
-                let key = res.keyword
-                if (st === "created" && key === "create_comment") {
+                if (st === "created") {
                     setSuccess(res.successful)
-                    setCommentItems({
-                        commentsCount: commentItems.commentsCount + 1,
-                        commentsData: commentItems.commentsData.concat(res.comment)
+                    // カウントとユーザーを追加
+                    setCommentsItems({
+                        commentsCount: commentsItems.commentsCount + 1,
+                        commentsUser: commentsItems.commentsUser.concat(res.object)
                     })
+                    setContent("")
+                    setTimeout(() => setSuccess(""), 3000)
                 } else if (st === "unprocessable_entity") {
                     setErrors(res.errors)
-                } else if (st === 401) {
+                    setTimeout(() => setErrors(""), 3000)
+                } else if (st === "unauthorized") {
                     setErrors(res.errors)
+                    setTimeout(() => setErrors(""), 3000)
                 }
             })
             .catch(err => console.log(err))
-        setContent("")
-        setTimeout(() => setErrors(""), 3000)
-        setTimeout(() => setSuccess(""), 3000)
     }
 
     // コメント削除
@@ -60,24 +60,28 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsData 
             .then(response => {
                 let res = response.data
                 if (res.head === "no_content") {
-                    setSuccess(res.success)
-                    setCommentState(false)
-                    setCommentItems({
-                        commentsCount: commentItems.commentsCount - 1,
+                    const comments = commentsItems.commentsUser.filter(com => com.comment_id !== commentId)
+                    setAfterRemove({
+                        commentsCount: commentsItems.commentsCount - 1,
+                        commentsUser: comments
                     })
-                } else if (res.status === 401) {
+                    console.log("Remove完了")
+                    setRemoveSuccess(res.success)
+                    console.log("サクセスメッセージ表示")
+                    setTimeout(() => setRemoveSuccess(""), 3000)
+                    console.log("サクセスメッセージ削除")
+                } else if (res.status === "unauthorized") {
                     setErrors(res.errors)
                     setTimeout(() => setErrors(""), 3000)
                 }
             })
             .catch(err => console.log(err))
-        setTimeout(() => setErrors(""), 3000)
-        setTimeout(() => setSuccess(""), 3000)
     }
 
 
 
-    return {commentItems, commentState, content, errors, success, handleChange, handleSubmit, handleRemove}
+
+    return {commentsItems, setCommentsItems, content, errors, success, setSuccess, handleChange, handleSubmit, handleRemove}
 }
 
 export default useComment
