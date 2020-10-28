@@ -6,15 +6,17 @@ import Flash from '../../Flash/Flash'
 import InputTag from '../../Series/SeriesTagForm/SeriesTagForm'
 
 // ユーザー編集フォーム
-function UsersEdit(props) {
+function UsersEdit({userId, history}) {
     const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit, success, errors } = useFetchUserItems({
         method: "get",
-        url: `http://localhost:3001/users/${props.userId}/edit`,
+        url: `http://localhost:3001/api/v1/users/${userId}/edit`,
         updateMethod: "patch",
-        updateUrl: `http://localhost:3001/users/${props.userId}`,
-        userId: props.userId,
-        props: props
+        updateUrl: `http://localhost:3001/api/v1/users/${userId}`,
+        userId: userId,
+        history: history
     })
+    // ユーザーのタグ
+    // const usersTags = editUsers.user_tags
     const limitErrors = usersTags.length > 5 ? true : false
     const buttonClass = classNames("button", { "noButton":usersTags.length > 5 })
 

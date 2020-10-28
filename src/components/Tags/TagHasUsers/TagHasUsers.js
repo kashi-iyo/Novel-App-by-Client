@@ -1,7 +1,6 @@
 import React from 'react'
 import OneUser from './OneUser/OneUser'
 import './TagHasUsers.css'
-import TagsFeed from '../UsersTagsFeed/UsersTagsFeed'
 import usePagination from '../../../CustomHooks/Pagination/usePagination'
 import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 import Pagination from '../../Pagination/Pagination'
@@ -14,21 +13,21 @@ function TagHasUsers({tagId, pageNo}) {
     })
 
     // ページネーション用のデータ
-    const { postsPerPage, currentPage, currentItems} = usePagination({
+    const { postsPerPage, currentPage, currentItems, indexOfLastPost, indexOfFirstPost} = usePagination({
         pageNo: pageNo,
         items: items
     })
 
     return (
         <div className="TagHasUsers">
-            <TagsFeed />
+            <p className="TagHasUsers__Count">{tags.has_data_count} 件のユーザーが登録しています。 （ {indexOfFirstPost + 1} - {indexOfLastPost}件 ）</p>
+            <h2 className="Caption UsersCaption">╋ {tags.tag_name} を登録しているユーザー</h2>
             <Pagination
                 postsPerPage={postsPerPage}  //1Pに表示する記事の数
                 totalPosts={items.length} // 記事数
                 currentPage={currentPage}
-                paginateHref={`/search_series_by_tag/${tagId}/page/`}
+                paginateHref={`/user_tags/${tagId}/page/`}
             />
-            <h2 className="Caption UsersCaption">╋{tags.tag_name} を登録しているユーザー</h2>
             <ul className="TagHasUsers__Ul">
                 {currentItems&&
                     Object.keys(currentItems).map(key => {
@@ -47,7 +46,7 @@ function TagHasUsers({tagId, pageNo}) {
                 postsPerPage={postsPerPage}  //1Pに表示する記事の数
                 totalPosts={items.length} // 記事数
                 currentPage={currentPage}
-                paginateHref={`/search_series_by_tag/${tagId}/page/`}
+                paginateHref={`/user_tags/${tagId}/page/`}
             />
         </div>
     )

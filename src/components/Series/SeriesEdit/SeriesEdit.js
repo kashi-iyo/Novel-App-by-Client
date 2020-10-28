@@ -20,10 +20,10 @@ function SeriesEdit({seriesId, history, currentUser, userId}) {
                 {/* 小説一覧 */}
                 {/* <Link to="/novels">このシリーズの小説一覧</Link><br></br> */}
                 {
-                    items && tags ?
+                    items &&
                         <SeriesForm
                             editSeries={items}
-                            editTags={tags}
+                            editTags={items.series_tags}
                             method="patch"
                             url={`http://localhost:3001/api/v1/novel_series/${seriesId}`}
                             seriesId={seriesId}
@@ -32,8 +32,7 @@ function SeriesEdit({seriesId, history, currentUser, userId}) {
                             button="編集を完了する"
                             history={history}
                             currentUser={currentUser}
-                        /> :
-                        null
+                        />
                 }
             </div>
         )

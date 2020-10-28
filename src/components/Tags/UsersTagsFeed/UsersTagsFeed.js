@@ -5,7 +5,7 @@ import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 
 // 趣味タグフィード
 function UsersTagsFeed() {
-    const { tags } = useFetchTags({
+    const { items } = useFetchTags({
         method: "get",
         url: 'http://localhost:3001/api/v1/user_tags',
     })
@@ -13,7 +13,7 @@ function UsersTagsFeed() {
     return (
         <React.Fragment>
             <TagsFeed
-                tags={tags}
+                items={items}
                 link="/user_tags/"
                 caption="趣味タグクラウド"
             />

@@ -11,19 +11,17 @@ import Flash from '../../Flash/Flash'
 import SeriesTags from '../../Tags/SeriesTags/SeriesTags'
 import Spinner from '../../Spinner/Spinner'
 
-function NovelsFeed(props) {
-    // シリーズ詳細画面のパラメータ
-    const params = props.match.params.id
+function NovelsFeed({seriesId, userId, loggedInStatus, currentUser, history}) {
     // 投稿データを取得
     const { items, errors, isLoading } = useFetchItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/novel_series/${params}`
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}`
     })
     // 削除機能
     const { confirmation, removeErrors, removeSuccess, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
-        url: `http://localhost:3001/api/v1/novel_series/${params}`,
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}`,
         keyword: "series",
-        history: props.history
+        history: history
     })
 
     // シリーズデータを表示
@@ -35,13 +33,13 @@ function NovelsFeed(props) {
                     {/* シリーズタイトル・あらすじ */}
                     <div className="SeriesFeed">
                         <div className="SeriesFeed__top">
-                            <p className="SeriesFeed__title">{items.series_title}</p>
+                            <p className="SeriesFeed__title">{items.series.series_title}</p>
                             <p className="SeriesFeed__writer">作者:
-                                <Link to={`/users/${items.user_id}`} className="SeriesFeed__writerName">{items.author}</Link>
+                                <Link to={`/users/${items.series.user_id}`} className="SeriesFeed__writerName">{items.series.author}</Link>
                             </p>
                         </div>
                         <div className="SeriesFeed__center">
-                            <p className="SeriesFeed__description">{items.series_description}</p>
+                            <p className="SeriesFeed__description">{items.series.series_description}</p>
                         </div>
                         <div className="SeriesFeed__bottom">
                             <div className="SeriesFeed__favorites">お気に入り総数:
@@ -57,13 +55,13 @@ function NovelsFeed(props) {
                             </ul>
                         </div>
                         {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
-                        {items.user_id === props.userId && props.loggedInStatus &&
+                        {items.series.user_id === userId && loggedInStatus &&
                             <div className="SeriesFeed__editLinkWrap">
                                 <React.Fragment>
-                                    <Link to={`/novel_series/${items.id}/edit`} className="SeriesFeed__editLink" >
+                                    <Link to={`/novel_series/${items.series.id}/edit`} className="SeriesFeed__editLink" >
                                         編集する
                                     </Link>
-                                    <Link to={`/novel_series/${items.id}/add_novels`} className="SeriesFeed__addLink">
+                                    <Link to={`/novel_series/${items.series.id}/add_novels`} className="SeriesFeed__addLink">
                                         小説を追加する
                                     </Link>
                                 </React.Fragment>
@@ -71,14 +69,15 @@ function NovelsFeed(props) {
                         }
                     </div>
                     {/* シリーズ内の小説一覧 */}
-                    <NovelsInNovelsFeed novel={items.novels} userId={props.userId} />
+                    <p className="NovelsFeed__NovelsCount">（全 {items.novels_count} 話）</p>
+                    <NovelsInNovelsFeed novel={items.novels} userId={userId} />
                     <div className="NovelsFeed__BarSpan"></div>
                 </div>
                 {/* 削除ボタン */}
                 <RemoveFeatures
                         theme="シリーズ"
-                        author={items.author}
-                        currentUser={props.currentUser}
+                        author={items.series.author}
+                        currentUser={currentUser}
                         handleClick={handleClick}
                         confirmation={confirmation}
                         handleOkRemove={handleOkRemove}
@@ -92,15 +91,10 @@ function NovelsFeed(props) {
     // エラー／投稿データ
     const handleRenderer = () => {
         // 投稿データが存在しない場合
-        if (!items) {
+        if (removeErrors) {
             return <ErrorMessages errors={errors} />
-            // 非公開&ログインユーザーが作者でない場合
-        } else if (!items.release && items.user_id === props.userId) {
-            return handleNovelsFeed()
-        } else if (!items.release && items.user_id !== props.userId) {
-            return <ErrorMessages errors={errors} />
-        // 公開の場合
-        } else if (items.release) {
+        // ある場合
+        } else if (items) {
             return handleNovelsFeed()
         }
     }

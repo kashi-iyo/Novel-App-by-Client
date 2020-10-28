@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 import './UsersPage.css'
 import useFetchUserItems from '../../../CustomHooks/UsersHooks/useFetchUserItems'
@@ -10,37 +10,32 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import UsersPagination from '../../Pagination/UsersPagination'
+import usePagination from '../../../CustomHooks/Pagination/usePagination'
 
 // ユーザーページ
-function UsersPage(props) {
-    const userId = props.match.params.id
+function UsersPage({ userParams, loggedInStatus, userId, history }) {
     const { users, usersTags, usersSeries, usersErrors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
             method: "get",
-            url: `http://localhost:3001/users/${userId}`,
-            editUrl: `http://localhost:3001/users/${userId}/edit`,
-            props: props,
+            url: `http://localhost:3001/api/v1/users/${userParams}`,
+            editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
+            history: history,
     })
-    const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage] = useState(10)
-
-
-    // ページネーション用の投稿データ
-    const indexOfLastPost = currentPage * postsPerPage  // 1x10
-    const indexOfFirstPost = indexOfLastPost - postsPerPage // 10 - 10
-    const currentSeries = usersSeries.slice(indexOfFirstPost, indexOfLastPost) // slie(0, 10)
-    const currentFavoriteSeries = favoriteSeries.slice(indexOfFirstPost, indexOfLastPost)
+    const { postsPerPage, setCurrentPage, currentPage, currentItems, currentItems2 } = usePagination({
+        pageNo: 1,
+        items: usersSeries,
+        items2: favoriteSeries,
+    })
 
     return (
         <React.Fragment>
             {isLoading ? <Spinner /> :
-                usersErrors ? <ErrorMessages loggedInStatus={props.loggedInStatus} errors={usersErrors} /> :
+                usersErrors ? <ErrorMessages loggedInStatus={loggedInStatus} errors={usersErrors} /> :
                     <div className="UsersPage">
                     {/* ユーザーページ上部 */}
-                    <UsersPageTop {...props}
+                    <UsersPageTop
                         users={users}
-                        userId={props.userId}
+                        userId={userId}
                         usersTags={usersTags}
-                        currentUser={props.currentUser}
                     />
                     <div className="UsersPage__Bottom">
                         <div className="UsersPage__BottomWrapper">
@@ -69,8 +64,8 @@ function UsersPage(props) {
                                         />
                                         <ul>
                                             {
-                                                Object.keys(currentSeries).map(key => (
-                                                    <UsersSeries key={key} series={currentSeries[key]} />
+                                                Object.keys(currentItems).map(key => (
+                                                    <UsersSeries key={key} series={currentItems[key]} />
                                                 ))
                                             }
                                         </ul>
@@ -91,8 +86,8 @@ function UsersPage(props) {
                                         />
                                         <ul className="UsersPage__UsersFavoritesUl">
                                             {favoriteSeries &&
-                                                Object.keys(currentFavoriteSeries).map(key => (
-                                                    <UsersSeries key={key} series={currentFavoriteSeries[key]} />
+                                                Object.keys(currentItems2).map(key => (
+                                                    <UsersSeries key={key} series={currentItems2[key]} />
                                                 ))
                                             }
                                         </ul>

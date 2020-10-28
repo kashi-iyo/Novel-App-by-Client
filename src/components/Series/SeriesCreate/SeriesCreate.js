@@ -2,13 +2,11 @@ import React, {useState} from 'react'
 
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
-import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import Spinner from '../../Spinner/Spinner'
 
 // シリーズ作成フォームをレンダリングする。
 // SeriesFormへデータを渡す。
 function SeriesCreate({ loggedInStatus, currentUser, history, isLoading }) {
-    const [mount, setMount] = useState(true)
 
     // SeriesFormへデータを渡す
     const seriesCreateForm = () => {
@@ -23,7 +21,6 @@ function SeriesCreate({ loggedInStatus, currentUser, history, isLoading }) {
                         button="作成する"
                         history={history}
                         currentUser={currentUser}
-                        setMount={setMount}
                     />
                 </div>
             </React.Fragment>
@@ -32,10 +29,10 @@ function SeriesCreate({ loggedInStatus, currentUser, history, isLoading }) {
 
     const renderer = () => {
         // ユーザーがログインしているかどうかを確認
-        if (!!mount && loggedInStatus) {
+        if (loggedInStatus) {
             return seriesCreateForm()
-        } else if (!!mount && !loggedInStatus) {
-            return <ErrorMessages errors={"アクセス権限がありません。"} />
+        } else if (!loggedInStatus) {
+            return <ErrorMessages errors={"ログインまたは新規登録を行ってください。"} />
         }
     }
 

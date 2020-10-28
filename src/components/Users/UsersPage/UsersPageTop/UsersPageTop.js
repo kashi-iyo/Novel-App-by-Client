@@ -4,7 +4,7 @@ import OneTags from '../../../Tags/OneTags/OneTags'
 import './UsersPageTop.css'
 
 // ユーザーページの上部
-function UsersPageTop({ users, userId, usersTags, currentUser}) {
+function UsersPageTop({ users, userId, usersTags }) {
 
     return (
         <div>
@@ -23,22 +23,23 @@ function UsersPageTop({ users, userId, usersTags, currentUser}) {
                         {/* タグ達 */}
                         {
                             Object.keys(usersTags).map(key => {
-                                let id = usersTags[key].id
-                                let tag = usersTags[key].user_tag_name
+                                let id = usersTags[key].tag_id
+                                let tag = usersTags[key].tag_name
+                                let count = usersTags[key].has_users_count
                                 return (
-                                    <OneTags key={key} link={`/tag_has_users/${id}`} tag={tag} />
+                                    <OneTags key={key} link={`/user_tags/${id}`} tagName={tag} count={count} />
                                 )
                             })
                         }
                     </ul>
                     {
-                        currentUser === users.nickname &&
+                        userId=== users.user_id &&
                         <p className="messageToUsers">好みのジャンル・アニメなどをタグ登録して<br></br>同じ趣味を持つユーザーと繋がろう</p>
                     }
                 </div>
                 {/* 編集ボタン */}
                 {
-                    currentUser === users.nickname &&
+                    userId=== users.user_id &&
                     <div className="UsersPage__EditWrapper">
                             <Link to={`/users/${userId}/edit`} className="UsersPage__EditButton button">編集する</Link>
                     </div>

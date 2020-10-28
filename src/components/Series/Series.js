@@ -4,7 +4,7 @@ import SeriesTags from '../Tags/SeriesTags/SeriesTags'
 import './Series.css'
 
 // 1つのシリーズを表示
-function Series({seriesId, author, commentsCount, favoritesCount, release, description, title, novelsCount, tags, userId}) {
+function Series({seriesId, author, commentsCount, favoritesCount, release, description, title, novelsCount, tags, seriesUserId}) {
 
     const handleNovel = () => {
         return (
@@ -15,7 +15,7 @@ function Series({seriesId, author, commentsCount, favoritesCount, release, descr
                     </div>
                     {author && <div className="Series__WriterWrapper">
                         <div className="Series__writer">作者:
-                            <Link to={`/users/${userId}`} className="Series__writerName">
+                            <Link to={`/users/${seriesUserId}`} className="Series__writerName">
                                 {author}
                             </Link>
                         </div>
