@@ -63,7 +63,10 @@ export default function App() {
                 render={props => (
                   <UsersPage {...props}
                     loggedInStatus={loggedInStatus}
-                    currentUser={currentUser} />
+                    userParams={props.match.params.id}
+                    userId={userId}
+                    history={props.history}
+                  />
                 )}
               />
               <Route
@@ -73,7 +76,9 @@ export default function App() {
                       {...props}
                       loggedInStatus={loggedInStatus}
                       currentUser={currentUser}
-                      userId={userId} />
+                      history={props.history}
+                      userId={userId}
+                    />
                   )}
               />
               {/* 登録している趣味タグを持つユーザー一覧 */}
@@ -126,6 +131,8 @@ export default function App() {
               <Route
                 exact path="/novel_series/:id"
                 render={props => (<NovelsFeed {...props}
+                  history={props.history}
+                  seriesId={props.match.params.id}
                   currentUser={currentUser}
                   loggedInStatus={loggedInStatus}
                   userId={userId}/>)}
@@ -135,7 +142,6 @@ export default function App() {
                 <Route
                   exact path="/novel_series/:id/novels/:novel_id"
                   render={props => (<NovelsContents {...props}
-                    loggedInStatus={loggedInStatus}
                     currentUser={currentUser}
                     userId={userId}
                     seriesId={props.match.params.id}
