@@ -10,7 +10,7 @@ function Signup(props) {
     const { values, handleChange, handleSubmit, errors, saveErrors } = useInput({
         validate: signupValidate,
         method: "post",
-        url: 'http://localhost:3001/users',
+        url: 'http://localhost:3001/api/v1/users',
         props: props
     })
     // ログインした状態でこのページへアクセスされた場合ホームへリダイレクトする
