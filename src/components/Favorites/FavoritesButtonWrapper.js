@@ -6,11 +6,11 @@ function FavoritesButtonWrapper({ favoritesData, favoritesCount, novelId, userId
     return (
         <React.Fragment>
             {
-                favoritesData.map(fav => (
+                Object.keys(favoritesData).map(key => (
                     <FavoritesButton
-                        key={fav.favorites_id}
-                        favoritesUserId={fav.favorites_user_id}
-                        favoritesData={favoritesData}
+                        key={key}
+                        favoritesUserId={favoritesData[key].favorites_user_id}
+                        favoritesData={favoritesData[key]}
                         favoritesCount={favoritesCount}
                         novelId={novelId}
                         userId={userId}
