@@ -4,22 +4,23 @@ import useComment from '../../CustomHooks/CommentHooks/useComment'
 import './Comment.css'
 
 // 1つのコメントを表示
-function OneComment({ index, content, commentUser, userId, commentUserId, commentId, commentNovelId, commentItems })
+function OneComment({ index, content, commentUser, userId, commentUserId, commentId, commentNovelId, commentsItems, setCommentsItems, setSuccess })
 {
 
     // コメントの順番
     const indexNo = parseInt(index) + 1
 
     // 削除用の関数とサクセスメッセージ
-    const { commentState, handleRemove, success } = useComment({
-        commentsCount: commentItems.commentsCount,  // カウントの初期値
-        commentsData: commentItems.commentsData,    //  コメントデータの初期値
+    const { handleRemove, removeMessage } = useComment({
+        commentsCount: commentsItems.commentsCount,  // カウントの初期値
+        commentsUser: commentsItems.commentsUser,    //  コメントデータの初期値
+        setAfterRemove: setCommentsItems, // コメント削除後にStateを変更するのに使う
+        setRemoveSuccess: setSuccess    // コメント削除時に表示するメッセージに使う
     })
 
     return (
         <React.Fragment>
-            {success && <span className="success">{success}</span>}
-            {commentState &&
+            {
                 <div className="Comment">
                     <li className="Comment__List">
                         <span className="indexNo">{indexNo} . </span>
