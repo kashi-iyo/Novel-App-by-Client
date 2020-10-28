@@ -5,18 +5,18 @@ import OneCommentWrapper from './OneCommentWrapper'
 import classNames from 'classnames'
 
 // コメント機能
-function CommentWrapper({ commentsCount, commentsData, novelId, userId, currentUser }) {
+function CommentWrapper({ commentsObject, novelId, userId, currentUser }) {
 
     // クリックしたときにコメント一覧を表示させる
     const [on, setOn] = useState(false)
 
     // content, handleChange, handleSubitなどフォームで扱う関数
-    const { commentItems, content, success, errors, handleChange, handleSubmit } = useComment({
+    const { commentsItems, setCommentsItems, content, success, errors, setSuccess, handleChange, handleSubmit } = useComment({
         novelId: novelId,   //バックエンドに送信するデータ
         userId: userId,     //バックエンドに送信するデータ
         currentUser: currentUser,       //バックエンドに送信するデータ
-        commentsCount: commentsCount,   // カウントの初期値
-        commentsData: commentsData,     // コメントデータの初期値
+        commentsCount: commentsObject.comments_count,     // コメント数の初期値
+        commentsUser: commentsObject.comments           // コメントしたユーザー
     })
 
     const buttonClass = classNames("button", { "noButton": content.length === 0  })
@@ -34,7 +34,7 @@ function CommentWrapper({ commentsCount, commentsData, novelId, userId, currentU
         <div className="NovelsContents__Comments">
             <button type="submit" className="DisplayComment" onClick={handleOn}>
                 <p className="Comments__count">コメント：
-                    {commentItems.commentsCount}
+                    {commentsItems.commentsCount}
                 </p>
                 <span className="sankaku">▼</span>
             </button>
@@ -60,10 +60,12 @@ function CommentWrapper({ commentsCount, commentsData, novelId, userId, currentU
                         </form>
                     </div>
                     {success && <span className="success">{success}</span>}
-                    {commentItems &&
+                    {commentsItems &&
                         <OneCommentWrapper
                             userId={userId}
-                            commentItems={commentItems}
+                            commentsItems={commentsItems}
+                            setCommentsItems={setCommentsItems}
+                            setSuccess={setSuccess}
                         />
                     }
                 </ul>
