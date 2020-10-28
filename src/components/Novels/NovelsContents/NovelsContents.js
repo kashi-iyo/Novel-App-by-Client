@@ -10,21 +10,23 @@ import Flash from '../../Flash/Flash'
 import NovelPagination from './NovelPagination/NovelPagination'
 import CommentWrapper from '../../Comment/CommentWrapper'
 import FavoritesButtonWrapper from '../../Favorites/FavoritesButtonWrapper'
+import Spinner from '../../Spinner/Spinner'
 
 
 // 小説1話分の内容を表示
-function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId, history}) {
-    const { items, errors } = useFetchItems({
+function NovelsContents({currentUser, userId, seriesId, novelId, history}) {
+    const { items, errors, isLoading } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`
     })
+console.log("NovelsContent")
     const { confirmation, removeErrors, removeSuccess, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
         url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         keyword: "novel",
         history: history
     })
 
-    const rendererNovelsContents = () => {
+    const rendererNovelsContents = ({series, novel, favorites, comments}) => {
         return (
             <React.Fragment>
                 <Flash Errors={removeErrors} Success={removeSuccess} />
@@ -39,7 +41,7 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                             <div className="NovelsContents__SeriesTitle">
                                 <p className="seriesTitle">
                                     <Link to={`/novel_series/${seriesId}`}>
-                                        {items.series_title}
+                                        {series.series_title}
                                     </Link>
                                 </p>
                             </div>
@@ -47,12 +49,12 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                                 <div className="NovelsContents__SeriesWriter">
                                     <span className="writerWrapper">作者名: </span>
                                     <span className="writerName">
-                                        <Link>{items.author}</Link>
+                                        <Link>{series.author}</Link>
                                     </span>
                                 </div>
                                 {/* 編集リンク */}
                                 {
-                                userId === items.user_id &&
+                                userId === novel.user_id &&
                                     <Link to={`/novel_series/${seriesId}/novels/${novelId}/edit`} className="NovelsContents__Edit" >
                                         編集する
                                     </Link>
@@ -62,13 +64,13 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                         {/* 小説の内容 */}
                         <div className="NovelsContents__Novels">
                             <div className="NovelsContents__NovelsTitle">
-                                {items.novel_title}
+                                {novel.novel_title}
                             </div>
                             <div className="NovelsContents__NovelsDescription">
-                                {items.novel_description}
+                                {novel.novel_description}
                             </div>
                             <div className="NovelsContents__NovelsContent">
-                                {items.novel_content}
+                                {novel.novel_content}
                             </div>
                         </div>
                     </div>
@@ -77,8 +79,8 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                         <React.Fragment>
                             {/* お気に入りボタン */}
                             <FavoritesButtonWrapper
-                                favoritesData={items.favorites_data}
-                                favoritesCount={items.favorites_count}
+                                favoritesData={favorites.favorites}
+                                favoritesCount={favorites.favorites_count}
                                 userId={userId}
                                 novelId={novelId}
                                 currentUser={currentUser}
@@ -86,8 +88,7 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                             {/* コメント機能 */}
                             <CommentWrapper
                                 novelId={novelId}
-                                commentsCount={items.comments_count}
-                                commentsData={items.comments_data}
+                                commentsObject={comments}
                                 userId={userId}
                                 currentUser={currentUser}
                             />
@@ -104,30 +105,33 @@ function NovelsContents({currentUser, loggedInStatus, userId, seriesId, novelId,
                 {/* 削除ボタン */}
                 <RemoveFeatures
                     theme="話"
-                    authorId={items.user_id}
+                    authorId={novel.user_id}
                     currentUserId={userId}
                     handleClick={handleClick}
                     confirmation={confirmation}
                     handleOkRemove={handleOkRemove}
                     handleNoRemove={handleNoRemove}
-                />
+                    />
             </React.Fragment>
         )
     }
 
     const renderer = () => {
-        if (!items.release && items.user_id === userId) {
-            return rendererNovelsContents()
-        } else if (!items.release && items.user_id !== userId) {
+        if (!!errors) {
             return <ErrorMessages errors={errors} />
-        } else if (items.release) {
-            return rendererNovelsContents()
+        } else if (items.length !== 0) {
+            return rendererNovelsContents({
+                series: items.series,
+                novel: items.novel,
+                favorites: items.favorites_obj,
+                comments: items.comments_obj
+            })
         }
     }
 
     return (
         <div>
-            {renderer()}
+            {isLoading ? <Spinner /> : renderer()}
         </div>
     )
 }
