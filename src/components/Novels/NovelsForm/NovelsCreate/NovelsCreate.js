@@ -4,19 +4,18 @@ import NovelsForm from '../NovelsForm'
 import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
 
 // 小説作成フォーム
-function NovelsCreate(props) {
-    const seriesId = props.match.params.id
+function NovelsCreate({ seriesId, history, loggedInStatus }) {
 
     const novelsCreateForm = () => {
         return (
             <div className="novelsCreate">
                 <NovelsForm
-                    {...props}
                     method="post"
                     url={`http://localhost:3001/api/v1/novel_series/${seriesId}/novels`}
                     seriesId={seriesId}
                     formType="create"
                     dataType="novel"
+                    history={history}
                     button="追加する"
                 />
             </div>
@@ -25,9 +24,9 @@ function NovelsCreate(props) {
 
     // ログインしている場合にフォームをレンダリング
     const renderer = () => {
-        if (!props.loggedInStatus) {
-            return <ErrorMessages {...props} errors={"アクセス権限がありません。"} />
-        } else if (props.loggedInStatus) {
+        if (!loggedInStatus) {
+            return <ErrorMessages errors={"アクセス権限がありません。"} />
+        } else if (loggedInStatus) {
             return novelsCreateForm()
         }
     }
