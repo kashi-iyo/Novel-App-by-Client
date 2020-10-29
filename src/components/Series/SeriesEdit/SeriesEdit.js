@@ -3,10 +3,11 @@ import './SeriesEdit'
 import SeriesForm from '../SeriesForm/SeriesForm'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import useFetchEditItems from '../../../CustomHooks/NovelsHooks/useFetchEditItems'
+import Spinner from '../../Spinner/Spinner'
 
 // useEditItemsで取得したデータを、SeriesFormへを渡す
 function SeriesEdit({seriesId, history, currentUser, userId}) {
-    const { items, tags, errors } = useFetchEditItems({
+    const { items, errors, isLoading } = useFetchEditItems({
         method: "get",
         url: `http://localhost:3001/api/v1/novel_series/${seriesId}/edit`,
         history: history
@@ -49,7 +50,7 @@ function SeriesEdit({seriesId, history, currentUser, userId}) {
     return (
         <div>
             {/* ログインし、尚且つエラーの存在しない場合に、編集フォームを表示 */}
-            {renderer()}
+            {isLoading ? <Spinner /> : renderer()}
         </div>
     )
 }
