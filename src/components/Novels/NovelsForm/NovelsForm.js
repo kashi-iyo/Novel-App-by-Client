@@ -7,28 +7,18 @@ import './NovelsForm.css'
 import useItemsInput from '../../../CustomHooks/NovelsHooks/useItemsInput'
 import Flash from '../../Flash/Flash'
 
-// シリーズ作成フォームを作成
-function SeriesForm(props) {
-    // method: HTTPリクエスト, url: Railsのルーティング, mount: マウント処理, sendItems: EditItemsから渡されるデータ
+// 小説作成フォームを作成
+function NovelsForm({ url, method, formType, dataType, novels, history, button, seriesId, novelsId }) {
+    // method: HTTPリクエスト, url: Railsのルーティング, sendItems: EditItemsから渡されるデータ
     // props: historyなどの取得のため
-    const {
-        values,
-        release,
-        itemSuccess,
-        itemErrors,
-        handleChange,
-        handleSubmit,
-        handleStatusChange,
-        } =
+    const { values, release, itemSuccess, itemErrors, handleChange, handleSubmit, handleStatusChange, } =
         useItemsInput({
-            props: props,
-            url: props.url,
-            method: props.method,
-            mounted: props.mounted,
-            setMount: props.setMount,
-            formType: props.formType,
-            dataType: props.dataType,
-            sendItems: props.novels,
+            url: url,
+            method: method,
+            formType: formType,
+            dataType: dataType,
+            sendItems: novels,
+            history: history,
         })
 
     const title = values.novel_title
@@ -51,15 +41,15 @@ function SeriesForm(props) {
             {/* ボタンの文字列によって表示を切り替える */}
             <div className="FormHeader">
                 {
-                    props.button === "追加する" ?
+                    button === "追加する" ?
                         <h3>╋小説追加</h3> :
                         <h3>╋小説編集</h3>
                 }
                 <div className="SeriesForm__SeriesPage">
-                    <Link to={`/novel_series/${props.seriesId}`}>シリーズ管理画面へ戻る</Link>
+                    <Link to={`/novel_series/${seriesId}`}>シリーズ管理画面へ戻る</Link>
                 </div>
-                {props.formType === "edit" && <div className="SeriesForm__NovelsPage">
-                    <Link to={`/novel_series/${props.seriesId}/novels/${props.novelsId}`}>小説管理画面へ戻る</Link>
+                {formType === "edit" && <div className="SeriesForm__NovelsPage">
+                    <Link to={`/novel_series/${seriesId}/novels/${novelsId}`}>小説管理画面へ戻る</Link>
                 </div>}
             </div>
 
@@ -137,11 +127,11 @@ function SeriesForm(props) {
                     <label htmlFor="release" className="releaseLabel">公開する</label>
                 </div>
                 {/* ========== */}
-                <button type="submit" className={buttonClass}>{props.button}</button>
+                <button type="submit" className={buttonClass}>{button}</button>
             </form>
             </div>
         </React.Fragment>
     )
 }
 
-export default SeriesForm
+export default NovelsForm
