@@ -2,18 +2,16 @@ import React from 'react'
 
 import useFetchEditItems from '../../../../CustomHooks/NovelsHooks/useFetchEditItems'
 import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
+import Spinner from '../../../Spinner/Spinner'
 import NovelsForm from '../NovelsForm'
 
 
-function NovelsEdit(props) {
-    const url = props.match.url
-    const { items, paramId, errors, mounted, setMount } = useFetchEditItems({
+function NovelsEdit({ userId, seriesId, novelsId, history}) {
+    const { items, errors, isLoading } = useFetchEditItems({
         method: "get",
-        url: `http://localhost:3001/api/v1${url}`,
-        props: props
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelsId}/edit`,
+        history: history
     })
-    const seriesId = paramId.seriesId
-    const novelsId = paramId.novelsId
 
     // 編集フォームをレンダリングする
     const novelsEditForm = () => {
@@ -26,18 +24,15 @@ function NovelsEdit(props) {
                 {
                     items
                     &&
-                    <NovelsForm {...props}
+                    <NovelsForm
                         method="patch"
                         url={`http://localhost:3001/api/v1//novel_series/${seriesId}/novels/${novelsId}`}
                         novels={items}
-                        paramId={paramId}
                         seriesId={seriesId}
                         novelsId={novelsId}
-                        mounted={mounted}
-                        setMount={setMount}
-                        currentUser={props.currentUser}
                         formType="edit"
                         dataType="novel"
+                        history={history}
                         button="編集を完了する"
                     />
                 }
@@ -47,18 +42,18 @@ function NovelsEdit(props) {
 
     // ログインユーザーと作者が一致しており尚且つエラーの存在しない場合に、編集フォームを表示
     const renderer = () => {
-        if (!props.loggedInStatus || errors) {
-            return <ErrorMessages errors={errors} loggedInStatus={props.loggedInStatus} />
-        } else if (props.currentUser !== items.author) {
-            return <ErrorMessages errors={errors} loggedInStatus={props.loggedInStatus} />
-        } else if (props.currentUser === items.author) {
+        if (userId !== items.user_id) {
+            return <ErrorMessages errors={"アクセス権限がありません。"}/>
+        } else if (!!errors) {
+            return <ErrorMessages errors={errors} />
+        } else if (userId === items.user_id) {
             return novelsEditForm()
         }
     }
 
     return (
         <div>
-            {renderer()}
+            {isLoading ? <Spinner /> : renderer()}
         </div>
     )
 }
