@@ -51,6 +51,7 @@
 
 .CommentForm > form > input[type="submit"] {
     height: 10%;
+    outline: none;
 }
 
 .CommentForm {

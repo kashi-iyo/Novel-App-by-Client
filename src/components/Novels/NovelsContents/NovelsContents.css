@@ -4,6 +4,10 @@
     /* display: none; */
 }
 
+.NovelsContents__Top {
+    margin-bottom: 80px;
+}
+
 .NovelsContens__Series {
     text-align: center;
     margin-bottom: 150px;
@@ -16,7 +20,6 @@
 .NovelsContents {
     background: rgba(240, 240, 240, 0.3);
     width: 100%;
-    max-width: 700px;
     min-width: 370px;
     margin: 0 auto;
     word-break: break-all;
@@ -76,8 +79,8 @@
 
 
 
-.Pagination, .PaginationTop {
-    width: 95%;
+.PaginationTop {
+    width: 100%;
     height: 7vh;
     margin-bottom: 50px;
     display: flex;
@@ -90,7 +93,7 @@
 .PaginationTop {
     margin-bottom: 0;
 }
-.Pagination > a, .PaginationTop > a {
+.PaginationTop > a, .PaginationTop > span {
     background: var(--buttonBackground);
     color: var(--buttonColor);
     text-decoration: none;
@@ -101,5 +104,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+}
+.PaginationTop > span {
+    border-radius: 3px;
+    background: transparent;
+    box-sizing: border-box;
 }

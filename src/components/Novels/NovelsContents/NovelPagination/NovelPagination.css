@@ -1,0 +1,8 @@
+.PaginationPageNumber {
+    padding: 3px;
+    font-size: 0.8rem;
+}
+
+.PaginationPageNumber > span {
+    font-weight: 700;
+}
