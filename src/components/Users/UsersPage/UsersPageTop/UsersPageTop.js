@@ -25,7 +25,7 @@ function UsersPageTop({ users, userId, usersTags }) {
                             Object.keys(usersTags).map(key => {
                                 let id = usersTags[key].tag_id
                                 let tag = usersTags[key].tag_name
-                                let count = usersTags[key].has_users_count
+                                let count = usersTags[key].has_data_count
                                 return (
                                     <OneTags key={key} link={`/user_tags/${id}`} tagName={tag} count={count} />
                                 )

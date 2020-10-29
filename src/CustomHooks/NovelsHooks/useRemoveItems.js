@@ -27,7 +27,7 @@ function useRemoveItems({url, keyword, history}) {
                 let res = response.data
                 //Destroy 削除に成功
                 if (res.head === "no_content") {
-                    setRemoveSuccess(res.success)
+                    setRemoveSuccess(res.successful)
                     setTimeout(() => setRemoveSuccess(""), 2000)
                     setTimeout(() => redirect("/"), 2000)
                 //error 未認証の場合

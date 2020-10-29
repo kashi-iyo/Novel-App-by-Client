@@ -6,8 +6,8 @@ import useRedirect from "../Redirect/useRedirect"
 // →SeriesEdit, で使う
 export default function useEditItems({method, url, history}) {
     const [items, setItems] = useState("")
-    const [keyword, setKeyword] = useState("")  //handleSubmitにて送るデータを区別するのに使う
     const [errors, setErrors] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
     const { redirect } = useRedirect({ history: history })
 
     useEffect(() => {
@@ -15,6 +15,7 @@ export default function useEditItems({method, url, history}) {
         const getItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
+                    setIsLoading(true)
                     console.log(response.data)
                     let res = response.data
                     let object = res.object
@@ -24,17 +25,20 @@ export default function useEditItems({method, url, history}) {
                     //Edit NovelSeriesオブジェクト編集用データ
                     if (mount && status === 200 && crud_type === 'edit' && data_type === "series") {
                         setItems(object)
-                        setKeyword(data_type)
+                        setIsLoading(false)
                     //Edit Novelsオブジェクト編集用データ
                     } else if (mount && status === 200 && crud_type === 'edit' && data_type === "novel") {
                         setItems(object)
+                        setIsLoading(false)
                     //error 未認証の場合
                     } else if (mount && status === "unauthorized") {
                         setErrors(res.messages)
                         setTimeout(() => { redirect('/') }, 3000)
+                        setIsLoading(false)
                     //error 非公開の場合
                     } else if (mount && status === 'forbidden') {
                         setErrors(res.messages)
+                        setIsLoading(false)
                     }
                 })
                 .catch(error => console.log(error))
@@ -46,6 +50,6 @@ export default function useEditItems({method, url, history}) {
     }, [method, url])
 
     return {
-        items, keyword, errors
+        items, errors, isLoading
     }
 }

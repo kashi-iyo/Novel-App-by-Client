@@ -30,7 +30,6 @@ export default function useFetchItems({ method, url }) {
                         setIsLoading(false)
                     //Read 小説1話分を取得
                     } else if (mount && status === 200 && data_type === 'novel' && crud_type === "show") {
-                        console.log("novelのshowがマウントされる")
                         setItems(obj)
                         setIsLoading(false)
                     //error 非公開時のデータ
@@ -46,15 +45,10 @@ export default function useFetchItems({ method, url }) {
                 .catch(error => console.log(error))
         }
         getItems()
-        return () => {
-            console.log("novelのshowアンマウントされる")
-        }
         localStorage.removeItem("key")
         localStorage.removeItem("tags")
-        
         return () => { mount = false }
-    }, [url, setIsLoading])
-
+    }, [url, method, setIsLoading])
 
 
     return {

@@ -11,7 +11,6 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsUser,
     const [content, setContent] = useState("")
     const [errors, setErrors] = useState("")
     const [success, setSuccess] = useState("")
-    const [removeMessage, setRemoveMessage] = useState("")
 
     // 入力した内容を保持
     const handleChange = e => {
@@ -65,11 +64,8 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsUser,
                         commentsCount: commentsItems.commentsCount - 1,
                         commentsUser: comments
                     })
-                    console.log("Remove完了")
-                    setRemoveSuccess(res.success)
-                    console.log("サクセスメッセージ表示")
+                    setRemoveSuccess(res.successful)
                     setTimeout(() => setRemoveSuccess(""), 3000)
-                    console.log("サクセスメッセージ削除")
                 } else if (res.status === "unauthorized") {
                     setErrors(res.errors)
                     setTimeout(() => setErrors(""), 3000)

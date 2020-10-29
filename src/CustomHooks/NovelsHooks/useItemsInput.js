@@ -7,6 +7,10 @@ import useRedirect from '../Redirect/useRedirect'
 function useItemsInput({ method, url, sendItems, history, formType, dataType, editTags, currentUser }) {
 
     // シリーズ／小説の初期値
+    // 1回目のレンダリング:
+        // 作成の場合 → seriesState / novelStateが格納される。
+        // 編集の場合 → sendItems（編集用データ）が格納される。
+    // 2回目以降のレンダリング: localStateが格納される。
     const [values, setValues] = useState(() => {
         // シリーズ
         const seriesState = { series_title: "", series_description: "" }
@@ -18,13 +22,13 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
         // ローカルストレージに値がある
         if (!!localState) {
             return localState
-        // ローカルストレージに値がない、createフォーム、シリーズデータ
+        // ローカルストレージに値がない、createフォーム、シリーズの作成の場合
         }   else if (dataType === "series" && formType === "create") {
             return seriesState
-        // ローカルストレージに値がない、createフォーム、小説データ
+        // ローカルストレージに値がない、createフォーム、小説の作成の場合
         } else if (dataType === "novel" && formType === "create" ) {
             return novelState
-        // ローカルストレージに値がない、編集フォーム
+        // ローカルストレージに値がない、編集フォームの場合
         } else if (formType === "edit") {
             return sendItems
         }
@@ -153,7 +157,7 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
                     setItemSuccess(res.successful)
                     setTimeout(() => { redirect(`/novel_series/${res.object}`) }, 1500)
                 //Create Novelsオブジェクトを生成
-                } else if (created && data_type === "novel" && crud_type === "create") {
+                } else if (created && data_type === "novel_for_create" && crud_type === "create") {
                     setItemSuccess(res.successful)
                     setTimeout(() => { redirect(`/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`) }, 1500)
                 //Update Novelsオブジェクトを更新
