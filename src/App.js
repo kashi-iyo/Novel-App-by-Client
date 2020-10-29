@@ -154,14 +154,23 @@ export default function App() {
                 <Route
                   exact path="/novel_series/:id/add_novels"
                   render={props => (
-                    <NovelsCreate {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
+                    <NovelsCreate {...props}
+                      loggedInStatus={loggedInStatus}
+                      seriesId={props.match.params.id}
+                      history={props.history}
+                    />
                   )}
                 />
                 {/* 小説編集 */}
                 <Route
-                  exact path="/novel_series/:id/novels/:id/edit"
+                  exact path="/novel_series/:id/novels/:novel_id/edit"
                   render={props => (
-                    <NovelsEdit {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
+                    <NovelsEdit {...props}
+                      userId={userId}
+                      seriesId={props.match.params.id}
+                      novelsId={props.match.params.novel_id}
+                      history={props.history}
+                    />
                   )}
                 />
                 {/* シリーズタグフィード */}
