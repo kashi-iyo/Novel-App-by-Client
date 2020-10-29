@@ -1,11 +1,22 @@
 import React from 'react'
+import './NovelPagination.css'
 
-function NovelPagination({seriesId, novelId}) {
+function NovelPagination({ seriesId, novelId, ids }) {
+    var novelIntId = parseInt(novelId)
+    var i = ids.indexOf(novelIntId)
+    // 前話
+    const prev = ids[i - 1] ? ids[i - 1] : ""
+    // 次話
+    const next = ids[i + 1] ? ids[i + 1] : ""
+
     return (
         <React.Fragment>
-            <a href={`/novel_series/${seriesId}/novels/` + (novelId - 1)}>前話</a>
-            <a href={`/novel_series/${seriesId}`}>目次</a>
-            <a href={`/novel_series/${seriesId}/novels/` + (novelId + 1)}>次話</a>
+            <div className="PaginationTop">
+                {prev ? <a href={`/novel_series/${seriesId}/novels/` + (prev)}>前話</a> : <span></span>}
+                <a href={`/novel_series/${seriesId}`}>目次</a>
+                {next ? <a href={`/novel_series/${seriesId}/novels/` + (next)}>次話</a> : <span></span>}
+            </div>
+            <p className="PaginationPageNumber">（ <span>{i + 1} 話</span> / 全 {ids.length} 話 ）</p>
         </React.Fragment>
     )
 }
