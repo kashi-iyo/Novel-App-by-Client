@@ -21,7 +21,7 @@ function TagHasSeries({ tagId, pageNo }) {
 
     return (
         <div className="TagsSeries">
-            <p className="TagHasUsers__Count">{tags.has_data_count} 件の作品が登録しています。 （ {indexOfFirstPost + 1} - {indexOfLastPost}件 ）</p>
+            <p className="TagHasUsers__Count">{tags.has_data_count} 件の作品が登録しています。 （ {indexOfFirstPost + 1} - {items.length < 5 ? items.length : indexOfLastPost}件 ）</p>
             <p className="Caption TagsSeries__caption">╋ {tags.tag_name} を登録している作品</p>
             <Pagination
                 postsPerPage={postsPerPage}  //1Pに表示する記事の数
