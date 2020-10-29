@@ -24,7 +24,7 @@ function Home({ seriesNo }) {
         <React.Fragment>
             {isLoading ? <Spinner /> :
                 <div className="home">
-                    <p className="TagHasUsers__Count">全 {count} 件（ {indexOfFirstPost + 1} - {indexOfLastPost}件 ）</p>
+                    <p className="TagHasUsers__Count">全 {count} 件（ {indexOfFirstPost + 1} - {items.length < 5 ? items.length : indexOfLastPost}件 ）</p>
                     <h2 className="Caption">╋ 作品一覧 </h2>
                     <Pagination
                         postsPerPage={postsPerPage}  //1Pに表示する記事の数
