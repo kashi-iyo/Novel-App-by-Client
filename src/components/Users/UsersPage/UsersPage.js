@@ -3,7 +3,6 @@ import React from 'react'
 import './UsersPage.css'
 import useFetchUserItems from '../../../CustomHooks/UsersHooks/useFetchUserItems'
 import ErrorMessages from '../../ErrorMessages/ErrorMessages'
-import UsersSeries from '../UsersSeries/UsersSeries'
 import UsersPageTop from './UsersPageTop/UsersPageTop'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
@@ -11,10 +10,11 @@ import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import UsersPagination from '../../Pagination/UsersPagination'
 import usePagination from '../../../CustomHooks/Pagination/usePagination'
+import SeriesWrapper from '../../Series/SeriesWrapper/SeriesWrapper'
 
 // ユーザーページ
 function UsersPage({ userParams, loggedInStatus, userId, history }) {
-    const { users, usersTags, usersSeries, usersErrors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
+    const { users, usersTags, usersRelationships, handleFollow, handleUnFollow, usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
             method: "get",
             url: `http://localhost:3001/api/v1/users/${userParams}`,
             editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
@@ -29,18 +29,22 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
     return (
         <React.Fragment>
             {isLoading ? <Spinner /> :
-                usersErrors ? <ErrorMessages loggedInStatus={loggedInStatus} errors={usersErrors} /> :
+                errors ? <ErrorMessages loggedInStatus={loggedInStatus} errors={errors} /> :
                     <div className="UsersPage">
                     {/* ユーザーページ上部 */}
                     <UsersPageTop
                         users={users}
                         userId={userId}
                         usersTags={usersTags}
+                        errors={errors}
+                        usersRelationships={usersRelationships}
+                        handleFollow={handleFollow}
+                        handleUnFollow={handleUnFollow}
                     />
                     <div className="UsersPage__Bottom">
                         <div className="UsersPage__BottomWrapper">
                             <Tabs>
-                                {/* 投稿作品とお気に入りのシリーズタイトル */}
+                                {/* 投稿作品 / お気に入り作品 */}
                                 <div className="UsersPage__PostedSeriesWrapper">
                                     <TabList>
                                         <Tab>
@@ -61,14 +65,8 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
                                             totalPosts={usersSeries.length} // 記事数
                                             currentPage={currentPage}
                                             setCurrentPage={setCurrentPage}
-                                        />
-                                        <ul>
-                                            {
-                                                Object.keys(currentItems).map(key => (
-                                                    <UsersSeries key={key} series={currentItems[key]} />
-                                                ))
-                                            }
-                                        </ul>
+                                            />
+                                        <SeriesWrapper items={currentItems} />
                                         <UsersPagination
                                             postsPerPage={postsPerPage}  //1Pに表示する記事の数
                                             totalPosts={usersSeries.length} // 記事数
@@ -84,13 +82,7 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
                                             currentPage={currentPage}
                                             setCurrentPage={setCurrentPage}
                                         />
-                                        <ul className="UsersPage__UsersFavoritesUl">
-                                            {favoriteSeries &&
-                                                Object.keys(currentItems2).map(key => (
-                                                    <UsersSeries key={key} series={currentItems2[key]} />
-                                                ))
-                                            }
-                                        </ul>
+                                        <SeriesWrapper items={currentItems2} />
                                         <UsersPagination
                                             postsPerPage={postsPerPage}  //1Pに表示する記事の数
                                             totalPosts={favoriteSeries.length} // 記事数
