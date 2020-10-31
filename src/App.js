@@ -20,6 +20,7 @@ import TagHasSeries from './components/Tags/TagHasSeries/TagHasSeries'
 import TagHasUsers from './components/Tags/TagHasUsers/TagHasUsers'
 import UsersTagsFeed from './components/Tags/UsersTagsFeed/UsersTagsFeed'
 import SeriesTagsFeed from './components/Tags/SeriesTagsFeed/SeriesTagsFeed'
+import RelationshipUsers from './components/Follow/RelationshipUsers'
 
 export default function App() {
   const { loggedInStatus, currentUser, isLoading, userId } = useLoggedIn()
@@ -81,6 +82,40 @@ export default function App() {
                     />
                   )}
               />
+              <Route exact path="/users/:id/followings"
+                  render={props => (
+                    <Redirect {...props}
+                      to={`/users/${props.match.params.id}/followings/1`}
+                    />
+                  )}
+                />
+                <Route
+                    exact path="/users/:user_id/followings/:page_no"
+                    render={props => (
+                      <RelationshipUsers {...props}
+                        userId={props.match.params.user_id}
+                        pageNo={props.match.params.page_no}
+                        dataType="followings"
+                      />
+                    )}
+                />
+                <Route exact path="/users/:id/followers"
+                    render={props => (
+                      <Redirect {...props}
+                        to={`/users/${props.match.params.id}/followers/1`}
+                      />
+                    )}
+                />
+                <Route
+                      exact path="/users/:user_id/followers/:page_no"
+                      render={props => (
+                        <RelationshipUsers {...props}
+                          userId={props.match.params.user_id}
+                          pageNo={props.match.params.page_no}
+                          dataType="followers"
+                        />
+                      )}
+                  />
               {/* 登録している趣味タグを持つユーザー一覧 */}
               {/* リダイレクト */}
               <Route exact path="/user_tags/:id"
