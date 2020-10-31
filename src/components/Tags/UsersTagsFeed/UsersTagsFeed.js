@@ -14,7 +14,7 @@ function UsersTagsFeed() {
         <React.Fragment>
             <TagsFeed
                 items={items}
-                link="/user_tags/"
+                dataType="user"
                 caption="趣味タグクラウド"
             />
         </React.Fragment>
