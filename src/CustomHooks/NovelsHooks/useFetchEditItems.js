@@ -32,12 +32,12 @@ export default function useEditItems({method, url, history}) {
                         setIsLoading(false)
                     //error 未認証の場合
                     } else if (mount && status === "unauthorized") {
-                        setErrors(res.messages)
+                        setErrors(res.errors)
                         setTimeout(() => { redirect('/') }, 3000)
                         setIsLoading(false)
                     //error 非公開の場合
                     } else if (mount && status === 'forbidden') {
-                        setErrors(res.messages)
+                        setErrors(res.errors)
                         setIsLoading(false)
                     }
                 })

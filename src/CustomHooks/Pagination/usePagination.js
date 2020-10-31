@@ -1,8 +1,8 @@
 import {useState} from 'react'
 
-function usePagination({pageNo, items, items2}) {
+function usePagination({pageNo, perPage, items, items2}) {
     const [currentPage, setCurrentPage] = useState(pageNo)
-    const [postsPerPage] = useState(5)
+    const [postsPerPage] = useState(perPage ? perPage : 5)
 
     // ページネーション用の投稿データ
     // 1つのページに表示させたい記事の最後の記事のインデックス

@@ -6,7 +6,6 @@ function useFavorites({ currentUser, stateOfFavorites, setStateOfFavorites}) {
 
     // お気に入り時の挙動
     const handleFavorites = (novelId, userId) => {
-        console.log("favoritesOn:  OK")
         axios.post(
             `http://localhost:3001/api/v1/novels/${novelId}/novel_favorites`,
             {
@@ -26,8 +25,8 @@ function useFavorites({ currentUser, stateOfFavorites, setStateOfFavorites}) {
                     })
                 } else if (res.status === "unprocessable_entity") {
                     setErrors(res.errors)
-                } else if (res.status === 401) {
-                    setErrors(res.messages)
+                } else if (res.status === "no_content") {
+                    setErrors(res.errors)
                 }
             })
         .catch(err => console.log(err))
@@ -38,11 +37,14 @@ function useFavorites({ currentUser, stateOfFavorites, setStateOfFavorites}) {
         console.log("favoritesOn:  OFF")
         axios.delete(`http://localhost:3001/api/v1/novels/${novelId}/novel_favorites/${userId}`, { withCredentials: true })
             .then(response => {
-                if (response.data.head === 'no_content') {
+                let res = response.data
+                if (res.head === 'no_content' && res.crud_type === "favorites") {
                     setStateOfFavorites({
                         count: stateOfFavorites.count - 1,
                         isOn: false
                     })
+                } else if (res.head === "no_content") {
+                    setErrors(res.errors)
                 }
             })
             .catch(err => console.log(err))

@@ -34,7 +34,7 @@ export default function useFetchItems({ method, url }) {
                         setIsLoading(false)
                     //error 非公開時のデータ
                     } else if (mount && status === "forbidden") {
-                        setErrors(res.messages)
+                        setErrors(res.errors)
                         setIsLoading(false)
                     //error データが存在しない場合
                     } else if (mount && res.head === "no_content") {

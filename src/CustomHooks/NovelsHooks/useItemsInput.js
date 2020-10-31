@@ -166,7 +166,7 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
                     setTimeout(() => { redirect(`/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`) }, 1500)
                 //error 未認証の場合
                 } else if (res.status === "unauthorized") {
-                    setItemErrors(res.messages)
+                    setItemErrors(res.errors)
                     setTimeout(() => setItemErrors(""), 3000)
                 //error オブジェクトの生成または更新に失敗した場合
                 } else if (res.status === "unprocessable_entity") {

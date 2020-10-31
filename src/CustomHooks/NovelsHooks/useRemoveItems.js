@@ -32,7 +32,7 @@ function useRemoveItems({url, keyword, history}) {
                     setTimeout(() => redirect("/"), 2000)
                 //error 未認証の場合
                 } else if (res.status === "unauthorized") {
-                    setRemoveErrors(res.messages)
+                    setRemoveErrors(res.errors)
                     setTimeout(() => setRemoveErrors(""), 2000)
                 }
             })
