@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import SeriesTags from '../Tags/SeriesTags/SeriesTags'
+import TagsWrapper from '../Tags/TagsWrapper/TagsWrapper'
 import './Series.css'
 
 // 1つのシリーズを表示
@@ -36,10 +36,7 @@ function Series({seriesId, author, commentsCount, favoritesCount, release, descr
                     </div>
                 </div>
                 <div className="Series__tagWrap">
-                    {/* シリーズが所有するタグ */}
-                    <ul className="Series__tagUl">
-                        <SeriesTags tags={tags} />
-                    </ul>
+                    <TagsWrapper tags={tags} dataType="series" />
                 </div>
             </div>
         )

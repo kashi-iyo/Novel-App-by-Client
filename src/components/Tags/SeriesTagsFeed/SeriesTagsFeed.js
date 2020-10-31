@@ -12,7 +12,7 @@ function SeriesTagsFeed() {
         <React.Fragment>
             <TagsFeed
                 items={items}
-                link="/search_series_by_tag/"
+                dataType="series"
                 caption="小説タグクラウド"
             />
         </React.Fragment>

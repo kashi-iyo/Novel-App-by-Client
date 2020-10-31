@@ -8,8 +8,8 @@ import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../../CustomHooks/NovelsHooks/useRemoveItems'
 import RemoveFeatures from '../../Remove/RemoveFeatures'
 import Flash from '../../Flash/Flash'
-import SeriesTags from '../../Tags/SeriesTags/SeriesTags'
 import Spinner from '../../Spinner/Spinner'
+import TagsWrapper from '../../Tags/TagsWrapper/TagsWrapper'
 
 function NovelsFeed({seriesId, userId, loggedInStatus, currentUser, history}) {
     // 投稿データを取得
@@ -50,9 +50,7 @@ function NovelsFeed({seriesId, userId, loggedInStatus, currentUser, history}) {
                             </div>
                         </div>
                         <div className="SeriesFeed__tagWrap">
-                            <ul className="SeriesFeed__tagUl">
-                                <SeriesTags tags={items.tags} />
-                            </ul>
+                            <TagsWrapper tags={items.tags} />
                         </div>
                         {/* ログイン中のユーザーと作者が異なるか、非ログインの場合は編集不可 */}
                         {items.series.user_id === userId && loggedInStatus &&
@@ -70,7 +68,7 @@ function NovelsFeed({seriesId, userId, loggedInStatus, currentUser, history}) {
                     </div>
                     {/* シリーズ内の小説一覧 */}
                     <p className="NovelsFeed__NovelsCount">（全 {items.novels_count} 話）</p>
-                    <NovelsInNovelsFeed novel={items.novels} userId={userId} />
+                        <NovelsInNovelsFeed novel={items.novels} userId={userId} />
                     <div className="NovelsFeed__BarSpan"></div>
                 </div>
                 {/* 削除ボタン */}
