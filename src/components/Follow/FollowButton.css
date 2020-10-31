@@ -1,0 +1,29 @@
+
+.FollowButton > button[type="submit"] {
+    outline: none;
+}
+.NowFollowButton, .UnFollowButton {
+    width: 120px;
+    height: 37px;
+    border-radius: 18px;
+}
+.NowFollowButton {
+    background: var(--buttonBackground);
+}
+.FollowButton > .UnFollowButton {
+    background: transparent;
+    border: 1px solid var(--buttonBackground);
+    box-sizing: border-box;
+}
+.NowFollow, .UnFollow {
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.NowFollow {
+    color: white;
+}
+.UnFollow {
+    color: var(--linkColor);
+}

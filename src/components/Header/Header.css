@@ -103,6 +103,7 @@
     overflow: scroll;
     padding: 5px;
     box-sizing: border-box;
+    justify-content: space-around;
 }
 .header__ul > li {
     padding: 3px;

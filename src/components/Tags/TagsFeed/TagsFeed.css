@@ -7,9 +7,9 @@
     padding: 15px;
     box-sizing: border-box;
     border-radius: 3px;
-    margin-bottom: 40px;
     overflow: scroll;
     max-height: 90vh;
     width: 95%;
     margin: 0 auto;
+    margin-bottom: 40px;
 }

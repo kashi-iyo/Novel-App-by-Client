@@ -11,6 +11,14 @@ h1 {
     margin-bottom: 100px;
 }
 
+/* フォロー */
+.UsersPage__TopRelationships {
+    margin-bottom: 20px;
+}
+.UsersPage__TopRelationshipsSpan {
+    margin: 0 10px;
+}
+
 .UsersPage__TagWrapper {
     padding: 7px;
     box-sizing: border-box;
