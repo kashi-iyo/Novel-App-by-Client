@@ -29,12 +29,9 @@ function TagHasSeries({ tagId, pageNo }) {
                 currentPage={currentPage}
                 paginateHref={`/search_series_by_tag/${tagId}/page/`}
             />
+            {/* シリーズ一覧 */}
             <div className="homeWrapper">
-                {
-                    Object.keys(currentItems).map(key => (
-                    <SeriesWrapper key={key} items={currentItems[key]} />
-                    ))
-                }
+                <SeriesWrapper items={currentItems} />
             </div>
             <Pagination
                 postsPerPage={postsPerPage}  //1Pに表示する記事の数

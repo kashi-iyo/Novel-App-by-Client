@@ -33,11 +33,7 @@ function Home({ seriesNo }) {
                         paginateHref={`/Series/`}
                     />
                     <div className="homeWrapper">
-                        {currentItems &&
-                            Object.keys(currentItems).map(key => (
-                                <SeriesWrapper key={key} items={currentItems[key]} />
-                            ))
-                        }
+                        <SeriesWrapper items={currentItems} />
                     </div>
                     <Pagination
                         postsPerPage={postsPerPage}  //1Pに表示する記事の数
