@@ -1,10 +1,10 @@
 import React from 'react'
-import OneUser from './OneUser/OneUser'
 import './TagHasUsers.css'
 import usePagination from '../../../CustomHooks/Pagination/usePagination'
 import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 import Pagination from '../../Pagination/Pagination'
 import Spinner from '../../Spinner/Spinner'
+import UsersWrapper from '../../Users/UsersWrapper'
 
 // クリックしたタグを所有するユーザーを一覧で表示
 function TagHasUsers({tagId, pageNo}) {
@@ -31,20 +31,8 @@ function TagHasUsers({tagId, pageNo}) {
                         currentPage={currentPage}
                         paginateHref={`/user_tags/${tagId}/page/`}
                     />
-                    <ul className="TagHasUsers__Ul">
-                        {currentItems &&
-                            Object.keys(currentItems).map(key => {
-                                return (
-                                    <OneUser
-                                        key={key}
-                                        link={`/users/${currentItems[key].user_id}`}
-                                        name={currentItems[key].nickname}
-                                        profile={currentItems[key].profile}
-                                    />
-                                )
-                            })
-                        }
-                    </ul>
+                    {/* ユーザー一覧 */}
+                    <UsersWrapper items={currentItems} />
                     <Pagination
                         postsPerPage={postsPerPage}  //1Pに表示する記事の数
                         totalPosts={items.length} // 記事数
