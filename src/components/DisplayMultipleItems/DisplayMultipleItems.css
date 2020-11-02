@@ -1,0 +1,40 @@
+.display-multiple-items {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.display-multiple-items--caption {
+    margin: 0 auto;
+    background-color:var(--buttonBackground);
+    color: var(--buttonColor);
+    border-radius: 3px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    width: 95%;
+    padding: 5px 0;
+    padding-right: 5px;
+    box-sizing: border-box;
+    word-break: break-all;
+    margin-bottom: 50px;
+}
+
+.display-multiple-items--items-wrapper {
+    background: rgba(197, 197, 255, 0.1);
+}
+
+.display-multiple-items--record-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 50px
+}
+.display-multiple-items--record-numbers {
+    width: 95%;
+    margin: 0 auto;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 5px;
+    box-sizing: border-box;
+    color: var(--buttonBackground);
+}
