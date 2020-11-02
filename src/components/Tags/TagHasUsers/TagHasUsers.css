@@ -6,13 +6,3 @@
 .TagHasUsers {
     margin-bottom: 100px;
 }
-
-.TagHasUsers__Count {
-    width: 95%;
-    margin: 0 auto;
-    font-weight: 600;
-    font-size: 1.1rem;
-    padding: 5px;
-    box-sizing: border-box;
-    color: var(--buttonBackground);
-}
