@@ -8,9 +8,7 @@ import UsersPageTop from './UsersPageTop/UsersPageTop'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
-import UsersPagination from '../../Pagination/UsersPagination'
-import usePagination from '../../../CustomHooks/Pagination/usePagination'
-import SeriesWrapper from '../../Series/SeriesWrapper/SeriesWrapper'
+import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
 
 // ユーザーページ
 function UsersPage({ userParams, loggedInStatus, userId, history }) {
@@ -19,11 +17,6 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
             url: `http://localhost:3001/api/v1/users/${userParams}`,
             editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
             history: history,
-    })
-    const { postsPerPage, setCurrentPage, currentPage, currentItems, currentItems2 } = usePagination({
-        pageNo: 1,
-        items: usersSeries,
-        items2: favoriteSeries,
     })
 
     return (
@@ -60,34 +53,20 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
                                     </TabList>
                                     {/* 投稿作品たち */}
                                     <TabPanel>
-                                        <UsersPagination
-                                            postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                                            totalPosts={usersSeries.length} // 記事数
-                                            currentPage={currentPage}
-                                            setCurrentPage={setCurrentPage}
-                                            />
-                                        <SeriesWrapper items={currentItems} />
-                                        <UsersPagination
-                                            postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                                            totalPosts={usersSeries.length} // 記事数
-                                            currentPage={currentPage}
-                                            setCurrentPage={setCurrentPage}
+                                        <DisplayMultipleItems
+                                            items={usersSeries}
+                                            seriesNo={1}
+                                            isLoading={isLoading}
+                                            userSeries={true}
                                         />
                                     </TabPanel>
                                     {/* お気に入り作品達 */}
                                     <TabPanel>
-                                        <UsersPagination
-                                            postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                                            totalPosts={favoriteSeries.length} // 記事数
-                                            currentPage={currentPage}
-                                            setCurrentPage={setCurrentPage}
-                                        />
-                                        <SeriesWrapper items={currentItems2} />
-                                        <UsersPagination
-                                            postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                                            totalPosts={favoriteSeries.length} // 記事数
-                                            currentPage={currentPage}
-                                            setCurrentPage={setCurrentPage}
+                                        <DisplayMultipleItems
+                                            items={favoriteSeries}
+                                            seriesNo={1}
+                                            isLoading={isLoading}
+                                            userSeries={true}
                                         />
                                     </TabPanel>
                                 </div>
