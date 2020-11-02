@@ -11,7 +11,10 @@ function Series({seriesId, author, commentsCount, favoritesCount, release, descr
             <div className="Series">
                 <div className="Series__top">
                     <div className="Series__title">
-                    <Link to={`/novel_series/${seriesId}`} className="Series__titleLink" >{title}</Link>
+                        <Link to={`/novel_series/${seriesId}`} className="Series__titleLink" >
+                            {!release && <span>【非公開中】</span>}
+                            {title}
+                        </Link>
                     </div>
                     {author && <div className="Series__WriterWrapper">
                         <div className="Series__writer">作者:
@@ -44,7 +47,7 @@ function Series({seriesId, author, commentsCount, favoritesCount, release, descr
 
     return (
         <div>
-            {!!release && handleNovel()}
+            {handleNovel()}
         </div>
     )
 }
