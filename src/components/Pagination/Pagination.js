@@ -14,19 +14,19 @@ function Pagination({ postsPerPage, totalPosts, currentPage, paginateHref }) {
         var startIndex, endIndex
         let pages = totalPages.length
 
-        if (pages <= 5) {
+        if (pages <= 10) {
             startIndex = 1
             endIndex = pages
         } else {
-            if (activePage <= 3) {
+            if (activePage <= 5) {
                 startIndex = 1
-                endIndex = 5
+                endIndex = 10
             } else if (activePage + 1 >= pages) {
-                startIndex = pages - 4
+                startIndex = pages - 9
                 endIndex = pages
             } else {
-                startIndex = activePage - 2
-                endIndex = activePage + 2
+                startIndex = activePage - 5
+                endIndex = activePage + 5
             }
         }
 
