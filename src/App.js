@@ -21,6 +21,8 @@ import TagHasUsers from './components/Tags/TagHasUsers/TagHasUsers'
 import UsersTagsFeed from './components/Tags/UsersTagsFeed/UsersTagsFeed'
 import SeriesTagsFeed from './components/Tags/SeriesTagsFeed/SeriesTagsFeed'
 import RelationshipUsers from './components/Follow/RelationshipUsers'
+import SelectedSeries from './components/Series/SelectedSeries/SelectedSeries'
+
 
 export default function App() {
   const { loggedInStatus, currentUser, isLoading, userId } = useLoggedIn()
@@ -33,7 +35,7 @@ export default function App() {
           <BrowserRouter>
             {/* ヘッダー */}
             <Route render={props => (
-              <Header {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} />
+              <Header {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} history={props.history} />
             )} />
             <Switch>
               {/* ルートパスへのアクセスは全て"/Series/1"へ */}
@@ -41,8 +43,8 @@ export default function App() {
                 <Redirect to="/Series/1" />
               </Route>
               {/* ホーム */}
-              <Route exact path={"/Series/:series_no"} render={props => (
-                <Home {...props} seriesNo={props.match.params.series_no} />
+              <Route exact path={"/Series/:page_number"} render={props => (
+                <Home {...props} history={props.history} pageNumber={props.match.params.page_number} />
               )} />
               {/* <Redirect from="/" to="/Series/1" /> */}
               {/* 認証系機能へのルーティング===================== */}
@@ -90,11 +92,11 @@ export default function App() {
                   )}
                 />
                 <Route
-                    exact path="/users/:user_id/followings/:page_no"
+                    exact path="/users/:user_id/followings/:page_number"
                     render={props => (
                       <RelationshipUsers {...props}
                         userId={props.match.params.user_id}
-                        pageNo={props.match.params.page_no}
+                        pageNumber={props.match.params.page_number}
                         dataType="followings"
                       />
                     )}
@@ -107,11 +109,11 @@ export default function App() {
                     )}
                 />
                 <Route
-                      exact path="/users/:user_id/followers/:page_no"
+                      exact path="/users/:user_id/followers/:page_number"
                       render={props => (
                         <RelationshipUsers {...props}
                           userId={props.match.params.user_id}
-                          pageNo={props.match.params.page_no}
+                          pageNumber={props.match.params.page_number}
                           dataType="followers"
                         />
                       )}
@@ -126,11 +128,11 @@ export default function App() {
                   )}
               />
               <Route
-                exact path="/user_tags/:id/page/:page_no"
+                exact path="/user_tags/:id/page/:page_number"
                 render={props => (
                   <TagHasUsers {...props}
                     tagId={props.match.params.id}
-                    pageNo={props.match.params.page_no}
+                    pageNumber={props.match.params.page_number}
                   />
                 )}
               />
@@ -225,14 +227,30 @@ export default function App() {
                   )}
                 />
                 <Route
-                    exact path="/search_series_by_tag/:id/page/:page_no"
+                    exact path="/search_series_by_tag/:id/page/:page_number"
                     render={props => (
                       <TagHasSeries {...props}
                         tagId={props.match.params.id}
-                        pageNo={props.match.params.page_no}
+                        pageNumber={props.match.params.page_number}
                       />
                     )}
                 />
+                <Route exact path="/selectedSeries/:selected_params?"
+                  render={props => (
+                    <Redirect {...props}
+                      to={`/selectedSeries/${props.match.params.selected_params}/1`}
+                    />
+                  )}
+                />
+                <Route exact path={"/selectedSeries/:selected_params?/:page_number"}
+                  render={props => (
+                    <SelectedSeries {...props}
+                      props={props}
+                      history={props.history}
+                      selectedItem={props.location.state}
+                      selectedParams={props.match.params.selected_params}
+                      pageNumber={props.match.params.page_number}
+                  />)}/>
               </Switch>
               {/* ============================================================== */}
             </Switch>

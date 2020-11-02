@@ -42,7 +42,6 @@
     box-sizing: border-box;
     word-break: break-all;
     letter-spacing: 0.5px;
-    /* background-color: rgba(173, 214, 231, 0.2); */
     color: var(--linkColor);
     border-radius: 3px;
   }
@@ -58,6 +57,7 @@
   * {
     margin: 0;
     color: rgb(73, 73, 73);
+    box-sizing: border-box;
   }
 
 .Caption {
@@ -65,7 +65,7 @@
   background-color:var(--buttonBackground);
   color: var(--buttonColor);
   border-radius: 3px;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 600;
   width: 95%;
   padding: 5px 0;
