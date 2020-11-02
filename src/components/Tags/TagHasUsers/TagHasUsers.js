@@ -7,7 +7,7 @@ import Spinner from '../../Spinner/Spinner'
 import UsersWrapper from '../../Users/UsersWrapper'
 
 // クリックしたタグを所有するユーザーを一覧で表示
-function TagHasUsers({tagId, pageNo}) {
+function TagHasUsers({tagId, pageNumber}) {
     const {items, tags, isLoading} =  useFetchTags({
         method: "get",
         url: `http://localhost:3001/api/v1/user_tags/${tagId}`,
@@ -15,7 +15,7 @@ function TagHasUsers({tagId, pageNo}) {
 
     // ページネーション用のデータ
     const { postsPerPage, currentPage, currentItems, indexOfLastPost, indexOfFirstPost} = usePagination({
-        pageNo: pageNo,
+        pageNumber: pageNumber,
         items: items
     })
 

@@ -42,12 +42,7 @@ function useFetchTags({method, url}) {
                         setErrors(res.errors)
                     }
                 })
-                .catch(error => {
-                    if (mount) {
-                        setIsLoading(true)
-                        console.log(error)
-                    }
-                })
+                .catch(error => console.log(error) )
         }
         getItems()
         return () => { mount = false }
