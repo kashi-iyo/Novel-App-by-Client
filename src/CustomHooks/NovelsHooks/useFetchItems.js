@@ -5,6 +5,7 @@ import axios from 'axios'
 export default function useFetchItems({ method, url }) {
     const [items, setItems] = useState([])  // 投稿データ
     const [count, setCount] = useState("")  // 投稿数
+    const [selectedValue, setSelectedValue] = useState("")
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
@@ -32,6 +33,12 @@ export default function useFetchItems({ method, url }) {
                     } else if (mount && status === 200 && data_type === 'novel' && crud_type === "show") {
                         setItems(obj)
                         setIsLoading(false)
+                    //Read selectタグで並び替えた後のシリーズ全件取得
+                    } else if (mount && status === 200 && data_type === "series" && crud_type === "selected") {
+                        setCount(obj.series_count)
+                        setItems(obj.series)
+                        setSelectedValue(obj.selected_value)
+                        setIsLoading(false)
                     //error 非公開時のデータ
                     } else if (mount && status === "forbidden") {
                         setErrors(res.errors)
@@ -52,5 +59,6 @@ export default function useFetchItems({ method, url }) {
 
 
     return {
-        items, count, errors, isLoading }
+        items, count, errors, isLoading, selectedValue
+    }
 }
