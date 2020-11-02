@@ -6,22 +6,18 @@ import Logo from '../.././img/logo.png'
 import './Header.css'
 import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
 
-function Header(props) {
+function Header({loggedInStatus, currentUser, history}) {
     const { handleLogout, userId } = useLoggedIn()
     const [menu, setMenu] = useState(false)
 
     const handleDown = () => {
-        if (menu) {
-            setMenu(false)
-        } else if (!menu) {
-            setMenu(true)
-        }
+        setMenu(!menu)
     }
 
     // ログアウトイベント
     const handleClick = () => {
         const redirect = () => {
-            props.history.push("/")
+            history.push("/")
         }
         axios.delete('http://localhost:3001/logout',
             { withCredentials: true })
@@ -35,24 +31,24 @@ function Header(props) {
     }
 
     const rendererUser = () => {
-        if (props.loggedInStatus && props.currentUser) {
+        if (loggedInStatus && currentUser) {
             return (
                 <div>
                     <div className="userstatus">
                         <Link onClick={handleDown} className="nickname">
-                            {props.currentUser}▼
+                            {currentUser}▼
                         </Link>
                         {
                             menu &&
                             <ul className="downMenu">
-                                <li><Link to={`/users/${userId}`}>マイページ</Link></li>
-                                <li><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
+                                <li onClick={handleDown}><Link to={`/users/${userId}`}>マイページ</Link></li>
+                                <li onClick={handleDown}><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
                             </ul>
                         }
                     </div>
                 </div>
             )
-        } else if (!props.loggedInStatus && !props.currentUser) {
+        } else if (!loggedInStatus && !currentUser) {
             return (
                 <div>
                     <ul className="header__auth">
@@ -73,7 +69,7 @@ function Header(props) {
                         {rendererUser()}
                     </div>
                 </div>
-                {!props.loggedInStatus &&
+                {!loggedInStatus &&
                     <div className="recruitment__form">
                         <Link>採用担当者様専用ログインフォーム</Link>
                     </div>
@@ -81,7 +77,7 @@ function Header(props) {
                 <ul className="header__ul">
                     <li><Link to="/Series/1">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
-                    {props.currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
+                    {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
                     <li><Link to="/users_tags_feed">趣味タグクラウド</Link></li>
                     <li><Link to="/series_tags_feed">小説タグクラウド</Link></li>
                 </ul>
