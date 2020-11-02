@@ -5,7 +5,7 @@ import Pagination from '../Pagination/Pagination'
 import Spinner from '../Spinner/Spinner'
 import UsersWrapper from '../Users/UsersWrapper'
 
-function RelationshipUsers({ userId, pageNo, dataType }) {
+function RelationshipUsers({ userId, pageNumber, dataType }) {
     const {items, isLoading} =  useFollow({
         method: "get",
         url: `http://localhost:3001/api/v1/relationships/${userId}/${dataType}`,
@@ -15,7 +15,7 @@ function RelationshipUsers({ userId, pageNo, dataType }) {
 
     // ページネーション用のデータ
     const { postsPerPage, currentPage, currentItems, indexOfLastPost, indexOfFirstPost} = usePagination({
-        pageNo: pageNo,
+        pageNumber: pageNumber,
         perPage: 30,
         items: users
     })
