@@ -35,7 +35,12 @@ export default function App() {
           <BrowserRouter>
             {/* ヘッダー */}
             <Route render={props => (
-              <Header {...props} currentUser={currentUser} loggedInStatus={loggedInStatus} history={props.history} />
+              <Header {...props}
+                userId={userId}
+                currentUser={currentUser}
+                loggedInStatus={loggedInStatus}
+                history={props.history}
+              />
             )} />
             <Switch>
               {/* ルートパスへのアクセスは全て"/Series/1"へ */}
@@ -44,18 +49,21 @@ export default function App() {
               </Route>
               {/* ホーム */}
               <Route exact path={"/Series/:page_number"} render={props => (
-                <Home {...props} history={props.history} pageNumber={props.match.params.page_number} />
+                <Home {...props}
+                  history={props.history}
+                  pageNumber={props.match.params.page_number}
+                  flashMessage={props.location.state}
+                />
               )} />
-              {/* <Redirect from="/" to="/Series/1" /> */}
               {/* 認証系機能へのルーティング===================== */}
               {!loggedInStatus &&
                 <Route exact path={"/login"} render={props => (
-                  <Login {...props} />
+                  <Login {...props} history={props.history} />
                 )} />
               },
               {!loggedInStatus &&
                 <Route exact path={"/signup"} render={props => (
-                  <Signup {...props} />
+                  <Signup {...props} history={props.history} />
                 )} />
               }
               {/* 認証系機能へのルーティング===================== */}
@@ -69,6 +77,7 @@ export default function App() {
                     userParams={props.match.params.id}
                     userId={userId}
                     history={props.history}
+                    flashMessage={props.location.state}
                   />
                 )}
               />
@@ -84,40 +93,24 @@ export default function App() {
                     />
                   )}
               />
-              <Route exact path="/users/:id/followings"
-                  render={props => (
-                    <Redirect {...props}
-                      to={`/users/${props.match.params.id}/followings/1`}
-                    />
-                  )}
-                />
-                <Route
-                    exact path="/users/:user_id/followings/:page_number"
-                    render={props => (
-                      <RelationshipUsers {...props}
-                        userId={props.match.params.user_id}
-                        pageNumber={props.match.params.page_number}
-                        dataType="followings"
-                      />
-                    )}
-                />
-                <Route exact path="/users/:id/followers"
-                    render={props => (
-                      <Redirect {...props}
-                        to={`/users/${props.match.params.id}/followers/1`}
-                      />
-                    )}
-                />
-                <Route
-                      exact path="/users/:user_id/followers/:page_number"
-                      render={props => (
-                        <RelationshipUsers {...props}
-                          userId={props.match.params.user_id}
-                          pageNumber={props.match.params.page_number}
-                          dataType="followers"
-                        />
-                      )}
+              {/* フォローユーザー一覧/フォロワー一覧へのルーティング */}
+              <Route exact path="/users/:user_id/:relationships?"
+                render={props => (
+                  <Redirect {...props}
+                    to={`/users/${props.match.params.user_id}/${props.match.params.relationships}/1`}
                   />
+                )}
+              />
+              <Route
+                exact path="/users/:user_id/:relationships?/:page_number"
+                render={props => (
+                  <RelationshipUsers {...props}
+                    userId={props.match.params.user_id}
+                    relationshipsParams={props.match.params.relationships}
+                    pageNumber={props.match.params.page_number}
+                  />
+                )}
+              />
               {/* 登録している趣味タグを持つユーザー一覧 */}
               {/* リダイレクト */}
               <Route exact path="/user_tags/:id"
@@ -218,19 +211,18 @@ export default function App() {
                   )}
                 />
                 {/* 特定のタグを持つシリーズ */}
-                {/* リダイレクト */}
-                <Route exact path="/search_series_by_tag/:id"
+                <Route exact path="/series/tag/:tag_id"
                   render={props => (
                     <Redirect {...props}
-                      to={`/search_series_by_tag/${props.match.params.id}/page/1`}
+                      to={`/series/tag/${props.match.params.id}/page/1`}
                     />
                   )}
                 />
                 <Route
-                    exact path="/search_series_by_tag/:id/page/:page_number"
+                    exact path="/series/tag/:tag_id/page/:page_number"
                     render={props => (
                       <TagHasSeries {...props}
-                        tagId={props.match.params.id}
+                        tagId={props.match.params.tag_id}
                         pageNumber={props.match.params.page_number}
                       />
                     )}
