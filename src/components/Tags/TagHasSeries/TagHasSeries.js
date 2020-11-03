@@ -20,7 +20,7 @@ function TagHasSeries({ tagId, pageNumber }) {
                 record={`${tags.has_data_count} 件の作品が登録しています。`}
                 pageNumber={pageNumber}
                 isLoading={isLoading}
-                paginateHref={`/search_series_by_tag/${tagId}/page/`}
+                paginateHref={`/series/tag/${tagId}/page/`}
             />
         </React.Fragment>
     )
