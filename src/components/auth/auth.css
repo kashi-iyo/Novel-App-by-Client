@@ -1,8 +1,5 @@
-.auth__h1 {
-    text-align: center;
-    margin-bottom: 40px;
-}
-.AuthForm {
+
+.auth-form {
     width: 90%;
     min-width: 330px;
     max-width: 700px;
@@ -11,11 +8,21 @@
     box-sizing: border-box;
     height: 80vh;
 }
+
+.auth-form--h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
 label {
     font-size: 1.2rem;
     font-weight: 600;
 }
-.nickname__Wrapper, .accountId__Wrapper, .email__Wrapper, .password__Wrapper, .passConf__Wrapper {
+.auth-form--nickname-wrapper,
+.auth-form--accountId-wrapper,
+.auth-form--email-wrapper,
+.auth-form--password-wrapper,
+.auth-form--passConf-wrapper {
     margin-bottom: 35px;
 }
 input[type="text"] {
