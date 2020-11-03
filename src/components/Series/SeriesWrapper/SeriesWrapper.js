@@ -3,8 +3,9 @@ import Series from '../Series'
 
 import './SeriesWrapper.css'
 
-// 1つのシリーズのラッパー
-function SeriesWrapper({items}) {
+// シリーズ全件をループ処理
+// DisplayMultipleItems.jsにて呼び出し
+function SeriesWrapper({items, userId}) {
 
     return (
         <React.Fragment>
@@ -23,6 +24,7 @@ function SeriesWrapper({items}) {
                             favoritesCount={items[key].favorites_count}
                             novelsCount={items[key].novels_count}
                             tags={items[key].tags}
+                            userId={userId}
                         />
                     ))
                 }
