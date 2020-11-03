@@ -9,9 +9,10 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
+import Flash from '../../Flash/Flash'
 
 // ユーザーページ
-function UsersPage({ userParams, loggedInStatus, userId, history }) {
+function UsersPage({ userParams, loggedInStatus, userId, history, flashMessage }) {
     const { users, usersTags, usersRelationships, handleFollow, handleUnFollow, usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
             method: "get",
             url: `http://localhost:3001/api/v1/users/${userParams}`,
@@ -24,6 +25,7 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
             {isLoading ? <Spinner /> :
                 errors ? <ErrorMessages loggedInStatus={loggedInStatus} errors={errors} /> :
                     <div className="UsersPage">
+                    <Flash Success={flashMessage} />
                     {/* ユーザーページ上部 */}
                     <UsersPageTop
                         users={users}
