@@ -4,7 +4,15 @@ import TagsWrapper from '../Tags/TagsWrapper/TagsWrapper'
 import './Series.css'
 
 // 1つのシリーズを表示
-function Series({seriesId, author, commentsCount, favoritesCount, release, description, title, novelsCount, tags, seriesUserId}) {
+function Series({ seriesId, author, commentsCount, favoritesCount, release, description, title, novelsCount, tags, seriesUserId, userId }) {
+
+    const renderStatus = () => {
+        if (!release) {
+            return <p>【非公開中】</p>
+        } else {
+            return <p>【公開中】</p>
+        }
+    }
 
     const handleNovel = () => {
         return (
@@ -12,7 +20,7 @@ function Series({seriesId, author, commentsCount, favoritesCount, release, descr
                 <div className="Series__top">
                     <div className="Series__title">
                         <Link to={`/novel_series/${seriesId}`} className="Series__titleLink" >
-                            {!release && <span>【非公開中】</span>}
+                            {userId === seriesUserId && renderStatus()}
                             {title}
                         </Link>
                     </div>
@@ -38,6 +46,7 @@ function Series({seriesId, author, commentsCount, favoritesCount, release, descr
                         <span>{commentsCount}</span>
                     </div>
                 </div>
+                {/* このシリーズが持つタグ全件 */}
                 <div className="Series__tagWrap">
                     <TagsWrapper tags={tags} dataType="series" />
                 </div>
