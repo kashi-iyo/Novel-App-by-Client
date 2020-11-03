@@ -29,12 +29,13 @@ export default function useLoggedIn() {
         axios.get("http://localhost:3001/logged_in",
             { withCredentials: true })
             .then(response => {
+                console.log(response)
                 setIsLoading(true)
                 let res = response.data
-            if (mount && res.logged_in && !loggedInStatus) {
+            if (mount && res.logged_in) {
                 handleLogin(res.user)
                 setIsLoading(false)
-            } else if (mount && !res.logged_in && loggedInStatus) {
+            } else if (mount && !res.logged_in) {
                 handleLogout()
                 setIsLoading(false)
             }
