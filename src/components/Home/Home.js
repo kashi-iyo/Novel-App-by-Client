@@ -3,9 +3,10 @@ import React from 'react'
 import './Home.css'
 import useFetchItems from '../../CustomHooks/NovelsHooks/useFetchItems'
 import DisplayMultipleItems from '../DisplayMultipleItems/DisplayMultipleItems'
+import Flash from '../Flash/Flash'
 
 // ホームページ
-function Home({ pageNumber, history }) {
+function Home({ pageNumber, history, flashMessage }) {
     const { items, count, isLoading } = useFetchItems({
         method: "get",
         url: 'http://localhost:3001',
@@ -13,6 +14,7 @@ function Home({ pageNumber, history }) {
 
     return (
         <React.Fragment>
+            <Flash Success={flashMessage} />
             <DisplayMultipleItems
                 items={items}
                 dataType={"series"}
