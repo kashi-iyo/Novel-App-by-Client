@@ -4,32 +4,28 @@ import './auth.css'
 import validateSaveUser from '../../CustomHooks/Validate/AuthValidate/validateSaveUser'
 import signupValidate from '../../CustomHooks/Validate/AuthValidate/signupValidate'
 import useInput from '../../CustomHooks/Auth/useInput'
-import useAccessAuthLogging from '../../CustomHooks/Auth/useAccessAuthLogging'
 
-function Signup(props) {
+function Signup({history}) {
     const { values, handleChange, handleSubmit, errors, saveErrors } = useInput({
         validate: signupValidate,
         method: "post",
         url: 'http://localhost:3001/api/v1/users',
-        props: props
+        history: history
     })
-    // ログインした状態でこのページへアクセスされた場合ホームへリダイレクトする
-    useAccessAuthLogging(props)
 
     // 新規登録フォーム
     const signupRenderer = () => {
         return (
-            <div className="AuthForm">
+            <div className="auth-form">
                 {/* Railsからのerrors.full_messagesをレンダリングする */}
-                {validateSaveUser(saveErrors)}
-                <h1 className="auth__h1">新規登録</h1>
+                {saveErrors && validateSaveUser(saveErrors)}
+                <h1 className="auth-form--h1">新規登録</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className="nickname__Wrapper">
+                    <div className="auth-form--nickname-wrapper">
                         {errors.nickname && <p className="error">{errors.nickname}</p>}
-                        <label htmlFor="nickname" className="nickname__Label">ユーザー名</label>
+                        <label htmlFor="nickname">ユーザー名</label>
                         <input
                             placeholder="ユーザー名"
-                            className="nickname"
                             id="nickname"
                             type="text"
                             name="nickname"
@@ -37,12 +33,11 @@ function Signup(props) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="accountId__Wrapper">
+                    <div className="auth-form--accountId-wrapper">
                         {errors.accountId && <p className="error">{errors.accountId}</p>}
-                        <label htmlFor="accountId" className="accountId__Label">ユーザーID</label>
+                        <label htmlFor="accountId">ユーザーID</label>
                         <input
                             placeholder="ユーザーID"
-                            className="accounrId"
                             id="accountId"
                             type="text"
                             name="account_id"
@@ -50,12 +45,11 @@ function Signup(props) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="email__Wrapper">
+                    <div className="auth-form--email-wrapper">
                         {errors.email && <p className="error">{errors.email}</p>}
-                        <label htmlFor="email" className="email__Label">メールアドレス</label>
+                        <label htmlFor="email">メールアドレス</label>
                         <input
                             placeholder="メールアドレス"
-                            className="email"
                             id="email"
                             type="email"
                             name="email"
@@ -63,12 +57,11 @@ function Signup(props) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="password__Wrapper">
+                    <div className="auth-form--password-wrapper">
                         {errors.password && <p className="error">{errors.password}</p>}
-                        <label htmlFor="password" className="password__Label">パスワード</label>
+                        <label htmlFor="password">パスワード</label>
                         <input
                             placeholder="パスワード"
-                            className="password"
                             id="password"
                             type="password"
                             name="password"
@@ -76,20 +69,19 @@ function Signup(props) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="passConf__Wrapper">
+                    <div className="auth-form--passConf-wrapper">
                         {errors.passwordConfirmation && <p className="error">{errors.passwordConfirmation}</p>}
-                        <label htmlFor="passCon" className="passConf__Label">パスワード（確認用）</label>
+                        <label htmlFor="passCon">パスワード（確認用）</label>
                         <input
                             id="passCon"
                             type="password"
-                            className="passConf"
                             name="password_confirmation"
                             placeholder="パスワード（確認用）"
                             values={values.passwordConfirmation}
                             onChange={handleChange}
                         />
                     </div>
-                    <button type="submit" className="button auth__btn">新規登録</button>
+                    <button type="submit" className="button">新規登録</button>
                 </form>
             </div>
         )
