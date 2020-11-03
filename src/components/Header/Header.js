@@ -1,33 +1,19 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import Logo from '../.././img/logo.png'
 import './Header.css'
-import useLoggedIn from '../../CustomHooks/Auth/useLoggedIn'
+import Flash from '../Flash/Flash'
+import useInput from '../../CustomHooks/Auth/useInput'
 
-function Header({loggedInStatus, currentUser, history}) {
-    const { handleLogout, userId } = useLoggedIn()
+function Header({ loggedInStatus, currentUser, userId, history }) {
+    const { logoutClick, errors } = useInput({
+        history: history
+    })
     const [menu, setMenu] = useState(false)
 
     const handleDown = () => {
         setMenu(!menu)
-    }
-
-    // ログアウトイベント
-    const handleClick = () => {
-        const redirect = () => {
-            history.push("/")
-        }
-        axios.delete('http://localhost:3001/logout',
-            { withCredentials: true })
-            .then(response => {
-            if (response.data.logged_out) {
-                handleLogout()
-                redirect()
-            }
-            })
-            .catch(error => console.log(error))
     }
 
     const rendererUser = () => {
@@ -42,7 +28,7 @@ function Header({loggedInStatus, currentUser, history}) {
                             menu &&
                             <ul className="downMenu">
                                 <li onClick={handleDown}><Link to={`/users/${userId}`}>マイページ</Link></li>
-                                <li onClick={handleDown}><Link to="/logout" onClick={handleClick}>ログアウト</Link></li>
+                                <li onClick={handleDown}><Link to="/logout" onClick={logoutClick}>ログアウト</Link></li>
                             </ul>
                         }
                     </div>
@@ -52,8 +38,8 @@ function Header({loggedInStatus, currentUser, history}) {
             return (
                 <div>
                     <ul className="header__auth">
-                        <li><Link to="/login">ログイン</Link></li>
-                        <li><Link to="/signup">新規登録</Link></li>
+                        <li onClick={handleDown}><Link to="/login">ログイン</Link></li>
+                        <li onClick={handleDown}><Link to="/signup">新規登録</Link></li>
                     </ul>
                 </div>
             )
@@ -62,6 +48,7 @@ function Header({loggedInStatus, currentUser, history}) {
 
     return (
         <div>
+            <Flash Errors={errors} />
             <header className="home__header">
                 <div className="header__top">
                     <img src={Logo} alt="ロゴ" className="Logo" />
@@ -71,7 +58,7 @@ function Header({loggedInStatus, currentUser, history}) {
                 </div>
                 {!loggedInStatus &&
                     <div className="recruitment__form">
-                        <Link>採用担当者様専用ログインフォーム</Link>
+                        <p>採用担当者様専用ログインフォーム</p>
                     </div>
                 }
                 <ul className="header__ul">
