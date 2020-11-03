@@ -1,10 +1,6 @@
 import React from 'react'
-import './TagHasUsers.css'
-import usePagination from '../../../CustomHooks/Pagination/usePagination'
 import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
-import Pagination from '../../Pagination/Pagination'
-import Spinner from '../../Spinner/Spinner'
-import UsersWrapper from '../../Users/UsersWrapper'
+import DisplayMultipleUsers from '../../DisplayMultipleItems/DisplayMultipleUsers'
 
 // クリックしたタグを所有するユーザーを一覧で表示
 function TagHasUsers({tagId, pageNumber}) {
@@ -13,34 +9,16 @@ function TagHasUsers({tagId, pageNumber}) {
         url: `http://localhost:3001/api/v1/user_tags/${tagId}`,
     })
 
-    // ページネーション用のデータ
-    const { postsPerPage, currentPage, currentItems, indexOfLastPost, indexOfFirstPost} = usePagination({
-        pageNumber: pageNumber,
-        items: items
-    })
-
     return (
         <React.Fragment>
-            {isLoading ? <Spinner /> :
-                <div className="TagHasUsers">
-                    <p className="TagHasUsers__Count">{tags.has_data_count} 件のユーザーが登録しています。 （ {indexOfFirstPost + 1} - {items.length < 5 ? items.length : indexOfLastPost}件 ）</p>
-                    <h2 className="Caption UsersCaption">╋ {tags.tag_name} を登録しているユーザー</h2>
-                    <Pagination
-                        postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                        totalPosts={items.length} // 記事数
-                        currentPage={currentPage}
-                        paginateHref={`/user_tags/${tagId}/page/`}
-                    />
-                    {/* ユーザー一覧 */}
-                    <UsersWrapper items={currentItems} />
-                    <Pagination
-                        postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                        totalPosts={items.length} // 記事数
-                        currentPage={currentPage}
-                        paginateHref={`/user_tags/${tagId}/page/`}
-                    />
-                </div>
-            }
+            <DisplayMultipleUsers
+                pageNumber={pageNumber}
+                users={items}
+                isLoading={isLoading}
+                caption={`${tags.tag_name}を登録しているユーザー一覧`}
+                recordCaption={`${tags.has_data_count}件のユーザーが登録しています。`}
+                paginateHref={`/user_tags/${tagId}/page/`}
+            />
         </React.Fragment>
     )
 }
