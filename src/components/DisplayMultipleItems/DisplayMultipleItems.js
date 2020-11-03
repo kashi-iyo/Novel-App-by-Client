@@ -8,7 +8,8 @@ import Spinner from '../Spinner/Spinner'
 import UsersPagination from '../Pagination/UsersPagination'
 
 // 複数のオブジェクトを取得して表示
-function DisplayMultipleItems({ items, pageNumber, caption, record, isLoading, paginateHref, userSeries, dataType, history, selectingValue, selectingParams }) {
+// Home.js/にて呼び出し
+function DisplayMultipleItems({ items, pageNumber, caption, record, isLoading, paginateHref, userSeries, dataType, history, selectingValue, selectingParams, userId }) {
 
     // ページネーション用のデータ
     const { postsPerPage, currentPage, setCurrentPage, currentItems, indexOfLastPost, indexOfFirstPost } = usePagination({
@@ -54,7 +55,7 @@ function DisplayMultipleItems({ items, pageNumber, caption, record, isLoading, p
                         />
                     }
                     <div className="display-multiple-items--items-wrapper">
-                        <SeriesWrapper items={currentItems} />
+                        <SeriesWrapper items={currentItems} userId={userId} />
                     </div>
                     {userSeries ?
                         <UsersPagination
