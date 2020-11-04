@@ -6,12 +6,12 @@ import './OneUser.css'
 // 1人のユーザーを表示
 function OneUser({link, name, profile, tags}) {
     return (
-        <div className="OneUser">
-            <div className="OneUserWrapper">
-                <li className="TagHasUsers__List">
+        <div className="one-user">
+            <div className="one-user--wrapper">
+                <li className="one-user--list">
                     <Link to={link}>{name}</Link>
                 </li>
-                <p className="OneUserDescription">{profile}</p>
+                <p className="one-user--profile">{profile}</p>
                 <TagsWrapper tags={tags} dataType="user" />
             </div>
         </div>

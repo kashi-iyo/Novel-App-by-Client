@@ -6,7 +6,7 @@ function Flash({Success, Errors}) {
         <div className="Flash">
             {Success &&
                 <div className="SuccessWrapper">
-                    <p className="SuccessFlash">{Success}</p>
+                <p className="SuccessFlash">{Success}</p>
                 </div>
             }
             {Errors &&

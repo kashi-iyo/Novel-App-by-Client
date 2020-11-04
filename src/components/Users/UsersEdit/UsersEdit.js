@@ -15,19 +15,17 @@ function UsersEdit({userId, history}) {
         userId: userId,
         history: history
     })
-    // ユーザーのタグ
-    // const usersTags = editUsers.user_tags
     const limitErrors = usersTags.length > 5 ? true : false
     const buttonClass = classNames("button", { "noButton":usersTags.length > 5 })
 
     return (
         <div>
             <Flash Success={success} Errors={errors} />
-            <div className="UsersPageEditForm">
-                <h2 className="Caption UsersCaption">╋プロフィール編集</h2>
+            <div className="users-edit--form-wrapper">
+                <h2 className="caption">プロフィール編集</h2>
                 {/* Enterでの送信阻止 */}
-                <form onSubmit={e => handleFalse(e)} className="UsersEditForm" >
-                    <div className="editNicknameWrapper">
+                <form onSubmit={e => handleFalse(e)} className="users-edit--form" >
+                    <div className="users-edit--nickname-wrapper">
                         <label htmlFor="nickname">ニックネーム</label>
                         <input
                             type="text"
@@ -38,7 +36,7 @@ function UsersEdit({userId, history}) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="editProfileWrapper">
+                    <div className="users-edit--profile-wrapper">
                         <label htmlFor="profile">紹介文</label>
                         <textarea
                             id="profile"
@@ -48,7 +46,7 @@ function UsersEdit({userId, history}) {
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="editHobbyTagWrapper">
+                    <div className="users-edit--hobby-tag-wrapper">
                         {/* タグフォーム */}
                         <InputTag
                             tags={usersTags}

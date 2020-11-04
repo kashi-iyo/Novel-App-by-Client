@@ -1,4 +1,5 @@
 import React from 'react'
+import './TagsWrapper.css'
 import OneTags from '../OneTags/OneTags'
 
 // タグの配列をループ処理
@@ -6,7 +7,7 @@ import OneTags from '../OneTags/OneTags'
 function TagsWrapper({tags, dataType}) {
     return (
         <React.Fragment>
-            <ul className="UsersPage__TagUl">
+            <ul className="tags-wrapper">
                 {/* タグ */}
                 {tags &&
                     Object.keys(tags).map(key => {

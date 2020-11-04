@@ -9,10 +9,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
-import Flash from '../../Flash/Flash'
 
 // ユーザーページ
-function UsersPage({ userParams, loggedInStatus, userId, history, flashMessage }) {
+function UsersPage({ userParams, loggedInStatus, userId, history }) {
     const { users, usersTags, usersRelationships, handleFollow, handleUnFollow, usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
             method: "get",
             url: `http://localhost:3001/api/v1/users/${userParams}`,
@@ -24,8 +23,7 @@ function UsersPage({ userParams, loggedInStatus, userId, history, flashMessage }
         <React.Fragment>
             {isLoading ? <Spinner /> :
                 errors ? <ErrorMessages loggedInStatus={loggedInStatus} errors={errors} /> :
-                    <div className="UsersPage">
-                    <Flash Success={flashMessage} />
+                    <div className="users-page">
                     {/* ユーザーページ上部 */}
                     <UsersPageTop
                         users={users}
@@ -36,40 +34,45 @@ function UsersPage({ userParams, loggedInStatus, userId, history, flashMessage }
                         handleFollow={handleFollow}
                         handleUnFollow={handleUnFollow}
                     />
-                    <div className="UsersPage__Bottom">
-                        <div className="UsersPage__BottomWrapper">
+                    <div className="users-page--bottom-">
+                        <div className="users-page--bottom-wrapper">
                             <Tabs>
                                 {/* 投稿作品 / お気に入り作品 */}
-                                <div className="UsersPage__PostedSeriesWrapper">
+                                <div className="users-page--posted-series-wrapper">
                                     <TabList>
                                         <Tab>
                                             <p className="Tab">
-                                                投稿作品{seriesCount && <span>（{seriesCount}）</span>}
+                                                投稿作品<span>（{seriesCount}）</span>
                                             </p>
                                         </Tab>
                                         <Tab>
                                             <p className="Tab">
-                                                お気に入り作品{favoriteSeriesCount && <span>（{favoriteSeriesCount}）</span>}
+                                                お気に入り作品<span>（{favoriteSeriesCount}）</span>
                                             </p>
                                         </Tab>
                                     </TabList>
                                     {/* 投稿作品たち */}
                                     <TabPanel>
-                                        <DisplayMultipleItems
-                                            items={usersSeries}
-                                            seriesNo={1}
-                                            isLoading={isLoading}
-                                            userSeries={true}
-                                        />
+                                        {usersSeries.length !== 0 ?
+                                            <DisplayMultipleItems
+                                                items={usersSeries}
+                                                seriesNo={1}
+                                                isLoading={isLoading}
+                                                userSeries={true}
+                                            /> :
+                                            <p className="users-page--posted-no-series">投稿作品はありません。気軽に投稿してみましょう！</p>}
                                     </TabPanel>
                                     {/* お気に入り作品達 */}
                                     <TabPanel>
-                                        <DisplayMultipleItems
-                                            items={favoriteSeries}
-                                            seriesNo={1}
-                                            isLoading={isLoading}
-                                            userSeries={true}
-                                        />
+                                        {favoriteSeries.length !== 0 ?
+                                            <DisplayMultipleItems
+                                                items={favoriteSeries}
+                                                seriesNo={1}
+                                                isLoading={isLoading}
+                                                userSeries={true}
+                                            /> :
+                                            <p className="users-page--posted-no-favorites-series">お気に入りにした作品はありません。</p>
+                                        }
                                     </TabPanel>
                                 </div>
                             </Tabs>

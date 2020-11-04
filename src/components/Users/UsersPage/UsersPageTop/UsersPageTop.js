@@ -7,14 +7,14 @@ import './UsersPageTop.css'
 
 // ユーザーページの上部
 function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, handleFollow, handleUnFollow, }) {
-
+console.log(usersTags)
     return (
         <div>
-            <h1 className="Caption">╋{users.nickname}さんのページ</h1>
-            <div className="UsersPage__Top">
-                <div className="UsersPage__TopWrapper">
+            <h1 className="display-multiple-items--caption">{users.nickname}さんのページ</h1>
+            <div className="users-page-top">
+                <div className="users-page-top--wrapper">
                     {/* ユーザー名 */}
-                    <p className="UsersPage__UserName">{users.nickname}</p>
+                    <p className="users-page-top--username">{users.nickname}</p>
                     {/* フォローボタン */}
                     {userId !== users.user_id && <FollowButton
                         errors={errors}
@@ -25,29 +25,33 @@ function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, ha
                     />}
                 </div>
                 {/* フォロー数 / フォロワー数 */}
-                <div className="UsersPage__TopRelationships">
+                <div className="users-page-top--relationships">
                     <Link to={`/users/${users.user_id}/followings`}>フォロー： {usersRelationships.followingsCount}</Link>
-                    <span className="UsersPage__TopRelationshipsSpan"></span>
+                    <span className="users-page-top--relationships-span"></span>
                     <Link to={`/users/${users.user_id}/followers`}>フォロワー： {usersRelationships.followersCount}</Link>
                 </div>
                 {/* プロフィール */}
-                <div className="UsersPage__UserProfile">{users.profile}</div>
+                <div className="users-page-top--user-profile">{users.profile}</div>
                 {/* ユーザーが登録しているタグを表示 */}
-                <div className="UsersPage__TagWrapper">
-                    <p className="UsersPage__TagHobby">登録している趣味タグ</p>
-                    <TagsWrapper tags={usersTags} dataType="user" />
-                    {
-                        userId=== users.user_id &&
-                        <p className="messageToUsers">好みのジャンル・アニメなどをタグ登録して<br></br>同じ趣味を持つユーザーと繋がろう</p>
-                    }
+                <div className="users-page-top--tag-wrapper">
+                    <p className="users-page-top--tag-hobby">登録している趣味タグ：</p>
+                    {usersTags.length !== 0 ?
+                        <TagsWrapper tags={usersTags} dataType="user" /> :
+                            userId === users.user_id &&
+                        <p className="users-page-top--no-tags-messages">
+                            登録しているタグはまだありません。<br></br>
+                            好みのジャンル・アニメなどをタグ登録して同じ趣味を持つユーザーと繋がりましょう！
+                        </p>}
                 </div>
                 {/* 編集ボタン */}
-                {
-                    userId=== users.user_id &&
-                    <div className="UsersPage__EditWrapper">
-                            <Link to={`/users/${userId}/edit`} className="UsersPage__EditButton button">編集する</Link>
-                    </div>
-                }
+                {userId=== users.user_id &&
+                    <div className="users-page-top--edit-wrapper">
+                        <Link
+                            to={`/users/${userId}/edit`}
+                            className="users-page-top--edit-button button">
+                            編集する
+                        </Link>
+                    </div>}
             </div>
         </div>
     )

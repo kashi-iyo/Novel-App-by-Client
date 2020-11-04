@@ -5,8 +5,8 @@ import './OneTags.css'
 // 1つのタグを表示させる
 function OneTags({tagName, link, count}) {
     return (
-        <Link to={link} className="UsersPage__tagLink">
-            <li className="UsersPage__tagLi" >
+        <Link to={link} className="one-tag--link">
+            <li className="one-tag--tag-li" >
                 {tagName} <span>（{count}）</span>
             </li>
         </Link>

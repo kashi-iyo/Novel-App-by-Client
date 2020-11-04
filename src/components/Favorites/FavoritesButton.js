@@ -5,6 +5,7 @@ import FavoritesUsersWrapper from './FavoritesUsersWrapper'
 import favoritesIcon from '../../img/favorites.png'
 import favoritesIcon2 from '../../img/favorites2.png'
 
+// お気に入りボタン
 function FavoritesButton({ favoritesUserId, favoritesData, favoritesCount, userId, novelId, currentUser }) {
     // プルダウンボタン
     const [on, setOn] = useState(false)
