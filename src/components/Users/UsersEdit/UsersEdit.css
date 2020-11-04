@@ -1,24 +1,28 @@
-.UsersPageEditForm {
+.users-edit--form-wrapper {
     width: 100%;
     margin: 0 auto;
 }
 
-.UsersEditForm {
+.users-edit--form{
     width: 95%;
     margin: 0 auto;
     padding: 20px 10px;
     box-sizing: border-box;
+    margin-bottom: 100px;
 }
 
-.editNicknameWrapper {
+.users-edit--nickname-wrapper {
     margin-bottom: 50px;
 }
 
-.editProfileWrapper {
+.users-edit--profile-wrapper {
     margin-bottom: 50px;
 }
+.editProfile {
+    line-height: 19px;
+}
 
-.editHobbyTagWrapper {
+.users-edit--hobby-tag-wrapper {
     margin-bottom: 50px;
 }
 
@@ -35,11 +39,4 @@ textarea {
     resize: none;
     border: none;
     box-sizing: border-box;
-}
-.editProfile {
-    line-height: 19px;
-}
-
-.UsersPageEditForm {
-    margin-bottom: 100px;
 }

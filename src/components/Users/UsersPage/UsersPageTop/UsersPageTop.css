@@ -3,39 +3,48 @@ h1 {
     margin: 0;
 }
 
-.UsersPage__Top {
+.users-page-top {
     width: 95%;
     margin: 0 auto;
     padding: 20px 10px;
     box-sizing: border-box;
     margin-bottom: 100px;
 }
+.users-page-top--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.users-page-top--username {
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+.users-page-top--user-profile {
+    min-height: 10vh;
+    margin-bottom: 30px;
+    word-break: break-all;
+}
 
 /* フォロー */
-.UsersPage__TopRelationships {
+.users-page-top--relationships {
     margin-bottom: 20px;
 }
-.UsersPage__TopRelationshipsSpan {
+.users-page-top--relationships-span {
     margin: 0 10px;
 }
 
-.UsersPage__TagWrapper {
+.users-page-top--tag-wrapper {
     padding: 7px;
     box-sizing: border-box;
 }
-.UsersPage__TagHobby {
+.users-page-top--tag-hobby {
     font-size: 0.9rem;
     font-weight: 600;
 }
-.UsersPage__TagUl {
-    display: flex;
-    border-radius: 3px;
-    text-align: center;
-    flex-wrap: wrap;
-}
 
 
-.messageToUsers {
+.users-page-top--no-tags-messages {
     font-weight: 600;
     background: var(--borderColor);
     color: var(--buttonBackground);
@@ -44,4 +53,24 @@ h1 {
     font-size: 0.8rem;
     white-space: pre-wrap;
     text-align: center;
+}
+.users-page-top--tag-wrapper {
+    margin-bottom: 40px;
+}
+.users-page-top--tag-hobby {
+    margin-bottom: 40px;
+}
+
+.users-page-top--edit-wrapper{
+    background: var(--buttonBackground);
+    padding: 15px 5px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+}
+.users-page-top--edit-wrapper> a {
+    text-decoration: none;
+    background: transparent;
 }

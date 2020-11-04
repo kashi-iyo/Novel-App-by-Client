@@ -1,24 +1,24 @@
-.OneUser {
+.one-user {
     width: 95%;
     background:  rgba(0, 168, 84, 0.1);
     border-bottom: var(--borderColor);
     margin: 0 auto;
 }
 
-.OneUserWrapper {
+.one-user--wrapper {
     width: 100%;
     margin: 0 auto;
     padding: 15px;
     box-sizing: border-box;
 }
 
-.TagHasUsers__List {
+.one-user--list {
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 5px;
 }
 
-.OneUserDescription {
+.one-user--profile {
     font-size: 0.8rem;
     padding: 3px 10px;
     margin-bottom: 15px;

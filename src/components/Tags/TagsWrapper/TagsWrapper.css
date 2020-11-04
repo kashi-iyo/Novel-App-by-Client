@@ -1,0 +1,6 @@
+.tags-wrapper {
+    display: flex;
+    border-radius: 3px;
+    text-align: center;
+    flex-wrap: wrap;
+}

@@ -1,4 +1,4 @@
-.UsersPage__tagLink{
+.one-tag--link{
     text-decoration: none;
     background: var(--buttonBackground);
     margin-right: 5px;
@@ -9,13 +9,13 @@
     white-space: nowrap;
 }
 
-.UsersPage__tagLi {
+.one-tag--tag-li {
     color: var(--buttonColor);
     letter-spacing: 1px;
     font-size: 0.9rem;
     font-weight: 600;
 }
 
-.UsersPage__tagLi > span {
+.one-tag--tag-li > span {
     color: var(--buttonColor);
 }

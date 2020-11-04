@@ -10,45 +10,37 @@
     object-fit: contain;
 
 }
-.home__header {
+.home-header {
+    width: 100%;
     margin-bottom: 50px;
     padding: 10px;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(132, 132, 132, 0.3);
     box-shadow: 1px 0px 25px 5px rgba(93, 93, 93, 0.1);
 }
-.header__top {
+.header-top {
     margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
 }
-.header__topRight {
-    font-size: 0.9rem;
-}
-.postMessage {
-    font-size: 0.9rem;
-    color: rgb(252, 125, 125);
-}
-.recruitment__form {
-    background: var(--buttonBackground);
-    padding: 10px;
-    margin: 0 auto;
-    margin-bottom: 50px;
+
+.recruitment-form {
+    color: rgb(241, 241, 241);
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: var(--strongColor);
+    padding: 30px 10px;
     text-align: center;
     box-sizing: border-box;
     border-radius: 3px;
     width: 100%;
+    margin: 70px auto;
     box-shadow: 2px 3px 10px 1px rgba(93, 93, 93, 0.5);
-}
-.recruitment__form > a {
-    color: rgb(241, 241, 241);
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-decoration: none;
-    background: transparent;
+    outline: none;
+    cursor: pointer;
 }
 
-.userstatus {
+.user-status {
     font-size: 0.9rem;
 }
 .nickname {
@@ -61,7 +53,7 @@
     background: transparent;
 }
 
-.downMenu {
+.down-menu {
     background: rgba(232, 232, 232, 0.2);
     padding: 20px;
     padding-left: 30px;
@@ -69,7 +61,7 @@
     border-radius: 3px;
     border-right: 1px solid ;
 }
-.downMenu > li > a {
+.down-menu > li > a {
     background: transparent;
     text-decoration: none;
     padding: 0;
@@ -78,25 +70,23 @@
     position: relative;
     right: 0;
 }
-.downMenu > li {
+.down-menu > li {
     margin-bottom: 10px;
 }
 
-.header__auth {
+.header-auth {
     display: flex;
 }
-.header__auth > li > a {
+.header-auth > li > a {
     font-size: 1rem;
     padding: 3px;
 }
-.header__auth > li {
+.header-auth > li {
     margin-left: 10px;
 }
 
-.header__options {
-    display: flex;
-}
-.header__ul {
+
+.header-bottom {
     display: flex;
     font-size: 1rem;
     white-space: nowrap;
@@ -105,12 +95,12 @@
     box-sizing: border-box;
     justify-content: space-around;
 }
-.header__ul > li {
+.header-bottom > li {
     padding: 3px;
     display: table-cell;
     vertical-align: middle;
 }
-.header__ul > li > a {
+.header-bottom > li > a {
     text-decoration: none;
     padding: 10px;
     border-radius: 1px;
