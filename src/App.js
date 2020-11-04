@@ -25,7 +25,7 @@ import SelectedSeries from './components/Series/SelectedSeries/SelectedSeries'
 
 
 export default function App() {
-  const { loggedInStatus, currentUser, isLoading, userId } = useLoggedIn()
+  const { loggedInStatus, currentUser, isLoading, userId, handleLogout, handleLogin, messages, handleMessages } = useLoggedIn()
 
 
   return (
@@ -40,6 +40,10 @@ export default function App() {
                 currentUser={currentUser}
                 loggedInStatus={loggedInStatus}
                 history={props.history}
+                handleLogin={handleLogin}
+                handleLogout={handleLogout}
+                flashMessages={messages}
+                handleMessages={handleMessages}
               />
             )} />
             <Switch>
@@ -50,20 +54,28 @@ export default function App() {
               {/* ホーム */}
               <Route exact path={"/Series/:page_number"} render={props => (
                 <Home {...props}
+                  props={props}
                   history={props.history}
                   pageNumber={props.match.params.page_number}
-                  flashMessage={props.location.state}
                 />
               )} />
               {/* 認証系機能へのルーティング===================== */}
               {!loggedInStatus &&
                 <Route exact path={"/login"} render={props => (
-                  <Login {...props} history={props.history} />
+                <Login {...props}
+                  history={props.history}
+                  handleLogin={handleLogin}
+                  handleMessages={handleMessages}
+                />
                 )} />
               },
               {!loggedInStatus &&
                 <Route exact path={"/signup"} render={props => (
-                  <Signup {...props} history={props.history} />
+                <Signup {...props}
+                  history={props.history}
+                  handleLogin={handleLogin}
+                  handleMessages={handleMessages}
+                />
                 )} />
               }
               {/* 認証系機能へのルーティング===================== */}
@@ -73,11 +85,11 @@ export default function App() {
                 exact path="/users/:id"
                 render={props => (
                   <UsersPage {...props}
+                    props={props}
                     loggedInStatus={loggedInStatus}
                     userParams={props.match.params.id}
                     userId={userId}
                     history={props.history}
-                    flashMessage={props.location.state}
                   />
                 )}
               />
