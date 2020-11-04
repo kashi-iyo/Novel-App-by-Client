@@ -5,21 +5,24 @@ import validateSaveUser from '../../CustomHooks/Validate/AuthValidate/validateSa
 import signupValidate from '../../CustomHooks/Validate/AuthValidate/signupValidate'
 import useInput from '../../CustomHooks/Auth/useInput'
 
-function Signup({history}) {
+// 新規登録フォーム
+function Signup({history, handleLogin, handleMessages}) {
     const { values, handleChange, handleSubmit, errors, saveErrors } = useInput({
         validate: signupValidate,
         method: "post",
         url: 'http://localhost:3001/api/v1/users',
-        history: history
+        history: history,   // 新規登録後にリダイレクトするのに使用
+        dataType: "signup",     // 送信フォームをLogin.jsと区別
+        handleLogin: handleLogin,   // ログインを行う
+        handleMessages: handleMessages  // フラッシュメッセージの表示に使用
     })
 
-    // 新規登録フォーム
-    const signupRenderer = () => {
-        return (
+    return (
+        <React.Fragment>
             <div className="auth-form">
                 {/* Railsからのerrors.full_messagesをレンダリングする */}
                 {saveErrors && validateSaveUser(saveErrors)}
-                <h1 className="auth-form--h1">新規登録</h1>
+                <h1 className="auth-form--h1">新規登録フォーム</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="auth-form--nickname-wrapper">
                         {errors.nickname && <p className="error">{errors.nickname}</p>}
@@ -84,13 +87,7 @@ function Signup({history}) {
                     <button type="submit" className="button">新規登録</button>
                 </form>
             </div>
-        )
-    }
-
-    return (
-        <div>
-            {signupRenderer()}
-        </div>
+        </React.Fragment>
     )
 }
 
