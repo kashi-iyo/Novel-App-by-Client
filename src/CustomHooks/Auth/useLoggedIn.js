@@ -6,6 +6,7 @@ export default function useLoggedIn() {
     const [loggedInStatus, setLoggedInStatus] = useState(false)
     const [currentUser, setCurrentUser] = useState("")
     const [userId, setUserId] = useState("")
+    const [messages, setMessages] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
 
@@ -13,13 +14,18 @@ export default function useLoggedIn() {
     const handleLogin = (user) => {
         setLoggedInStatus(true)
         setCurrentUser(user.nickname)
-        setUserId(user.user_id)
+        setUserId(user.id)
     }
 
     // ログアウト
     const handleLogout = () => {
         setLoggedInStatus(false)
         setCurrentUser("")
+    }
+
+    const handleMessages = (messages) => {
+        setMessages(messages)
+        setTimeout(() => setMessages(""), 2000)
     }
 
     // ログインステータスの追跡
@@ -45,5 +51,5 @@ export default function useLoggedIn() {
         return () => { mount = false }
     }, [setIsLoading])
 
-    return { loggedInStatus, currentUser, handleLogin, handleLogout, isLoading, setIsLoading, userId }
+    return { loggedInStatus, currentUser, handleLogin, handleLogout, isLoading, setIsLoading, userId, messages, handleMessages }
 }
