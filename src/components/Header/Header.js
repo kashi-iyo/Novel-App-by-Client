@@ -6,9 +6,12 @@ import './Header.css'
 import Flash from '../Flash/Flash'
 import useInput from '../../CustomHooks/Auth/useInput'
 
-function Header({ loggedInStatus, currentUser, userId, history }) {
-    const { logoutClick, errors } = useInput({
-        history: history
+function Header({ loggedInStatus, currentUser, userId, history, handleLogin, handleLogout, flashMessages, handleMessages }) {
+    const { logoutClick, errors, handleLoginForRecruit } = useInput({
+        history: history,
+        handleLogin: handleLogin,
+        handleLogout: handleLogout,
+        handleMessages: handleMessages
     })
     const [menu, setMenu] = useState(false)
 
@@ -20,15 +23,22 @@ function Header({ loggedInStatus, currentUser, userId, history }) {
         if (loggedInStatus && currentUser) {
             return (
                 <div>
-                    <div className="userstatus">
+                    <div className="user-status">
                         <Link onClick={handleDown} className="nickname">
                             {currentUser}▼
                         </Link>
                         {
                             menu &&
-                            <ul className="downMenu">
+                            <ul className="down-menu">
                                 <li onClick={handleDown}><Link to={`/users/${userId}`}>マイページ</Link></li>
-                                <li onClick={handleDown}><Link to="/logout" onClick={logoutClick}>ログアウト</Link></li>
+                                <li onClick={handleDown}>
+                                    <Link
+                                        to="/logout"
+                                        onClick={logoutClick}
+                                    >
+                                        ログアウト
+                                    </Link>
+                                </li>
                             </ul>
                         }
                     </div>
@@ -37,7 +47,7 @@ function Header({ loggedInStatus, currentUser, userId, history }) {
         } else if (!loggedInStatus && !currentUser) {
             return (
                 <div>
-                    <ul className="header__auth">
+                    <ul className="header-auth">
                         <li onClick={handleDown}><Link to="/login">ログイン</Link></li>
                         <li onClick={handleDown}><Link to="/signup">新規登録</Link></li>
                     </ul>
@@ -48,20 +58,22 @@ function Header({ loggedInStatus, currentUser, userId, history }) {
 
     return (
         <div>
-            <Flash Errors={errors} />
-            <header className="home__header">
-                <div className="header__top">
+            {flashMessages || errors && <Flash Errors={errors} Success={flashMessages} />}
+            <header className="home-header">
+                <div className="header-top">
                     <img src={Logo} alt="ロゴ" className="Logo" />
-                    <div className="header__topLeft">
+                    <div className="header-top-left">
                         {rendererUser()}
                     </div>
                 </div>
                 {!loggedInStatus &&
-                    <div className="recruitment__form">
-                        <p>採用担当者様専用ログインフォーム</p>
-                    </div>
+                    <button
+                        className="recruitment-form" type="submit"
+                        onClick={handleLoginForRecruit}>
+                        採用担当者様専用ログインフォーム
+                    </button>
                 }
-                <ul className="header__ul">
+                <ul className="header-bottom">
                     <li><Link to="/Series/1">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
                     {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
