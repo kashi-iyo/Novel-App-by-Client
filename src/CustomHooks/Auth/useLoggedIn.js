@@ -23,11 +23,6 @@ export default function useLoggedIn() {
         setCurrentUser("")
     }
 
-    const handleMessages = (messages) => {
-        setMessages(messages)
-        setTimeout(() => setMessages(""), 2000)
-    }
-
     // ログインステータスの追跡
     useEffect(() => {
         let mount = true

@@ -22,10 +22,13 @@ import UsersTagsFeed from './components/Tags/UsersTagsFeed/UsersTagsFeed'
 import SeriesTagsFeed from './components/Tags/SeriesTagsFeed/SeriesTagsFeed'
 import RelationshipUsers from './components/Follow/RelationshipUsers'
 import SelectedSeries from './components/Series/SelectedSeries/SelectedSeries'
+import Flash from './components/Flash/Flash'
+import useFlash from './CustomHooks/FlashHooks/useFlash'
 
 
 export default function App() {
-  const { loggedInStatus, currentUser, isLoading, userId, handleLogout, handleLogin, messages, handleMessages } = useLoggedIn()
+  const {flashMessages, handleFlashMessages} = useFlash
+  const { loggedInStatus, currentUser, isLoading, userId, handleLogout, handleLogin } = useLoggedIn()
 
 
   return (
@@ -33,6 +36,12 @@ export default function App() {
       <React.Fragment>
         {isLoading ? <Spinner /> :
           <BrowserRouter>
+            <Render render={props => (
+              <Flash {...props}
+                Success={messages}
+
+              />
+            )}/>
             {/* ヘッダー */}
             <Route render={props => (
               <Header {...props}

@@ -58,7 +58,6 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
 
     return (
         <div>
-            {flashMessages || errors && <Flash Errors={errors} Success={flashMessages} />}
             <header className="home-header">
                 <div className="header-top">
                     <img src={Logo} alt="ロゴ" className="Logo" />

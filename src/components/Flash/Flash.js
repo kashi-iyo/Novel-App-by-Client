@@ -2,6 +2,7 @@ import React from 'react'
 import './Flash.css'
 
 function Flash({Success, Errors}) {
+
     return (
         <div className="Flash">
             {Success &&
