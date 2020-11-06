@@ -1,11 +1,17 @@
 import { useState } from 'react'
 
 function useFlash() {
-    const [flashMessages , setFlashMessages] = useState("")
+    const [flashMessages, setFlashMessages] = useState({
+        success: "",
+        errors: ""
+    })
 
-    const handleFlashMessages = (messages) => {
-        setFlashMessages(messages)
-        setTimeout(() => setFlashMessages(""), 2000)
+    const handleFlashMessages = ({ success, errors }) => {
+        setFlashMessages({
+            success: success,
+            errors: errors
+        })
+        setTimeout(() => setFlashMessages({ success: "", errors: ""}), 3000)
     }
 
     return { flashMessages, handleFlashMessages }
