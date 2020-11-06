@@ -3,7 +3,7 @@ import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
 
 
-function SelectedSeries({ history, selectedItem, selectedParams, pageNumber, props }) {
+function SelectedSeries({ history, selectedItem, selectedParams, pageNumber }) {
     const { items, count, isLoading, selectedValue } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1/selected_series/${selectedParams}`
@@ -16,7 +16,7 @@ function SelectedSeries({ history, selectedItem, selectedParams, pageNumber, pro
             <DisplayMultipleItems
                 items={items}
                 dataType={"series"}
-                caption={`╋ 作品一覧 （${selectingValue}） `}
+                caption={`作品一覧 （${selectingValue}） `}
                 record={`全 ${count} 件`}
                 pageNumber={pageNumber}
                 selectingValue={selectingValue}
