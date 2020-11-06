@@ -2,7 +2,6 @@ import React from 'react'
 
 import './UsersPage.css'
 import useFetchUserItems from '../../../CustomHooks/UsersHooks/useFetchUserItems'
-import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import UsersPageTop from './UsersPageTop/UsersPageTop'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
@@ -11,7 +10,7 @@ import Spinner from '../../Spinner/Spinner'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
 
 // ユーザーページ
-function UsersPage({ userParams, loggedInStatus, userId, history }) {
+function UsersPage({ userParams, userId, history }) {
     const { users, usersTags, usersRelationships, handleFollow, handleUnFollow, usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
             method: "get",
             url: `http://localhost:3001/api/v1/users/${userParams}`,
@@ -22,8 +21,7 @@ function UsersPage({ userParams, loggedInStatus, userId, history }) {
     return (
         <React.Fragment>
             {isLoading ? <Spinner /> :
-                errors ? <ErrorMessages loggedInStatus={loggedInStatus} errors={errors} /> :
-                    <div className="users-page">
+                <div className="users-page">
                     {/* ユーザーページ上部 */}
                     <UsersPageTop
                         users={users}
