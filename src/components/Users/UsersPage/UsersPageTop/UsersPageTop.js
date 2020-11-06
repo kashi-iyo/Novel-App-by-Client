@@ -7,7 +7,7 @@ import './UsersPageTop.css'
 
 // ユーザーページの上部
 function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, handleFollow, handleUnFollow, }) {
-console.log(usersTags)
+
     return (
         <div>
             <h1 className="display-multiple-items--caption">{users.nickname}さんのページ</h1>
