@@ -7,7 +7,6 @@ import NovelsInNovelsFeed from '../NovelsInNovelsFeed/NovelsInNovelsFeed'
 import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import useRemoveItems from '../../../CustomHooks/NovelsHooks/useRemoveItems'
 import RemoveFeatures from '../../Remove/RemoveFeatures'
-import Flash from '../../Flash/Flash'
 import Spinner from '../../Spinner/Spinner'
 import TagsWrapper from '../../Tags/TagsWrapper/TagsWrapper'
 
@@ -28,7 +27,6 @@ function NovelsFeed({seriesId, userId, loggedInStatus, currentUser, history}) {
     const handleNovelsFeed = () => {
         return (
             <React.Fragment>
-                <Flash Success={removeSuccess} Errors={removeErrors} />
                 <div className="NovelsFeed">
                     {/* シリーズタイトル・あらすじ */}
                     <div className="SeriesFeed">
@@ -72,15 +70,15 @@ function NovelsFeed({seriesId, userId, loggedInStatus, currentUser, history}) {
                     <div className="NovelsFeed__BarSpan"></div>
                 </div>
                 {/* 削除ボタン */}
-                <RemoveFeatures
-                        theme="シリーズ"
-                        author={items.series.author}
-                        currentUser={currentUser}
-                        handleClick={handleClick}
-                        confirmation={confirmation}
-                        handleOkRemove={handleOkRemove}
-                        handleNoRemove={handleNoRemove}
-                />
+                {items.series.user_id === userId && <RemoveFeatures
+                    theme="シリーズ"
+                    author={items.series.author}
+                    currentUser={currentUser}
+                    handleClick={handleClick}
+                    confirmation={confirmation}
+                    handleOkRemove={handleOkRemove}
+                    handleNoRemove={handleNoRemove}
+                />}
             </React.Fragment>
         )
     }
