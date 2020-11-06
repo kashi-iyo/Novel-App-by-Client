@@ -1,17 +1,15 @@
 import React from 'react'
 
 import SeriesForm from '../SeriesForm/SeriesForm'
-import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import Spinner from '../../Spinner/Spinner'
 
 // シリーズ作成フォームをレンダリングする。
 // SeriesFormへデータを渡す。
-function SeriesCreate({ loggedInStatus, currentUser, history, isLoading }) {
+function SeriesCreate({ currentUser, history, isLoading }) {
 
-    // SeriesFormへデータを渡す
-    const seriesCreateForm = () => {
-        return (
-            <React.Fragment>
+    return (
+        <React.Fragment>
+            {isLoading ? <Spinner /> :
                 <div className="seriesCreate">
                     <SeriesForm
                         method="post"
@@ -22,24 +20,8 @@ function SeriesCreate({ loggedInStatus, currentUser, history, isLoading }) {
                         history={history}
                         currentUser={currentUser}
                     />
-                </div>
-            </React.Fragment>
-        )
-    }
-
-    const renderer = () => {
-        // ユーザーがログインしているかどうかを確認
-        if (loggedInStatus) {
-            return seriesCreateForm()
-        } else if (!loggedInStatus) {
-            return <ErrorMessages errors={"ログインまたは新規登録を行ってください。"} />
-        }
-    }
-
-    return (
-        <div>
-            {isLoading ? <Spinner /> : renderer()}
-        </div>
+                </div>}
+        </React.Fragment>
     )
 }
 
