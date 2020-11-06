@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom'
 
 import Logo from '../.././img/logo.png'
 import './Header.css'
-import Flash from '../Flash/Flash'
 import useInput from '../../CustomHooks/Auth/useInput'
 
-function Header({ loggedInStatus, currentUser, userId, history, handleLogin, handleLogout, flashMessages, handleMessages }) {
-    const { logoutClick, errors, handleLoginForRecruit } = useInput({
+function Header({ loggedInStatus, currentUser, userId, history, handleLogin, handleLogout, handleFlashMessages }) {
+    const { logoutClick, handleLoginForRecruit } = useInput({
         history: history,
         handleLogin: handleLogin,
         handleLogout: handleLogout,
-        handleMessages: handleMessages
+        handleFlashMessages: handleFlashMessages // エラー用
     })
     const [menu, setMenu] = useState(false)
 
@@ -32,12 +31,9 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
                             <ul className="down-menu">
                                 <li onClick={handleDown}><Link to={`/users/${userId}`}>マイページ</Link></li>
                                 <li onClick={handleDown}>
-                                    <Link
-                                        to="/logout"
-                                        onClick={logoutClick}
-                                    >
+                                    <span onClick={logoutClick}>
                                         ログアウト
-                                    </Link>
+                                    </span>
                                 </li>
                             </ul>
                         }
@@ -75,7 +71,7 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
                 <ul className="header-bottom">
                     <li><Link to="/Series/1">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
-                    {currentUser && <li><Link to="/series_create">小説を投稿する</Link></li>}
+                    <li><Link to="/series_create">小説を投稿する</Link></li>
                     <li><Link to="/users_tags_feed">趣味タグクラウド</Link></li>
                     <li><Link to="/series_tags_feed">小説タグクラウド</Link></li>
                 </ul>
