@@ -6,6 +6,9 @@
     width: 120px;
     height: 37px;
     border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .NowFollowButton {
     background: var(--buttonBackground);
@@ -17,9 +20,6 @@
 }
 .NowFollow, .UnFollow {
     font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .NowFollow {
     color: white;

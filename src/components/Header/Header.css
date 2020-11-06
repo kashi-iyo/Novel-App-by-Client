@@ -61,7 +61,8 @@
     border-radius: 3px;
     border-right: 1px solid ;
 }
-.down-menu > li > a {
+.down-menu > li > a,
+.down-mennu > li > span {
     background: transparent;
     text-decoration: none;
     padding: 0;

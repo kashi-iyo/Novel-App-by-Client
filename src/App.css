@@ -1,6 +1,7 @@
   body {
     --buttonColor: rgb(255, 255, 255);
     --buttonBackground:  rgba(0, 143, 168, 0.9);
+    --appColor2:  rgba(0, 217, 255, 0.5);
     --linkColor: rgb(0, 103, 143);
     --borderColor: rgba(202, 202, 202, 0.2);
     --hobbyBackground: rgba(0, 168, 84, 0.9);
