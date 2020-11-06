@@ -24,11 +24,12 @@ import RelationshipUsers from './components/Follow/RelationshipUsers'
 import SelectedSeries from './components/Series/SelectedSeries/SelectedSeries'
 import Flash from './components/Flash/Flash'
 import useFlash from './CustomHooks/FlashHooks/useFlash'
+import ErrorMessages from './components/ErrorMessages/ErrorMessages'
 
 
 export default function App() {
-  const {flashMessages, handleFlashMessages} = useFlash
-  const { loggedInStatus, currentUser, isLoading, userId, handleLogout, handleLogin } = useLoggedIn()
+  const { flashMessages, handleFlashMessages } = useFlash()
+  const { loggedInStatus, currentUser, isLoading, userId, handleLogout, handleLogin } = useLoggedIn({handleFlashMessages})
 
 
   return (
@@ -36,12 +37,12 @@ export default function App() {
       <React.Fragment>
         {isLoading ? <Spinner /> :
           <BrowserRouter>
-            <Render render={props => (
-              <Flash {...props}
-                Success={messages}
-
+            {/* フラッシュメッセージ */}
+            <Route render={props => (
+              flashMessages && <Flash {...props}
+                flashMessages={flashMessages}
               />
-            )}/>
+            )} />
             {/* ヘッダー */}
             <Route render={props => (
               <Header {...props}
@@ -51,42 +52,47 @@ export default function App() {
                 history={props.history}
                 handleLogin={handleLogin}
                 handleLogout={handleLogout}
-                flashMessages={messages}
-                handleMessages={handleMessages}
+                handleFlashMessages={handleFlashMessages}
+              />
+            )} />
+            <Route exact path="/error_messages"
+              render={props => (
+              <ErrorMessages {...props}
+                  errorType={props.history.location.state.errorType}
+                  errors={props.history.location.state.errors}
               />
             )} />
             <Switch>
               {/* ルートパスへのアクセスは全て"/Series/1"へ */}
               <Route exact path="/">
-                <Redirect to="/Series/1" />
+                <Redirect to="/Series/1"/>
               </Route>
               {/* ホーム */}
               <Route exact path={"/Series/:page_number"} render={props => (
                 <Home {...props}
-                  props={props}
                   history={props.history}
                   pageNumber={props.match.params.page_number}
                 />
               )} />
               {/* 認証系機能へのルーティング===================== */}
-              {!loggedInStatus &&
-                <Route exact path={"/login"} render={props => (
-                <Login {...props}
-                  history={props.history}
-                  handleLogin={handleLogin}
-                  handleMessages={handleMessages}
-                />
-                )} />
-              },
-              {!loggedInStatus &&
-                <Route exact path={"/signup"} render={props => (
-                <Signup {...props}
-                  history={props.history}
-                  handleLogin={handleLogin}
-                  handleMessages={handleMessages}
-                />
-                )} />
-              }
+              <Route exact path={"/login"}
+                render={props => (
+                  !loggedInStatus ?
+                    <Login {...props}
+                      history={props.history}
+                      handleLogin={handleLogin}
+                    /> :
+                    <Redirect to="/" />
+                )}/>
+              <Route exact path={"/signup"}
+                render={props => (
+                  !loggedInStatus ?
+                    <Signup {...props}
+                      history={props.history}
+                      handleLogin={handleLogin}
+                    /> :
+                    <Redirect to="/"/>
+                )}/>
               {/* 認証系機能へのルーティング===================== */}
 
               {/* ユーザー系機能へのルーティング */}
@@ -161,12 +167,19 @@ export default function App() {
               <Route
                 exact path="/series_create"
                 render={props => (
-                  <SeriesCreate {...props}
+                  loggedInStatus ? <SeriesCreate {...props}
                     loggedInStatus={loggedInStatus}
                     currentUser={currentUser}
                     isLoading={isLoading}
                     history={props.history}
-                  />)}
+                  /> :
+                    <Redirect
+                      to={{
+                        pathname: "/error_messages",
+                        state: { errorType: "series-create" }
+                      }}
+                    />
+                  )}
               />
               {/* シリーズ編集 */}
               <Route
