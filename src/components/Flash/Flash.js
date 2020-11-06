@@ -1,21 +1,28 @@
 import React from 'react'
 import './Flash.css'
 
-function Flash({Success, Errors}) {
+// フラッシュメッセージの表示
+function Flash({ flashMessages }) {
+    const success = flashMessages.success
+    const errors = flashMessages.errors
 
     return (
-        <div className="Flash">
-            {Success &&
-                <div className="SuccessWrapper">
-                <p className="SuccessFlash">{Success}</p>
+        <React.Fragment>
+            {success &&
+                <div className="flash">
+                    <div className="flash--success-wrapper">
+                        <p className="flash--success">{success}</p>
+                    </div>
                 </div>
             }
-            {Errors &&
-                <div className="ErrorsWrapper">
-                    <p className="ErrorsFlash">{Errors}</p>
+            {errors &&
+                <div className="flash">
+                    <div className="flash--errors-wrapper">
+                        <p className="flash--errors">{errors}</p>
+                    </div>
                 </div>
             }
-        </div>
+        </React.Fragment>
     )
 }
 
