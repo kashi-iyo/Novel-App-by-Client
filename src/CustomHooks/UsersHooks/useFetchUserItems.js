@@ -133,54 +133,11 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, history }) {
         }
     }
 
-    // フォロー
-    const handleFollow = (userId) => {
-        axios.post(`http://localhost:3001/api/v1/relationships`,
-            {relationship: {follow_id: userId}},
-            { withCredentials: true })
-            .then(response => {
-                let res = response.data
-                let st = res.status
-                if (res.status === "created" && res.data_type === "relationship") {
-                    setUsersRelationships({
-                        followingsCount: usersRelationships.followingsCount,
-                        followersCount: usersRelationships.followersCount + 1,
-                        isOn: usersRelationships.isOn = true
-                    })
-                //Error 自身をフォローしようとした場合
-                //Error 存在しないユーザーにフォロー命令した場合
-                //Error フォローに失敗した場合
-                } else if (st=== "unauthorized" || st=== "unprocessable_entity" || res.head === "no_content" ) {
-                    setErrors(res.errors)
-                }
-
-            })
-            .catch(err => console.log(err))
-    }
-
-    // フォロー解除
-    const handleUnFollow = (userId) => {
-        axios.delete(`http://localhost:3001/api/v1/relationships/${userId}`, {withCredentials: true})
-            .then(response => {
-                let res = response.data
-                if (res.head === "no_content" && res.crud_type === "destroy" ) {
-                    setUsersRelationships({
-                        followingsCount: usersRelationships.followingsCount,
-                        followersCount: usersRelationships.followersCount - 1,
-                        isOn: usersRelationships.isOn = false
-                    })
-                } else if (res.head === "no_content") {
-                    setErrors(res.errors)
-                }
-            })
-            .catch(err => console.log(err))
-    }
-
     return {
         users,
         editUsers,
         usersTags, addTags, removeTags, handleFalse,
-        usersRelationships, handleFollow, handleUnFollow,
+        usersRelationships, setUsersRelationships,
         usersSeries,
         seriesCount,
         favoriteSeries, favoriteSeriesCount,

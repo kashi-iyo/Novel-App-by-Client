@@ -1,7 +1,6 @@
+function useRedirect() {
 
-function useRedirect({ history }) {
-
-    const redirect = (url) => {
+    const redirect = (history, url) => {
         history.push(url)
     }
 
