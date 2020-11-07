@@ -1,8 +1,11 @@
-
-.FollowButton > button[type="submit"] {
+.follow-button {
+    position: relative;
+}
+.follow-button > button[type="submit"] {
     outline: none;
 }
-.NowFollowButton, .UnFollowButton {
+
+.follow-button--now, .follow-button--yet {
     width: 120px;
     height: 37px;
     border-radius: 18px;
@@ -10,20 +13,33 @@
     justify-content: center;
     align-items: center;
 }
-.NowFollowButton {
+.follow-button--now {
     background: var(--buttonBackground);
 }
-.FollowButton > .UnFollowButton {
+.follow-button > .follow-button--yet {
     background: transparent;
     border: 1px solid var(--buttonBackground);
     box-sizing: border-box;
 }
-.NowFollow, .UnFollow {
+
+.follow-button--now > span, .follow-button--yet > span {
     font-weight: 600;
 }
-.NowFollow {
+.follo-button-now > span {
     color: white;
 }
-.UnFollow {
+.follow-button--yet > span {
     color: var(--linkColor);
+}
+
+.follow-button--errors {
+    color: red;
+    width: 200%;
+    padding: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: var(--borderColor);
+    position: absolute;
+    right: 0%;
+    top: -170%;
 }
