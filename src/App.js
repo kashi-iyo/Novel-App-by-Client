@@ -55,6 +55,7 @@ export default function App() {
                 handleFlashMessages={handleFlashMessages}
               />
             )} />
+            {/* エラーメッセージ用コンポーネント */}
             <Route exact path="/error_messages"
               render={props => (
               <ErrorMessages {...props}
