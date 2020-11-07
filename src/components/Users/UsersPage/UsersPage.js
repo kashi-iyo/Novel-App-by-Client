@@ -9,15 +9,18 @@ import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
 
+
 // ユーザーページ
 function UsersPage({ userParams, userId, history }) {
-    const { users, usersTags, usersRelationships, handleFollow, handleUnFollow, usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
-            method: "get",
-            url: `http://localhost:3001/api/v1/users/${userParams}`,
-            editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
-            history: history,
+    const { users, usersTags,
+        usersRelationships, setUsersRelationships,
+        usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
+        method: "get",
+        url: `http://localhost:3001/api/v1/users/${userParams}`,
+        editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
+        history: history
     })
-
+console.log(usersSeries)
     return (
         <React.Fragment>
             {isLoading ? <Spinner /> :
@@ -29,8 +32,7 @@ function UsersPage({ userParams, userId, history }) {
                         usersTags={usersTags}
                         errors={errors}
                         usersRelationships={usersRelationships}
-                        handleFollow={handleFollow}
-                        handleUnFollow={handleUnFollow}
+                        setUsersRelationships={setUsersRelationships}
                     />
                     <div className="users-page--bottom-">
                         <div className="users-page--bottom-wrapper">
@@ -54,7 +56,7 @@ function UsersPage({ userParams, userId, history }) {
                                         {usersSeries.length !== 0 ?
                                             <DisplayMultipleItems
                                                 items={usersSeries}
-                                                seriesNo={1}
+                                                pageNumber={1}
                                                 isLoading={isLoading}
                                                 userSeries={true}
                                             /> :
@@ -65,7 +67,7 @@ function UsersPage({ userParams, userId, history }) {
                                         {favoriteSeries.length !== 0 ?
                                             <DisplayMultipleItems
                                                 items={favoriteSeries}
-                                                seriesNo={1}
+                                                pageNumber={1}
                                                 isLoading={isLoading}
                                                 userSeries={true}
                                             /> :
