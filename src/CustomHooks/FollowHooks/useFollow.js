@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
+// フォローユーザー／フォロワーの取得
 function useFollow({ method, url }) {
-    const [items ,setItems] = useState([])
+    const [items, setItems] = useState([])
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
