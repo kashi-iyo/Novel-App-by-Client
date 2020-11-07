@@ -20,8 +20,6 @@ function Signup({history, handleLogin, handleMessages}) {
     return (
         <React.Fragment>
             <div className="auth-form">
-                {/* Railsからのerrors.full_messagesをレンダリングする */}
-                {saveErrors && validateSaveUser(saveErrors)}
                 <h1 className="auth-form--h1">新規登録フォーム</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="auth-form--nickname-wrapper">
@@ -86,6 +84,8 @@ function Signup({history, handleLogin, handleMessages}) {
                     </div>
                     <button type="submit" className="button">新規登録</button>
                 </form>
+                {/* Railsからのerrors.full_messagesをレンダリングする */}
+                {saveErrors && validateSaveUser(saveErrors)}
             </div>
         </React.Fragment>
     )
