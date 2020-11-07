@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import FollowButton from '../../../Follow/FollowButton'
-import OneTags from '../../../Tags/OneTags/OneTags'
 import TagsWrapper from '../../../Tags/TagsWrapper/TagsWrapper'
 import './UsersPageTop.css'
 
 // ユーザーページの上部
-function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, handleFollow, handleUnFollow, }) {
+function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, setUsersRelationships
+}) {
 
     return (
         <div>
@@ -20,8 +20,7 @@ function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, ha
                         errors={errors}
                         userId={users.user_id}
                         usersRelationships={usersRelationships}
-                        handleFollow={handleFollow}
-                        handleUnFollow={handleUnFollow}
+                        setUsersRelationships={setUsersRelationships}
                     />}
                 </div>
                 {/* フォロー数 / フォロワー数 */}
@@ -49,7 +48,7 @@ function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, ha
                         <Link
                             to={`/users/${userId}/edit`}
                             className="users-page-top--edit-button button">
-                            編集する
+                            プロフィールを編集する
                         </Link>
                     </div>}
             </div>
