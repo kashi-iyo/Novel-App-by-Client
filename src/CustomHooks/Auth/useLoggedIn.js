@@ -10,28 +10,34 @@ export default function useLoggedIn({handleFlashMessages}) {
 
 
     // ログイン
-    const handleLogin = ({ user, success, errors }) => {
+    const handleLogin = ({ user, success, errors, history, pathname }) => {
         setLoggedInStatus(true)
         setCurrentUser(user.nickname)
         setUserId(user.id)
+        // フラッシュメッセージの表示
         success && handleFlashMessages({
             success: success
         })
         errors && handleFlashMessages({
             errors: errors
         })
+        // リダイレクト
+        pathname && history.push(pathname)
     }
 
     // ログアウト
-    const handleLogout = ({success, errors}) => {
+    const handleLogout = ({success, errors, history, pathname}) => {
         setLoggedInStatus(false)
         setCurrentUser("")
+        // フラッシュメッセージの表示
         success && handleFlashMessages({
             success: success
         })
         errors && handleFlashMessages({
             errors: errors
         })
+        // リダイレクト
+        pathname && history.push(pathname)
     }
 
     // ログインステータスの追跡
