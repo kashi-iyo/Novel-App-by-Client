@@ -1,21 +1,27 @@
 import React from 'react'
+import useHandleFollow from '../../CustomHooks/FollowHooks/useHandleFollow'
 import './FollowButton.css'
 
-function FollowButton({ errors, userId, usersRelationships, handleFollow, handleUnFollow }) {
+function FollowButton({ userId, usersRelationships, setUsersRelationships
+}) {
+    const { handleFollow, handleUnFollow, errors } = useHandleFollow({
+        usersRelationships: usersRelationships,
+        setUsersRelationships: setUsersRelationships
+    })
 
     return (
         <React.Fragment>
-            {errors && <p className="error">{errors}</p>}
-            <div className="FollowButton">
+            <div className="follow-button">
+                {errors && <p className="follow-button--errors">{errors}</p>}
                 {/* フォローOFF/ON */}
                     {
                         usersRelationships.isOn ?
-                            <button className="NowFollowButton" type="submit" onClick={() => handleUnFollow(userId)}>
-                                <span className="NowFollow">フォロー中</span>
+                            <button className="follow-button--now" type="submit" onClick={() => handleUnFollow(userId)}>
+                                <span>フォロー中</span>
                             </button>
                             :
-                            <button className="UnFollowButton" type="submit" onClick={() => handleFollow(userId)}>
-                                <span className="UnFollow">フォロー</span>
+                            <button className="follow-button--yet" type="submit" onClick={() => handleFollow(userId)}>
+                                <span>フォロー</span>
                             </button>
                     }
             </div>
