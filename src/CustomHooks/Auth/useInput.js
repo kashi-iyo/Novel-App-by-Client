@@ -21,6 +21,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
     })
     const [errors, setErrors] = useState("")
     const [saveErrors, setSaveErrors] = useState("")
+    const [unauthorizedErrors, setUnauthorizedErrors] = useState("")
 
     const handleChange = e => {
         const { name, value } = e.target
@@ -30,39 +31,57 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
         })
     }
 
+    // ログインイベント
     const handleSubmit = e => {
         console.log(values)
         e.preventDefault()
-        const redirect = (url) => {
-            history.push(url)
-        }
-        setErrors(validate(values))
-        if (!errors) {
+        if (Object.keys(validate(values)).length) {
+            console.log(Object.keys(validate(values)).length)
+            setErrors(validate(values))
+        } if (!Object.keys(validate(values)).length) {
             axios[method](url,
                 { user: values },
                 { withCredentials: true })
                 .then(response => {
-                    console.log(response)
+                    console.log("ログインイベント: クリック")
                     let res = response.data
                     let status = res.status
+                    let errorType = res.error_type
                     let obj = res.object
                     // 新規登録成功
                     if (status === "created") {
-                        handleLogin({ user: obj, success: res.successful })
-                        redirect(`/users/${obj.id}`)
+                        console.log("新規登録: OK", "レスポンス: ", res)
+                        handleLogin({
+                            user: obj,
+                            success: res.successful,
+                            history: history,
+                            pathname: `/users/${obj.id}`
+                        })
                     }
                     // ログイン成功
                     if (status === 200 && res.logged_in) {
-                        handleLogin({ user: obj, success: res.successful })
-                        redirect(`/users/${obj.id}`)
-                    // 新規登録失敗
+                        console.log("ログイン: OK", "レスポンス: ", res)
+                        handleLogin({
+                            user: obj,
+                            success: res.successful,
+                            history: history,
+                            pathname: `/users/${obj.id}`
+                        })
+                    // 新規登録(保存)失敗
                     } else if (status === "unprocessable_entity") {
+                        console.log("新規登録: 失敗", "レスポンス", res.errors)
                         setSaveErrors(res.errors)
-                    // 入力内容によるログイン失敗
-                    // ログインしているのにログイン
-                    // 新規登録しているのに新規登録しようとする場合
                     } else if (status === "unauthorized") {
-                        setErrors(res.errors)
+                        // 入力内容によるログイン失敗
+                        if (errorType === "authenticate_password") {
+                            console.log("ログイン: 失敗", "レスポンス: ", res.errors)
+                            setUnauthorizedErrors(res.errors)
+                        // ログイン中にログインしようとする場合
+                        // ログイン中に新規登録しようとする場合
+                        } else if (errorType === "already_login") {
+                            console.log("ログイン: 失敗（すでにログイン済み）", "レスポンス", res.errors)
+                            handleFlashMessages({errors: res.errors})
+                        }
                     }
                 })
                 .catch(err => console.log(err))
@@ -71,9 +90,6 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // ログアウトイベント
     const logoutClick = () => {
-        const redirect = () => {
-            history.push("/")
-        }
         axios.delete('http://localhost:3001/logout',
             { withCredentials: true })
             .then(response => {
@@ -81,8 +97,11 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
                 let res = response.data
                 if (res.status === 200 && !res.logged_in) {
                     console.log("logout: 成功")
-                    handleLogout({success: res.successful})
-                    redirect()
+                    handleLogout({
+                        success: res.successful,
+                        history: history,
+                        pathname: "/"
+                    })
                 } else if (res.status === "unauthorized") {
                     console.log("logout: 失敗")
                     handleFlashMessages({ errors: res.errors })
@@ -93,9 +112,6 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // 採用担当者様専用ログインフォーム
     const handleLoginForRecruit = () => {
-        const redirect = (url) => {
-            history.push(url)
-        }
         axios.post(`http://localhost:3001/login`,
             {
                 user: {
@@ -109,8 +125,12 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
                 let obj = res.object
                 if (res.logged_in) {
                     console.log("response: ", res)
-                    handleLogin({ user: obj, success: res.successful })
-                    redirect(`/users/${obj.id}`)
+                    handleLogin({
+                        user: obj,
+                        success: res.successful,
+                        history: history,
+                        pathname: `/users/${obj.id}`
+                    })
                 } else if (res.status === "unauthorized") {
                     handleFlashMessages({ errors: res.errors })
                 }
@@ -118,7 +138,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
             .catch(err => console.log(err))
     }
 
-    return {values, handleChange, handleSubmit, logoutClick, errors, saveErrors, handleLoginForRecruit}
+    return {values, handleChange, handleSubmit, logoutClick, errors, saveErrors, unauthorizedErrors ,handleLoginForRecruit}
 }
 
 export default useInput
