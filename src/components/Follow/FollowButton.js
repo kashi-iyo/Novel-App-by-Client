@@ -2,11 +2,12 @@ import React from 'react'
 import useHandleFollow from '../../CustomHooks/FollowHooks/useHandleFollow'
 import './FollowButton.css'
 
-function FollowButton({ userId, usersRelationships, setUsersRelationships
+function FollowButton({ userId, usersRelationships, setUsersRelationships, handleFlashMessages
 }) {
     const { handleFollow, handleUnFollow, errors } = useHandleFollow({
         usersRelationships: usersRelationships,
-        setUsersRelationships: setUsersRelationships
+        setUsersRelationships: setUsersRelationships,
+        handleFlashMessages: handleFlashMessages
     })
 
     return (
