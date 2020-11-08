@@ -4,23 +4,28 @@ import useRedirect from '../Redirect/useRedirect'
 
 // ユーザーデータを取得、ユーザーデータの更新
 // UsersEdit, UsersPageTop, UsersSeriesにて使用
-function useFetchUserItems({ method, url, updateMethod, updateUrl, history }) {
+function useFetchUserItems({ method, url, updateMethod, updateUrl, history, handleFlashMessages }) {
     const [users, setUsers] = useState("")
-    const [editUsers, setEditUsers] = useState({ nickname: "", profile: "" })
+    const [editUsers, setEditUsers] = useState({
+        nickname: "",
+        profile: ""
+    })
     const [usersTags, setUsersTags] = useState("")
     const [usersRelationships, setUsersRelationships] = useState({
         followingsCount: "",
         followersCount: "",
         isOn: false
     })
-    const [usersSeries, setUsersSeries] = useState("")
+    const [seriesData, setSeriesData] = useState({
+        usersSeries: "",
+        usersSeriesCount: "",
+        favoriteSeries: "",
+        favoriteSeriesCount: "",
+    })
     const [success, setSuccess] = useState("")
     const [errors, setErrors] = useState("")
-    const [seriesCount, setSeriesCount] = useState("")
-    const [favoriteSeries, setFavoriteSeries] = useState("")
-    const [favoriteSeriesCount, setFavoriteSeriesCount] = useState("")
     const [isLoading, setIsLoading] = useState(true)
-    const { redirect } = useRedirect({history: history})
+    const { redirect } = useRedirect({ history: history })
 
     const handleChange = e => {
         const { name, value } = e.target
@@ -36,13 +41,14 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, history }) {
         const getUserItems = () => {
             axios[method](url, { withCredentials: true })
                 .then(response => {
-                    console.log("useeffect: OK")
+                    console.log("useFetchUserItems: OK")
                     setIsLoading(true)
                     let res = response.data
                     let obj = res.object
-                    let ok = res.status === 200
+                    let status = res.status
                     // ユーザープロフィール
-                    if (mount && ok && res.crud_type === "show") {
+                    if (mount && status === 200 && res.crud_type === "show") {
+                        console.log("useFetchUserItems: show", "response: ", res)
                         setUsers(obj.user)
                         setUsersTags(obj.user_tags)
                         let relate = obj.user_relationships
@@ -51,28 +57,42 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, history }) {
                             followersCount: relate.followers_count,
                             isOn: relate.following_status
                         })
-                        setSeriesCount(obj.user_series_count)
-                        setUsersSeries(obj.user_series)
-                        setFavoriteSeries(obj.user_favorites_series)
-                        setFavoriteSeriesCount(obj.user_favorites_series_count)
+                        setSeriesData({
+                            usersSeries: obj.user_series,
+                            usersSeriesCount: obj.user_series_count,
+                            favoriteSeries: obj.user_favorites_series,
+                            favoriteSeriesCount: obj.user_favorites_series_count
+                        })
                         setIsLoading(false)
                     //Edit ユーザー編集用データ
-                    } else if (mount && ok && res.crud_type === "edit") {
+                    } else if (mount && status === 200 && res.crud_type === "edit") {
+                        console.log("useFetchUserItems: edit", "response: ", res)
                         setEditUsers(obj)
                         setUsersTags(obj.user_tags)
                         setIsLoading(false)
                     //Error 不認可
                     } else if (mount && res.status === "unauthorized") {
-                        setErrors(res.errors)
-                        setIsLoading(false)
+                        // 異なるユーザーの編集ページへアクセスした場合
+                        if (res.error_type === "user") {
+                            console.log("unauthorized: 異なるユーザーの編集ページへのアクセス", "response: ", res)
+                            handleFlashMessages({
+                                errors: res.errors,
+                                history: history,
+                                pathname: "/"
+                            })
+                            setIsLoading(false)
+                        }
                     //Error 存在しない
-                    } else if (mount && res.status === "no_content") {
-                        setErrors(res.errors)
-                        setIsLoading(false)
-                    //Error 保存失敗
-                    } else if (mount && res.status === "unprocessable_entity") {
-                        setErrors(res.errors)
-                        setIsLoading(false)
+                    } else if (mount && res.head === "no_content") {
+                        if (res.error_type === "user") {
+                            console.log("useFetchUserItems: no_content", "response: ", res)
+                            handleFlashMessages({
+                                errors: res.errors,
+                                history: history,
+                                pathname: "/"
+                            })
+                            setIsLoading(false)
+                        }
                     }
                 })
                 .catch(err => console.log(err))
@@ -105,47 +125,54 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, history }) {
 
     //Edit ユーザー編集フォームの送信
     const handleSubmit = e => {
+        console.log("編集の保存をクリック")
         e.preventDefault()
-        if (usersTags.length < 6) {
-            axios[updateMethod](updateUrl,
-                {
-                    user: {
-                        "nickname": editUsers.nickname,
-                        "profile": editUsers.profile,
-                        "user_tag_name": usersTags ? usersTags.join() : null
-                    }
-                },
-                { withCredentials: true }
-            ).then(response => {
-                let res = response.data
-                if (res.status === "ok" && res.crud_type === "update") {
-                    setSuccess(res.successful)
-                    setTimeout(() => redirect(`/users/${res.object}`), 2000)
-                } else if (res.status === "unprocessable_entity" || res.status === "unauthorized") {
-                    setErrors(res.errors)
+        axios[updateMethod](updateUrl,
+            {
+                user: {
+                    "nickname": editUsers.nickname,
+                    "profile": editUsers.profile,
+                    "user_tag_name": usersTags ? usersTags.join() : null
                 }
-            }).catch(err => console.log(err))
-            setErrors("")
-            setSuccess("")
-        } else if (usersTags.length > 5) {
-            usersTags.length > 5 && setErrors("趣味タグは5つ以内まで登録できます。")
-            setTimeout(() => setErrors(""), 2000)
-        }
+            },
+            { withCredentials: true }
+        ).then(response => {
+            let res = response.data
+            // 更新成功
+            if (res.status === "ok" && res.crud_type === "update") {
+                console.log("シリーズ編集: OK", "レスポンス: ", res)
+                handleFlashMessages({
+                    success: res.successful,
+                    history: history,
+                    pathname: `/users/${res.object}`
+                })
+            // 更新失敗
+            } else if (res.status === "unprocessable_entity") {
+                console.log("シリーズ編集: 更新失敗", "レスポンス: ", res)
+                setErrors(res.errors)
+            // 不認可
+            } else if (res.status === "unauthorized") {
+                console.log("シリーズ編集: 失敗")
+                if (res.error_type === "user") {
+                    console.log("失敗理由:  異なるユーザーによる編集")
+                    handleFlashMessages({
+                        errors: res.errors,
+                        history: history,
+                        pathname: "/"
+                    })
+                }
+            }
+        }).catch(err => console.log(err))
+        setErrors("")
+        setSuccess("")
     }
 
     return {
-        users,
-        editUsers,
+        users, editUsers, seriesData,
         usersTags, addTags, removeTags, handleFalse,
         usersRelationships, setUsersRelationships,
-        usersSeries,
-        seriesCount,
-        favoriteSeries, favoriteSeriesCount,
-        handleChange,
-        handleSubmit,
-        success,
-        errors,
-        isLoading
+        handleChange, handleSubmit,
+        success, errors, isLoading
     }
 
 }
