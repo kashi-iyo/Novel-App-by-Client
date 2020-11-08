@@ -1,0 +1,19 @@
+.buttonOn, .buttonOff {
+    border: none;
+    height: 40px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    outline: none;
+}
+.buttonOn {
+    background-color:var(--buttonBackground);
+    color: var(--buttonColor);
+    cursor: pointer;
+}
+.buttonOff {
+    background-color: rgba(128, 128, 128, 0.1);
+    color: rgba(37, 37, 37, 0.4);
+    cursor: none;
+}

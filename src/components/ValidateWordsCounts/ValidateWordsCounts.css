@@ -1,0 +1,13 @@
+.ok, .over {
+    font-weight: 600;
+    margin: 2px 10px;
+    font-size: 1rem;
+}
+
+.ok {
+    color: rgba(0, 187, 93, 0.836);
+}
+
+.over {
+    color: red;
+}
