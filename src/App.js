@@ -39,7 +39,7 @@ export default function App() {
           <BrowserRouter>
             {/* フラッシュメッセージ */}
             <Route render={props => (
-              flashMessages && <Flash {...props}
+              flashMessages && <Flash
                 flashMessages={flashMessages}
               />
             )} />
@@ -102,23 +102,30 @@ export default function App() {
                 render={props => (
                   <UsersPage {...props}
                     props={props}
-                    loggedInStatus={loggedInStatus}
-                    userParams={props.match.params.id}
                     userId={userId}
                     history={props.history}
+                    loggedInStatus={loggedInStatus}
+                    userParams={props.match.params.id}
+                    handleFlashMessages={handleFlashMessages}
                   />
                 )}
               />
               <Route
                   exact path="/users/:id/edit"
                   render={props => (
-                    <UsersEdit
+                    loggedInStatus ? <UsersEdit
                       {...props}
-                      loggedInStatus={loggedInStatus}
-                      currentUser={currentUser}
-                      history={props.history}
                       userId={userId}
-                    />
+                      history={props.history}
+                      currentUser={currentUser}
+                      loggedInStatus={loggedInStatus}
+                      handleFlashMessages={handleFlashMessages}
+                    /> :
+                      <Redirect
+                        to={{
+                          pathname: "/"
+                        }}
+                      />
                   )}
               />
               {/* フォローユーザー一覧/フォロワー一覧へのルーティング */}
