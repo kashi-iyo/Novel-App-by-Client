@@ -11,16 +11,20 @@ import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItem
 
 
 // ユーザーページ
-function UsersPage({ userParams, userId, history }) {
+function UsersPage({ userParams, userId, history, handleFlashMessages }) {
     const { users, usersTags,
         usersRelationships, setUsersRelationships,
-        usersSeries, errors, seriesCount, favoriteSeries, favoriteSeriesCount, isLoading } = useFetchUserItems({
+        errors, seriesData, isLoading } = useFetchUserItems({
         method: "get",
         url: `http://localhost:3001/api/v1/users/${userParams}`,
         editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
         history: history
-    })
-console.log(usersSeries)
+        })
+    const usersSeries = seriesData && seriesData.usersSeries
+    const usersSeriesCount = seriesData && seriesData.usersSeriesCount
+    const favoriteSeries = seriesData && seriesData.favoriteSeries
+    const favoriteSeriesCount = seriesData && seriesData.favoriteSeriesCount
+
     return (
         <React.Fragment>
             {isLoading ? <Spinner /> :
@@ -29,9 +33,9 @@ console.log(usersSeries)
                     <UsersPageTop
                         users={users}
                         userId={userId}
-                        usersTags={usersTags}
                         errors={errors}
-                        usersRelationships={usersRelationships}
+                        usersTags={usersTags}
+                        usersRelationships={usersRelationships} handleFlashMessages={handleFlashMessages}
                         setUsersRelationships={setUsersRelationships}
                     />
                     <div className="users-page--bottom-">
@@ -42,7 +46,7 @@ console.log(usersSeries)
                                     <TabList>
                                         <Tab>
                                             <p className="Tab">
-                                                投稿作品<span>（{seriesCount}）</span>
+                                                投稿作品<span>（{usersSeriesCount}）</span>
                                             </p>
                                         </Tab>
                                         <Tab>
