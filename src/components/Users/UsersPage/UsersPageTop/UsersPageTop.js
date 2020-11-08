@@ -5,7 +5,7 @@ import TagsWrapper from '../../../Tags/TagsWrapper/TagsWrapper'
 import './UsersPageTop.css'
 
 // ユーザーページの上部
-function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, setUsersRelationships
+function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, setUsersRelationships, handleFlashMessages
 }) {
 
     return (
@@ -20,6 +20,7 @@ function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, se
                         errors={errors}
                         userId={users.user_id}
                         usersRelationships={usersRelationships}
+                        handleFlashMessages={handleFlashMessages}
                         setUsersRelationships={setUsersRelationships}
                     />}
                 </div>
