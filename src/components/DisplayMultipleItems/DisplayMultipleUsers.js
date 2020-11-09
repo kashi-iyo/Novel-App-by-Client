@@ -27,26 +27,27 @@ function DisplayMultipleUsers({pageNumber, perPage, users, isLoading,  recordCap
                         {caption}
                     </h2>
                     {/* 件数見出し */}
-                    <p className="display-multiple-items--record-numbers">
-                        {recordCaption}
-                        （ {indexOfFirstPost + 1} - {users.length < postsPerPage ? users.length : indexOfLastPost}件 ）
-                    </p>
-                    {/* ページネーション */}
-                    <Pagination
-                        postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                        totalPosts={users.length} // 記事数
-                        currentPage={currentPage}
-                        paginateHref={paginateHref}
-                    />
-                    {/* ユーザー一覧 */}
-                    <UsersWrapper items={currentItems} />
-                    {/* ページネーション */}
-                    <Pagination
-                        postsPerPage={postsPerPage}  //1Pに表示する記事の数
-                        totalPosts={users.length} // 記事数
-                        currentPage={currentPage}
-                        paginateHref={paginateHref}
-                    />
+                    {users.length !== 0 &&
+                        <React.Fragment>
+                            <p className="display-multiple-items--record-numbers">
+                                {recordCaption}
+                                （ {indexOfFirstPost + 1} - {users.length < postsPerPage ? users.length : indexOfLastPost}件 ）
+                            </p>
+                            <Pagination
+                                postsPerPage={postsPerPage}  //1Pに表示する記事の数
+                                totalPosts={users.length} // 記事数
+                                currentPage={currentPage}
+                                paginateHref={paginateHref}
+                            />
+                            <UsersWrapper items={currentItems} />
+                            <Pagination
+                                postsPerPage={postsPerPage}  //1Pに表示する記事の数
+                                totalPosts={users.length} // 記事数
+                                currentPage={currentPage}
+                                paginateHref={paginateHref}
+                                />
+                        </React.Fragment>
+                    }
                 </div>
             }
         </React.Fragment>
