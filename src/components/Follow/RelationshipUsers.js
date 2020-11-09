@@ -3,22 +3,22 @@ import useFollow from '../../CustomHooks/FollowHooks/useFollow'
 import DisplayMultipleUsers from '../DisplayMultipleItems/DisplayMultipleUsers'
 
 // フォローユーザー一覧/フォロワー一覧の表示
-function RelationshipUsers({ userId, relationshipsParams, pageNumber }) {
+function RelationshipUsers({ userId, relationshipsParams, pageNumber, history, handleFlashMessages }) {
     const {items, isLoading} =  useFollow({
         method: "get",
         url: `http://localhost:3001/api/v1/relationships/${userId}/${relationshipsParams}`,
+        history: history,
+        handleFlashMessages: handleFlashMessages
     })
-    const users = items.users
-    const usersCount = items.users_count
 
     return (
         <React.Fragment>
             <DisplayMultipleUsers
                 isLoading={isLoading}
-                users={users}
-                caption={`${items.user}さんの${relationshipsParams === "followings" ? "フォローユーザー" : "フォロワー"}`}
-                recordCaption={`${usersCount} 人のユーザー`}
-                usersCount={usersCount}
+                users={items.relationshipsUsers}
+                caption={`${items.usersNickname}さんの${relationshipsParams === "followings" ? "フォローユーザー" : "フォロワー"}`}
+                recordCaption={`${items.usersCount} 人のユーザー`}
+                usersCount={items.usersCount}
                 perPage={30}
                 pageNumber={pageNumber}
                 paginateHref={`/users/${userId}/${relationshipsParams}/`}
