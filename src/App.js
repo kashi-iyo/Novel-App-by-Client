@@ -131,7 +131,7 @@ export default function App() {
               {/* フォローユーザー一覧/フォロワー一覧へのルーティング */}
               <Route exact path="/users/:user_id/:relationships?"
                 render={props => (
-                  <Redirect {...props}
+                  <Redirect
                     to={`/users/${props.match.params.user_id}/${props.match.params.relationships}/1`}
                   />
                 )}
@@ -139,10 +139,12 @@ export default function App() {
               <Route
                 exact path="/users/:user_id/:relationships?/:page_number"
                 render={props => (
-                  <RelationshipUsers {...props}
+                  <RelationshipUsers
                     userId={props.match.params.user_id}
                     relationshipsParams={props.match.params.relationships}
                     pageNumber={props.match.params.page_number}
+                    history={props.history}
+                    handleFlashMessages={handleFlashMessages}
                   />
                 )}
               />
