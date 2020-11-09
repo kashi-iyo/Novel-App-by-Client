@@ -26,12 +26,12 @@ function useHandleFollow({ usersRelationships, setUsersRelationships, handleFlas
                 } else if (status === "unauthorized") {
                     console.log("フォロー: 失敗")
                     //Error 未ログインの場合
-                    if (errorType = "not_login") {
+                    if (errorType === "not_login") {
                         console.log("失敗理由: 未ログイン", "レスポンス", res)
                         setErrors(errors)
                         setTimeout(() => setErrors(""), 3000)
                     //Error 自身をフォローしようとした場合
-                    } else if (errorType = "follow_myself") {
+                    } else if (errorType === "follow_myself") {
                         console.log("失敗理由: 自身をフォロー", "レスポンス", res)
                         handleFlashMessages({ errors: errors })
                     }

@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import './UsersEdit.css'
 import useFetchUserItems from '../../../CustomHooks/UsersHooks/useFetchUserItems'
 import InputTag from '../../Series/SeriesTagForm/SeriesTagForm'
@@ -8,7 +7,7 @@ import Button from '../../Button/Button'
 
 // ユーザー編集フォーム
 function UsersEdit({userId, history, handleFlashMessages}) {
-    const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit, success, errors } = useFetchUserItems({
+    const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit } = useFetchUserItems({
         method: "get",
         url: `http://localhost:3001/api/v1/users/${userId}/edit`,
         updateMethod: "patch",
