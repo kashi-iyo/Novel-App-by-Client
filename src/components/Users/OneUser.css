@@ -1,8 +1,9 @@
 .one-user {
     width: 95%;
     background:  rgba(0, 168, 84, 0.1);
-    border-bottom: var(--borderColor);
+    border-bottom: 1px solid var(--borderColor);
     margin: 0 auto;
+    padding: 10px 0;
 }
 
 .one-user--wrapper {

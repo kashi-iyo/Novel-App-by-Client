@@ -26,24 +26,6 @@ h1 {
     word-break: break-all;
 }
 
-/* フォロー */
-.users-page-top--relationships {
-    margin-bottom: 20px;
-}
-.users-page-top--relationships-span {
-    margin: 0 10px;
-}
-
-.users-page-top--tag-wrapper {
-    padding: 7px;
-    box-sizing: border-box;
-}
-.users-page-top--tag-hobby {
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-
 .users-page-top--no-tags-messages {
     font-weight: 600;
     background: var(--borderColor);

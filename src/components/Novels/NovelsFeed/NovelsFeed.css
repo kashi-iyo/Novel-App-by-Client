@@ -1,15 +1,8 @@
-
-
-.SeriesFeed__Link {
-    color: rgb(0, 103, 143);
-    margin-left: 5px;
-}
-
-.NovelsFeed {
+.novels-feed {
     width: 100%;
 }
 
-.SeriesFeed, .Novels {
+.novels-feed--series, .Novels {
     width: 90%;
     margin-right: auto;
     margin-left: auto;
@@ -17,36 +10,36 @@
     word-break: break-all;
     border-bottom: 10px solid rgba(128, 128, 128, 0.1);
 }
-.SeriesFeed {
+.novels-feed {
     margin-bottom: 40px;
 }
 
 /* シリーズUI上部 */
-.SeriesFeed__top {
+.novels-feed--series-top {
     margin-bottom: 10px;
 }
-.SeriesFeed__title {
+.novels-feed--series-title {
     font-weight: 600;
     font-size: 2.4rem;
     letter-spacing: 1.2px;
     margin-bottom: 5px;
 }
-.SeriesFeed__writer {
+.novels-feed--series-writer {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 5px;
 }
-.SeriesFeed__writerName {
+.novels-feed--series-writer-mame {
     color:  rgb(0, 103, 143);
     margin-left: 5px;
     font-size: 0.9rem;
 }
 
 /* シリーズUI中部 */
-.SeriesFeed__center {
+.novels-feed--series-center {
     margin-bottom: 15px;
 }
-.SeriesFeed__description {
+.novels-feed--series-description {
     letter-spacing: 1.5px;
     line-height: 18px;
     white-space: pre-wrap;
@@ -56,32 +49,30 @@
 }
 
 /* シリーズUI下部 */
-.SeriesFeed__bottom {
+.novels-feed--series-bottom {
     display: flex;
     margin-bottom: 5px;
     font-size: 1rem;
     font-weight: 600;
 }
-.SeriesFeed__reviews, .SeriesFeed__favorites, .SeriesFeed__comments {
+.novels-feed--series-favorites,
+.novels-feed--series-comments {
     margin-right: 15px;
     margin-bottom: 15px;
 }
-.SeriesFeed__favorites > span {
+.novels-feed--series-favorites > span {
     margin-left: 5px;
 }
 
 /* タグ */
-.SeriesFeed__tagWrap {
+.novels-feed--series-tag-wrapper {
     margin-bottom: 15px;
     font-size: 0.9rem;
-}
-.SeriesFeed__tagUl {
-    display: flex;
 }
 
 
 /* 編集 */
-.SeriesFeed__editLinkWrap {
+.novels-feed--series-edit-link-wrapper {
     margin-left: auto;
     margin-bottom: 10px;
     position: relative;
@@ -89,7 +80,8 @@
     display: flex;
     flex-direction: row-reverse;
 }
-.SeriesFeed__editLink, .SeriesFeed__addLink {
+.novels-feed--series-edit-link,
+.novels-feed--series-add-link {
     color: rgb(0, 103, 143);
     display: inline-block;
     margin-left: 20px;
@@ -97,12 +89,7 @@
     font-weight: 600;
 }
 
-.SeriesFeed__Link {
-    color: rgb(0, 103, 143);
-    margin-left: 5px;
-}
-
-.NovelsFeed__NovelsCount {
+.novels-feed--novels-count {
     width: 90%;
     margin: 0 auto;
     margin-bottom: 40px;
@@ -112,7 +99,7 @@
     font-weight: 600;
     border-bottom: 1px solid  rgba(128, 128, 128, 0.1);;
 }
-.NovelsFeed__BarSpan {
+.novels-feed--novels-bar-span {
     margin: 0 auto;
     border-bottom: 10px solid rgba(128, 128, 128, 0.1);
     margin-bottom: 100px;

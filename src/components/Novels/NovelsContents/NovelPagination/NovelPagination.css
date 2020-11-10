@@ -1,8 +1,41 @@
-.PaginationPageNumber {
-    padding: 3px;
-    font-size: 0.8rem;
+
+.novel-pagination--top {
+    width: 100%;
+    height: 7vh;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+.novel-pagination--top {
+    margin-bottom: 0;
+}
+.novel-pagination--top > a, .novel-pagination--top > span {
+    background: var(--buttonBackground);
+    color: var(--buttonColor);
+    text-decoration: none;
+    font-weight: 600;
+    height: 70%;
+    width: 33%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.novel-pagination--top > span {
+    border-radius: 3px;
+    background: transparent;
+    box-sizing: border-box;
 }
 
-.PaginationPageNumber > span {
+.novel-pagination--page-number {
+    padding: 3px;
+    font-size: 0.9rem;
+}
+
+.novel-pagination--page-number > span {
     font-weight: 700;
 }

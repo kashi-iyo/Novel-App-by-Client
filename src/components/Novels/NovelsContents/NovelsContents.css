@@ -1,23 +1,19 @@
-.NovelsContents {
+.novels-contents--top {
+    margin-bottom: 100px;
     padding: 15px;
-    box-sizing: border-box;
-    /* display: none; */
 }
 
-.NovelsContents__Top {
-    margin-bottom: 80px;
-}
-
-.NovelsContens__Series {
+.novels-contens--series {
     text-align: center;
     margin-bottom: 150px;
 }
-.NovelsContents__SeriesTitle {
+.novels-contents--series-title-wrapper {
     font-size: 2.3rem;
     font-weight: 600;
     margin-bottom: 20px;
+    padding: 30px;
 }
-.NovelsContents {
+.novels-contents--series-title {
     background: rgba(240, 240, 240, 0.3);
     width: 100%;
     min-width: 370px;
@@ -26,37 +22,41 @@
     letter-spacing: 1px;
     position:relative;
 }
-.NovelContents__WriterEditWrapper {
+
+
+.novels-contents--series-writer-edit-wrapper {
     display: flex;
     justify-content: space-between;
 }
 
-
-.writerWrapper {
-    font-size: 0.8rem;
+.novels-contents--series-writer,
+.novels-contents--series-writer-name,
+.novels-contents--edit {
+    font-weight: 600;
 }
 
-.NovelsContents__Novels {
+.novels-contents--novels {
     text-align: center;
     margin-bottom: 100px;
 }
-.NovelsContents__NovelsTitle {
+.novels-contents--novels-title {
     font-size: 1.4rem;
     margin-bottom: 10px;
 }
-.NovelsContents__NovelsDescription {
+.novels-contents--novels-description {
     border-bottom: 1px solid rgba(128, 128, 128, 0.2);
     border-top: 1px solid rgba(128, 128, 128, 0.2);
     width: 100%;
     padding: 30px 15px;
     font-size: 0.9rem;
+    letter-spacing: 1px;
     margin: 0 auto;
     margin-bottom: 80px;
     text-align: left;
     box-sizing: border-box;
     white-space: pre-wrap;
 }
-.NovelsContents__NovelsContent {
+.novels-contents--novels-content {
     font-size: 1rem;
     line-height: 1.4rem;
     padding: 0 10px;
@@ -67,7 +67,7 @@
     white-space: pre-wrap;
 }
 
-.NovelsContents__Options {
+.novels-contents--options {
     position: relative;
     height: 9vh;
     display: flex;
@@ -75,38 +75,4 @@
     box-sizing: border-box;
     width: 95%;
     margin: 30px auto;
-}
-
-
-
-.PaginationTop {
-    width: 100%;
-    height: 7vh;
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-}
-.PaginationTop {
-    margin-bottom: 0;
-}
-.PaginationTop > a, .PaginationTop > span {
-    background: var(--buttonBackground);
-    color: var(--buttonColor);
-    text-decoration: none;
-    font-weight: 600;
-    height: 70%;
-    width: 33%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.PaginationTop > span {
-    border-radius: 3px;
-    background: transparent;
-    box-sizing: border-box;
 }
