@@ -1,19 +1,11 @@
 import {useState} from 'react'
 import axios from 'axios'
-import useRedirect from '../Redirect/useRedirect'
 
-function useRemoveItems({url, keyword, history}) {
-    const [removeErrors, setRemoveErrors] = useState("")
-    const [removeSuccess, setRemoveSuccess] = useState("")
+function useRemoveItems({url, target, history, handleFlashMessages}) {
     const [confirmation, setConfirmation] = useState("")
-    const {redirect} = useRedirect({history})
 
     const handleClick = () => {
-        if (keyword === "series") {
-            setConfirmation("本当にこのシリーズを削除しますか？")
-        } else if (keyword === "novel") {
-            setConfirmation("本当にこの話を削除しますか？")
-        }
+        setConfirmation(`本当にこの${target}を削除しますか？`)
     }
 
     const handleNoRemove = () => {
@@ -27,13 +19,25 @@ function useRemoveItems({url, keyword, history}) {
                 let res = response.data
                 //Destroy 削除に成功
                 if (res.head === "no_content") {
-                    setRemoveSuccess(res.successful)
-                    setTimeout(() => setRemoveSuccess(""), 2000)
-                    setTimeout(() => redirect("/"), 2000)
-                //error 未認証の場合
+                    handleFlashMessages({
+                        success: res.successful,
+                        history: history,
+                        pathname: "/"
+                    })
+                //error 不認可の場合
                 } else if (res.status === "unauthorized") {
-                    setRemoveErrors(res.errors)
-                    setTimeout(() => setRemoveErrors(""), 2000)
+                    handleFlashMessages({
+                        errors: res.errors,
+                        history: history,
+                        pathname: "/"
+                    })
+                // 何らかの理由で失敗
+                } else if (res.status === "unprocessable_entity") {
+                    handleFlashMessages({
+                        errors: res.errors,
+                        history: history,
+                        pathname: "/"
+                    })
                 }
             })
             .catch(err => console.log(err))
@@ -41,7 +45,7 @@ function useRemoveItems({url, keyword, history}) {
     }
 
     return {
-        removeErrors, confirmation, removeSuccess,  handleClick, handleNoRemove, handleOkRemove
+        confirmation, handleClick, handleNoRemove, handleOkRemove
     }
 }
 

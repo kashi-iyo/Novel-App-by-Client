@@ -5,14 +5,12 @@ import './TagsFeed.css'
 // タグクラウド
 // UsersTagsFeed, SeriesTagsFeedからデータが渡ってくる
 function TagsFeed({ items, dataType, caption }) {
-    const tags = items.tags
-    const tags_count = items.tags_count
 
     return (
         <React.Fragment>
-            <p className="Caption">╋{caption} （{tags_count}）</p>
-            <div className="TagsFeed">
-                <TagsWrapper tags={tags} dataType={dataType} />
+            <p className="caption">{caption} （{items.tags_count}）</p>
+            <div className="tags-feed">
+                <TagsWrapper tags={items.tags} dataType={dataType} />
             </div>
         </React.Fragment>
     )

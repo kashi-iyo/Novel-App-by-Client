@@ -13,7 +13,7 @@ function UsersTagsFeed() {
     return (
         <React.Fragment>
             <TagsFeed
-                items={items}
+                items={items.tag}
                 dataType="user"
                 caption="趣味タグクラウド"
             />

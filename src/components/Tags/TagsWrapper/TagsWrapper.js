@@ -4,7 +4,8 @@ import OneTags from '../OneTags/OneTags'
 
 // タグの配列をループ処理
 // OneUser.js/Series.jsにて呼び出し
-function TagsWrapper({tags, dataType}) {
+function TagsWrapper({ tags, dataType }) {
+    console.log(tags)
     return (
         <React.Fragment>
             <ul className="tags-wrapper">

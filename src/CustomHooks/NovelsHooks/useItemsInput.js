@@ -1,10 +1,9 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
-import useRedirect from '../Redirect/useRedirect'
 
 // 投稿系機能のinputフィールドでの挙動を記述
 // →SeriesForm, NovelsFormにて使用
-function useItemsInput({ method, url, sendItems, history, formType, dataType, editTags, currentUser }) {
+function useItemsInput({ method, url, sendItems, history, formType, dataType, editTags, currentUser, handleFlashMessages }) {
 
     // シリーズ／小説の初期値
     // 1回目のレンダリング:
@@ -33,7 +32,6 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
             return sendItems
         }
     })
-
     // タグの初期値
     const [tags, setTags] = useState(() => {
         // 空の配列
@@ -48,15 +46,8 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
             return editTags
         }
     })
-
     // 公開するかどうか
     const [release, setRelease] = useState(sendItems ? sendItems.release : false)
-     // 成功メッセージ
-    const [itemSuccess, setItemSuccess] = useState("")
-    // エラーメッセージ
-    const [itemErrors, setItemErrors] = useState("")
-    // リダイレクト
-    const {redirect} = useRedirect({history: history})
 
     // 入力データはブラウザに保存
     useEffect(() => {
@@ -144,48 +135,58 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
         axios[method](url, sendData(), { withCredentials: true })
             .then(response => {
                 let res = response.data
-                let created = res.status === 'created'  //作成成功
-                let updated = res.status === 'ok'   //更新成功
+                let status = res.status
                 let data_type = res.data_type
-                let crud_type = res.crud_type
-                //Create NovelSeriesオブジェクトを生成
-                if (created && data_type === "series" && crud_type === "create") {
-                    setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.object}`) }, 1500)
-                //Update NovelSeriesオブジェクトを更新
-                } else if (updated && data_type === "series" && crud_type === "update") {
-                    setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.object}`) }, 1500)
-                //Create Novelsオブジェクトを生成
-                } else if (created && data_type === "novel_for_create" && crud_type === "create") {
-                    setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`) }, 1500)
-                //Update Novelsオブジェクトを更新
-                } else if (updated && data_type === "novel" && crud_type === "update") {
-                    setItemSuccess(res.successful)
-                    setTimeout(() => { redirect(`/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`) }, 1500)
-                //error 未認証の場合
+                // シリーズ作成成功
+                if (status === "created" && data_type === "series") {
+                    handleFlashMessages({
+                        success: res.successful,
+                        history: history,
+                        pathname: `/novel_series/${res.object}`
+                    })
+                // シリーズ更新成功
+                } else if (status === "ok" && data_type === "series") {
+                    handleFlashMessages({
+                        success: res.successful,
+                        history: history,
+                        pathname: `/novel_series/${res.object}`
+                    })
+                //Create 小説作成成功
+                } else if (status === "created" && data_type === "novel_for_create") {
+                    handleFlashMessages({
+                        success: res.successful,
+                        history: history,
+                        pathname: `/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`
+                    })
+                //Update 小説更新成功
+                } else if (status === "ok" && data_type === "novel") {
+                    handleFlashMessages({
+                        success: res.successful,
+                        history: history,
+                        pathname: `/novel_series/${res.object.series_id}/novels/${res.object.novel_id}`
+                    })
+                //error 未認可の場合
                 } else if (res.status === "unauthorized") {
-                    setItemErrors(res.errors)
-                    setTimeout(() => setItemErrors(""), 3000)
+                    // ログインしていない場合
+                    // 別のユーザーのデータにアクセスしようとした場合
+                    handleFlashMessages({
+                        errors: res.errors,
+                        history: history,
+                        pathname: "/"
+                    })
                 //error オブジェクトの生成または更新に失敗した場合
                 } else if (res.status === "unprocessable_entity") {
-                    setItemErrors(res.errors)
-                    setTimeout(() => setItemErrors(""), 3000)
+                    handleFlashMessages({
+                        errors: res.errors,
+                    })
                 }
             })
-            .catch(err => setItemErrors(err))
+            .catch(err => console.log(err))
     }
 
     return {
-        values,
-        tags, addTags, removeTags,
-        release,
-        itemSuccess, itemErrors,
-        handleFalse,
-        handleStatusChange,
-        handleChange,
-        handleSubmit,
+        values, tags, addTags, removeTags, release,
+        handleFalse, handleStatusChange, handleChange, handleSubmit,
     }
 }
 

@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react"
 import axios from 'axios'
-import useRedirect from "../Redirect/useRedirect"
 
 // Railsから編集用データを取得。
 // →SeriesEdit, で使う
-export default function useEditItems({method, url, history}) {
+export default function useEditItems({method, url, history, handleFlashMessages}) {
     const [items, setItems] = useState("")
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
-    const { redirect } = useRedirect({ history: history })
 
     useEffect(() => {
         let mount = true
@@ -30,15 +28,20 @@ export default function useEditItems({method, url, history}) {
                     } else if (mount && status === 200 && crud_type === 'edit' && data_type === "novel") {
                         setItems(object)
                         setIsLoading(false)
-                    //error 未認証の場合
+                    // 別のユーザーのデータにアクセスしようとした場合
                     } else if (mount && status === "unauthorized") {
-                        setErrors(res.errors)
-                        setTimeout(() => { redirect('/') }, 3000)
-                        setIsLoading(false)
-                    //error 非公開の場合
-                    } else if (mount && status === 'forbidden') {
-                        setErrors(res.errors)
-                        setIsLoading(false)
+                        handleFlashMessages({
+                            errors: res.errors,
+                            history: history,
+                            pathname: "/"
+                        })
+                    // 存在しないデータにアクセスした場合
+                    } else if (mount && res.head === "no_content") {
+                        handleFlashMessages({
+                            errors: res.errors,
+                            history: history,
+                            pathname: "/"
+                        })
                     }
                 })
                 .catch(error => console.log(error))

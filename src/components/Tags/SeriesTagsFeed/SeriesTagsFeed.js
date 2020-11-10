@@ -8,10 +8,11 @@ function SeriesTagsFeed() {
         method: "get",
         url: 'http://localhost:3001/api/v1/novel_tags'
     })
+    console.log(items)
     return (
         <React.Fragment>
             <TagsFeed
-                items={items}
+                items={items.tag}
                 dataType="series"
                 caption="小説タグクラウド"
             />

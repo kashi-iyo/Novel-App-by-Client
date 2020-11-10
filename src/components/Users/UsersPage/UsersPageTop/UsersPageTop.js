@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import FollowButton from '../../../Follow/FollowButton'
+import RelationshipsLink from '../../../Follow/RelationshipsLink'
 import TagsWrapper from '../../../Tags/TagsWrapper/TagsWrapper'
 import './UsersPageTop.css'
 
@@ -25,11 +26,11 @@ function UsersPageTop({ users, userId, usersTags, errors, usersRelationships, se
                     />}
                 </div>
                 {/* フォロー数 / フォロワー数 */}
-                <div className="users-page-top--relationships">
-                    <Link to={`/users/${users.user_id}/followings`}>フォロー： {usersRelationships.followingsCount}</Link>
-                    <span className="users-page-top--relationships-span"></span>
-                    <Link to={`/users/${users.user_id}/followers`}>フォロワー： {usersRelationships.followersCount}</Link>
-                </div>
+                <RelationshipsLink
+                    userId={users.user_id}
+                    followingsCount={usersRelationships.followingsCount}
+                    followersCount={usersRelationships.followersCount}
+                />
                 {/* プロフィール */}
                 <div className="users-page-top--user-profile">{users.profile}</div>
                 {/* ユーザーが登録しているタグを表示 */}
