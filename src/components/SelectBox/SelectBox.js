@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './SelectBox.css'
 
-function SelectBox({ menuItems, history, selectingParams, selectingValue }) {
+function SelectBox({ menuItems, history, selectHref, selectingParams, selectingValue }) {
     // ドロップダウンボックスに表示する配列
     const [items] = useState(menuItems || [])
     // ドロップダウンボックス開閉
@@ -17,7 +17,10 @@ function SelectBox({ menuItems, history, selectingParams, selectingValue }) {
     }
 
     const selectItem = (item) => {
-        history.push(`/selectedSeries/${item.select_params}`, item)
+        // ホームなどから絞り込みする場合と
+        // タグで絞り込んだ後でセレクトする場合があるので
+        // その都度パスを変える
+        history.push(`${selectHref}${item.select_params}`, item)
         setSelectingItem(item)
         setShowItems(false)
     }
