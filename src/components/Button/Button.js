@@ -14,6 +14,9 @@ function Button({ handleSubmit, badCase, buttonValue}) {
             >
                 {buttonValue}
             </button>
+            {
+                badCase && <p className="button-required-error">必須な項目の入力を行なってください。</p>
+            }
         </React.Fragment>
     )
 }
