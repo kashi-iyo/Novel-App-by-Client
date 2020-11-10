@@ -1,13 +1,12 @@
 import React from 'react'
 
 import NovelsForm from '../NovelsForm'
-import ErrorMessages from '../../../ErrorMessages/ErrorMessages'
 
 // 小説作成フォーム
-function NovelsCreate({ seriesId, history, loggedInStatus }) {
+function NovelsCreate({ seriesId, history, handleFlashMessages }) {
 
-    const novelsCreateForm = () => {
-        return (
+    return (
+        <React.Fragment>
             <div className="novelsCreate">
                 <NovelsForm
                     method="post"
@@ -17,24 +16,10 @@ function NovelsCreate({ seriesId, history, loggedInStatus }) {
                     dataType="novel"
                     history={history}
                     button="追加する"
+                    handleFlashMessages={handleFlashMessages}
                 />
             </div>
-        )
-    }
-
-    // ログインしている場合にフォームをレンダリング
-    const renderer = () => {
-        if (!loggedInStatus) {
-            return <ErrorMessages errors={"アクセス権限がありません。"} />
-        } else if (loggedInStatus) {
-            return novelsCreateForm()
-        }
-    }
-
-    return (
-        <div>
-            {renderer()}
-        </div>
+        </React.Fragment>
     )
 }
 
