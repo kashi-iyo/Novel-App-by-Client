@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom'
 
 import './NovelsContents.css'
 import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
-import ErrorMessages from '../../ErrorMessages/ErrorMessages'
 import RemoveFeatures from '../../Remove/RemoveFeatures'
 import useRemoveItems from '../../../CustomHooks/NovelsHooks/useRemoveItems'
-import Flash from '../../Flash/Flash'
 import NovelPagination from './NovelPagination/NovelPagination'
 import CommentWrapper from '../../Comment/CommentWrapper'
 import FavoritesButtonWrapper from '../../Favorites/FavoritesButtonWrapper'
@@ -14,68 +12,73 @@ import Spinner from '../../Spinner/Spinner'
 
 
 // 小説1話分の内容を表示
-function NovelsContents({currentUser, userId, seriesId, novelId, history}) {
-    const { items, errors, isLoading } = useFetchItems({
+function NovelsContents({currentUser, userId, seriesId, novelId, history, handleFlashMessages}) {
+    const { novelItems, isLoading } = useFetchItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`
+        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`,
+        history: history,
+        handleFlashMessages: handleFlashMessages
     })
 
-    const { confirmation, removeErrors, removeSuccess, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
+    const { confirmation, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
         url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         keyword: "novel",
-        history: history
+        history: history,
+        handleFlashMessages: handleFlashMessages
     })
 
-    const rendererNovelsContents = ({series, novel, ids, favorites, comments}) => {
-        return (
-            <React.Fragment>
-                {isLoading ? <Spinner /> :
+    const series = novelItems && novelItems.series
+    const novel = novelItems && novelItems.novel
+    const novelIds = novelItems && novelItems.novelIds
+    const favorites = novelItems && novelItems.favorites
+    const comments = novelItems && novelItems.comments
+
+    return (
+        <React.Fragment>
+            {isLoading ? <Spinner /> :
                 <React.Fragment>
-                    <Flash Errors={removeErrors} Success={removeSuccess} />
-                    <div className="NovelsContents__Top">
+                    <div className="novels-contents--top">
                         {/* 小説のページネーション */}
-                        <NovelPagination seriesId={seriesId} novelId={novelId} ids={ids} />
-                        <div className="NovelsContents">
+                        <NovelPagination seriesId={seriesId} novelId={novelId} ids={novelIds} />
+                        <div className="novels-contents">
                             {/* シリーズタイトルと作者 */}
-                            <div className="NovelsContens__Series">
-                                <div className="NovelsContents__SeriesTitle">
-                                    <p className="seriesTitle">
+                            <div className="novels-contens--series">
+                                <div className="novels-contents--series-title-wrapper">
+                                    <p className="novels-contents-series-title">
                                         <Link to={`/novel_series/${seriesId}`}>
                                             {series.series_title}
                                         </Link>
                                     </p>
                                 </div>
-                                <div className="NovelContents__WriterEditWrapper">
-                                    <div className="NovelsContents__SeriesWriter">
-                                        <span className="writerWrapper">作者名: </span>
-                                        <span className="writerName">
+                                <div className="novels-contents--series-writer-edit-wrapper">
+                                    <div className="novels-contents--series-writer-wrapper">
+                                        <span className="novels-contents--series-writer">作者名: </span>
+                                        <span className="novels-contents--series-writer-name">
                                             <Link>{series.author}</Link>
                                         </span>
                                     </div>
                                     {/* 編集リンク */}
-                                    {
-                                    userId === novel.user_id &&
-                                        <Link to={`/novel_series/${seriesId}/novels/${novelId}/edit`} className="NovelsContents__Edit" >
+                                    {userId === novel.user_id &&
+                                        <Link to={`/novel_series/${seriesId}/novels/${novelId}/edit`} className="novels-contents--edit" >
                                             編集する
-                                        </Link>
-                                    }
+                                        </Link>}
                                 </div>
                             </div>
                             {/* 小説の内容 */}
-                            <div className="NovelsContents__Novels">
-                                <div className="NovelsContents__NovelsTitle">
+                            <div className="novels-contents--novels">
+                                <div className="novels-contents--novels-title">
                                     {novel.novel_title}
                                 </div>
-                                <div className="NovelsContents__NovelsDescription">
+                                <div className="novels-contents--novels-description">
                                     {novel.novel_description}
                                 </div>
-                                <div className="NovelsContents__NovelsContent">
+                                <div className="novels-contents-novels-content">
                                     {novel.novel_content}
                                 </div>
                             </div>
                         </div>
                         {/* 小説への評価 */}
-                        <div className="NovelsContents__Options">
+                        <div className="novels-contents--options">
                             <React.Fragment>
                                 {/* お気に入りボタン */}
                                 <FavoritesButtonWrapper
@@ -95,7 +98,7 @@ function NovelsContents({currentUser, userId, seriesId, novelId, history}) {
                             </React.Fragment>
                         </div>
                         {/* 小説のページネーション */}
-                        <NovelPagination seriesId={seriesId} novelId={novelId} ids={ids} />
+                        <NovelPagination seriesId={seriesId} novelId={novelId} ids={novelIds} />
                     </div>
                     <div className="NovelsFeed__BarSpan"></div>
                     {/* 削除ボタン */}
@@ -107,31 +110,10 @@ function NovelsContents({currentUser, userId, seriesId, novelId, history}) {
                         confirmation={confirmation}
                         handleOkRemove={handleOkRemove}
                         handleNoRemove={handleNoRemove}
-                        />
+                    />
                 </React.Fragment>
-                }
-            </React.Fragment>
-        )
-    }
-
-    const renderer = () => {
-        if (!!errors) {
-            return <ErrorMessages errors={errors} />
-        } else if (items.length !== 0) {
-            return rendererNovelsContents({
-                series: items.series,
-                novel: items.novel,
-                ids: items.novels_ids,
-                favorites: items.favorites_obj,
-                comments: items.comments_obj
-            })
-        }
-    }
-
-    return (
-        <div>
-            {renderer()}
-        </div>
+            }
+        </React.Fragment>
     )
 }
 
