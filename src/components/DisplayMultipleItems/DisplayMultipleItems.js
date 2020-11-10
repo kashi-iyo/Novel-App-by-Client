@@ -8,8 +8,8 @@ import Spinner from '../Spinner/Spinner'
 import UsersPagination from '../Pagination/UsersPagination'
 
 // 複数のオブジェクトを取得して表示
-// Home.js/にて呼び出し
-function DisplayMultipleItems({ items, pageNumber, caption, record, isLoading, paginateHref, userSeries, dataType, history, selectingValue, selectingParams, userId }) {
+// Home.js/SelectedSeries.js/TagHasSeries.js/TagHasSelectedSeries.jsにて呼び出し
+function DisplayMultipleItems({ items, pageNumber, caption, record, isLoading, selectHref, paginateHref, userSeries, dataType, history, selectingValue, selectingParams, userId }) {
 
     // ページネーション用のデータ
     const { postsPerPage, currentPage, setCurrentPage, currentItems, indexOfLastPost, indexOfFirstPost } = usePagination({
@@ -30,6 +30,7 @@ function DisplayMultipleItems({ items, pageNumber, caption, record, isLoading, p
                                 {!userSeries && <SelectBox
                                     dataType={dataType}
                                     history={history}
+                                    selectHref={selectHref}
                                     selectingValue={selectingValue}
                                     selectingParams={selectingParams}
                                     menuItems={[
