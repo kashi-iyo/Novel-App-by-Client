@@ -11,12 +11,12 @@ function NovelPagination({ seriesId, novelId, ids }) {
 
     return (
         <React.Fragment>
-            <div className="PaginationTop">
+            <div className="novel-pagination--top">
                 {prev ? <a href={`/novel_series/${seriesId}/novels/` + (prev)}>前話</a> : <span></span>}
                 <a href={`/novel_series/${seriesId}`}>目次</a>
                 {next ? <a href={`/novel_series/${seriesId}/novels/` + (next)}>次話</a> : <span></span>}
             </div>
-            <p className="PaginationPageNumber">（ <span>{i + 1} 話</span> / 全 {ids.length} 話 ）</p>
+            <p className="novel-pagination--page-number">（ <span>{i + 1} 話</span> / 全 {ids.length} 話 ）</p>
         </React.Fragment>
     )
 }
