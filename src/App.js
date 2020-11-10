@@ -25,6 +25,7 @@ import SelectedSeries from './components/Series/SelectedSeries/SelectedSeries'
 import Flash from './components/Flash/Flash'
 import useFlash from './CustomHooks/FlashHooks/useFlash'
 import ErrorMessages from './components/ErrorMessages/ErrorMessages'
+import TagHasSelectedSeries from './components/Tags/TagHasSelectedSeries/TagHasSelectedSeries'
 
 
 export default function App() {
@@ -152,7 +153,7 @@ export default function App() {
               {/* リダイレクト */}
               <Route exact path="/user_tags/:id"
                   render={props => (
-                    <Redirect {...props}
+                    <Redirect
                       to={`/user_tags/${props.match.params.id}/page/1`}
                     />
                   )}
@@ -160,16 +161,19 @@ export default function App() {
               <Route
                 exact path="/user_tags/:id/page/:page_number"
                 render={props => (
-                  <TagHasUsers {...props}
+                  <TagHasUsers
                     tagId={props.match.params.id}
                     pageNumber={props.match.params.page_number}
+                    history={props.history}
+                    handleFlashMessages={handleFlashMessages}
                   />
                 )}
               />
+              {/* 趣味タグフィード */}
               <Route
                   exact path="/users_tags_feed"
                   render={props => (
-                    <UsersTagsFeed {...props}  />
+                    <UsersTagsFeed />
                   )}
               />
             {/* 小説系機能へのルーティング =================================== */}
@@ -182,6 +186,7 @@ export default function App() {
                     currentUser={currentUser}
                     isLoading={isLoading}
                     history={props.history}
+                    handleFlashMessages={handleFlashMessages}
                   /> :
                     <Redirect
                       to={{
@@ -194,20 +199,20 @@ export default function App() {
               {/* シリーズ編集 */}
               <Route
                 exact path={`/novel_series/:id/edit`}
-                render={props => ( <SeriesEdit {...props}
-                  currentUser={currentUser}
-                  seriesId={props.match.params.id}
-                  history={props.history}
-                  userId={userId}
-                />)}
+                render={props => (
+                  loggedInStatus && <SeriesEdit {...props}
+                    currentUser={currentUser}
+                    seriesId={props.match.params.id}
+                    history={props.history}
+                    handleFlashMessages={handleFlashMessages}
+                  />)}
               />
               {/* シリーズ詳細ページ */}
               <Route
                 exact path="/novel_series/:id"
-                render={props => (<NovelsFeed {...props}
+                render={props => (<NovelsFeed
                   history={props.history}
                   seriesId={props.match.params.id}
-                  currentUser={currentUser}
                   loggedInStatus={loggedInStatus}
                   userId={userId}/>)}
               />
@@ -215,7 +220,7 @@ export default function App() {
                 {/* 小説1話分 */}
                 <Route
                   exact path="/novel_series/:id/novels/:novel_id"
-                  render={props => (<NovelsContents {...props}
+                  render={props => (<NovelsContents
                     currentUser={currentUser}
                     userId={userId}
                     seriesId={props.match.params.id}
@@ -228,10 +233,10 @@ export default function App() {
                 <Route
                   exact path="/novel_series/:id/add_novels"
                   render={props => (
-                    <NovelsCreate {...props}
-                      loggedInStatus={loggedInStatus}
+                    loggedInStatus && <NovelsCreate
                       seriesId={props.match.params.id}
                       history={props.history}
+                      handleFlashMessages={handleFlashMessages}
                     />
                   )}
                 />
@@ -239,11 +244,12 @@ export default function App() {
                 <Route
                   exact path="/novel_series/:id/novels/:novel_id/edit"
                   render={props => (
-                    <NovelsEdit {...props}
+                    loggedInStatus && <NovelsEdit
                       userId={userId}
                       seriesId={props.match.params.id}
                       novelsId={props.match.params.novel_id}
                       history={props.history}
+                      handleFlashMessages={handleFlashMessages}
                     />
                   )}
                 />
@@ -251,14 +257,14 @@ export default function App() {
                 <Route
                   exact path="/series_tags_feed"
                   render={props => (
-                    <SeriesTagsFeed {...props}  />
+                    <SeriesTagsFeed />
                   )}
                 />
                 {/* 特定のタグを持つシリーズ */}
                 <Route exact path="/series/tag/:tag_id"
                   render={props => (
                     <Redirect {...props}
-                      to={`/series/tag/${props.match.params.id}/page/1`}
+                      to={`/series/tag/${props.match.params.tag_id}/page/1`}
                     />
                   )}
                 />
@@ -268,20 +274,39 @@ export default function App() {
                       <TagHasSeries {...props}
                         tagId={props.match.params.tag_id}
                         pageNumber={props.match.params.page_number}
+                        history={props.history}
+                        handleFlashMessages={handleFlashMessages}
                       />
                     )}
                 />
-                <Route exact path="/selectedSeries/:selected_params?"
+                <Route exact path="/series/:selected_params?"
                   render={props => (
                     <Redirect {...props}
-                      to={`/selectedSeries/${props.match.params.selected_params}/1`}
+                      to={`/series/${props.match.params.selected_params}/1`}
                     />
                   )}
                 />
-                <Route exact path={"/selectedSeries/:selected_params?/:page_number"}
+                <Route exact path={"/series/:selected_params?/:page_number"}
                   render={props => (
                     <SelectedSeries {...props}
                       props={props}
+                      history={props.history}
+                      selectedItem={props.location.state}
+                      selectedParams={props.match.params.selected_params}
+                      pageNumber={props.match.params.page_number}
+                    />)}
+                />
+                <Route exact path="/series/tag/:tag_id/:selected_params?"
+                  render={props => (
+                    <Redirect
+                      to={`/series/tag/${props.match.params.tag_id}/${props.match.params.selected_params}/1`}
+                    />
+                  )}
+                />
+                <Route exact path={"/series/tag/:tag_id/:selected_params?/:page_number"}
+                  render={props => (
+                    <TagHasSelectedSeries
+                      tagId={props.match.params.tag_id}
                       history={props.history}
                       selectedItem={props.location.state}
                       selectedParams={props.match.params.selected_params}
