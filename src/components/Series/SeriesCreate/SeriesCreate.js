@@ -5,7 +5,7 @@ import Spinner from '../../Spinner/Spinner'
 
 // シリーズ作成フォームをレンダリングする。
 // SeriesFormへデータを渡す。
-function SeriesCreate({ currentUser, history, isLoading }) {
+function SeriesCreate({ currentUser, history, isLoading, handleFlashMessages }) {
 
     return (
         <React.Fragment>
@@ -19,6 +19,7 @@ function SeriesCreate({ currentUser, history, isLoading }) {
                         button="作成する"
                         history={history}
                         currentUser={currentUser}
+                        handleFlashMessages={handleFlashMessages}
                     />
                 </div>}
         </React.Fragment>
