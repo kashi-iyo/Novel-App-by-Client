@@ -23,7 +23,8 @@ function SelectedSeries({ history, selectedItem, selectedParams, pageNumber }) {
                 selectingParams={selectedParams}
                 history={history}
                 isLoading={isLoading}
-                paginateHref={`/selectedSeries/${selectedParams}/`}
+                selectHref={`/series/`}
+                paginateHref={`/series/${selectedParams}/`}
             />
         </React.Fragment>
     )
