@@ -3,7 +3,6 @@ import './Flash.css'
 
 // フラッシュメッセージの表示
 function Flash({ flashMessages }) {
-    console.log("Flash: 表示")
     const success = flashMessages && flashMessages.success
     const errors = flashMessages && flashMessages.errors
 
