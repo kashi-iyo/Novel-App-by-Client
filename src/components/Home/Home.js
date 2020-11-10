@@ -22,6 +22,7 @@ function Home({ pageNumber, history }) {
                 pageNumber={pageNumber}
                 history={history}
                 isLoading={isLoading}
+                selectHref={`/series/`}
                 paginateHref={`/Series/`}
             />
         </React.Fragment>
