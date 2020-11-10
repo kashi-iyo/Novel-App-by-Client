@@ -39,7 +39,9 @@ function DisplayMultipleUsers({pageNumber, perPage, users, isLoading,  recordCap
                                 currentPage={currentPage}
                                 paginateHref={paginateHref}
                             />
-                            <UsersWrapper items={currentItems} />
+                            <UsersWrapper
+                                items={currentItems}
+                            />
                             <Pagination
                                 postsPerPage={postsPerPage}  //1Pに表示する記事の数
                                 totalPosts={users.length} // 記事数
