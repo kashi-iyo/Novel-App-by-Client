@@ -4,27 +4,36 @@ import './RemoveFeatures.css'
 function RemoveFeatures({ theme, authorId, currentUserId, handleClick, confirmation, handleOkRemove, handleNoRemove }) {
 
     return (
-        <div>
-            {/* 削除ボタン */}
-            {authorId === currentUserId &&
-                <div className="removeButton">
-                    <button onClick={handleClick} className="button ">
-                        この{theme}を削除する
-                    </button>
-                </div>
-            }
-            {/* 削除確認もーだる */}
-            <div className="SeriesFeed__RemoveWrapper">
-                {
-                    confirmation &&
-                    <div className="removeModal">
-                        <p className="removeModal__Message">{confirmation}</p>
-                        <input type="button" className="okRemove" onClick={handleOkRemove} value="はい" />
-                        <input type="button" className="noRemove" onClick={handleNoRemove} value="いいえ" />
+        <React.Fragment>
+            < div className = "remove-features" >
+                {/* 削除ボタン */ }
+                {authorId === currentUserId &&
+                    <div className="remove-features--remove-button">
+                        <button onClick={handleClick} className="button ">
+                            この{theme}を削除する
+                                </button>
                     </div>
                 }
-            </div>
-        </div>
+                {/* 削除確認もーだる */ }
+                {confirmation &&
+                    <div className="remove-features--remove-modal-wrapper">
+                        <div className="remove-features--remove-modal">
+                            <p className="remove-features--remove-modal-message">{confirmation}</p>
+                            <div className="remove-features--remove-modal-button-wrapper">
+                                <input
+                                    type="button" className="remove-features--remove-modal-ok" onClick={handleOkRemove}
+                                    value="はい"
+                                />
+                                <input
+                                    type="button" className="remove-features--remove-modal-no" onClick={handleNoRemove}
+                                    value="いいえ"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div >
+        </React.Fragment>
     )
 }
 
