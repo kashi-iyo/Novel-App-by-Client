@@ -1,20 +1,17 @@
 import React from 'react'
-import classNames from 'classnames'
 import {Link} from 'react-router-dom'
 
 import '../Series.css'
 import './SeriesForm.css'
 import useItemsInput from '../../../CustomHooks/NovelsHooks/useItemsInput'
-import Flash from '../../Flash/Flash'
 import SeriesTagForm from '../SeriesTagForm/SeriesTagForm'
+import ValidateWordsCounts from '../../ValidateWordsCounts/ValidateWordsCounts'
+import Button from '../../Button/Button'
 
 // シリーズ作成フォームを作成
-function SeriesForm({method, url, formType, dataType, history, editSeries, editTags, button, currentUser, seriesId, setMount}) {
-    // method: HTTPリクエスト, url: Railsのルーティング, mount: マウント処理, sendItems: EditItemsから渡されるデータ
-    // props: historyなどの取得のため
+function SeriesForm({method, url, formType, dataType, history, editSeries, editTags, button, currentUser, seriesId, handleFlashMessages}) {
     const {
         values, tags, addTags, removeTags, release,
-        itemSuccess, itemErrors,
         handleFalse, handleChange, handleSubmit, handleStatusChange,
     } = useItemsInput({
             url: url,             // Railsのルーティング
@@ -25,33 +22,24 @@ function SeriesForm({method, url, formType, dataType, history, editSeries, editT
             editTags: editTags,    // 編集用タグ
             currentUser: currentUser,    // ログインユーザー
             history: history,    // props.history
-            setMount: setMount
+            handleFlashMessages: handleFlashMessages // フラッシュメッセージのステートを変更するのに使用
         })
-
     const title = values.series_title
     const description = values.series_description
-    const tLength = title ? title.length : 0
-    const dLength = description ? description.length : 0
-
-    // フィールドに入力された字数によりクラス名を変更する
-    const titleClass = classNames("ok", { "over": tLength > 50, "no": tLength === 0 })
-    const descriptionClass = classNames("ok", { "over": dLength > 300 })
-    const buttonClass = classNames("button", { "noButton": tLength > 50 || tLength === 0 || dLength > 300 })
 
     return (
         <React.Fragment>
-            <Flash Success={itemSuccess} Errors={itemErrors} />
-            <div className="SeriesForm">
+            <div className="series-form">
                 {/* ボタンの文字列によって表示を切り替える */}
-                <div className="FormHeader">
+                <div className="series-form--header">
                     {
                         button === "作成する" ?
-                            <h3 className="Caption CaptionSeriesForm">╋シリーズ作成</h3> :
-                            <h3 className="Caption CaptionSeriesForm">╋シリーズ編集</h3>
+                            <h3 className="caption">シリーズ作成</h3> :
+                            <h3 className="caption">シリーズ編集</h3>
                     }
                     {
                         formType === "edit" ?
-                        <div className="SeriesForm__SeriesPage">
+                        <div className="series-form--back-to-series-page">
                             <Link to={`/novel_series/${seriesId}`}>シリーズ管理画面へ戻る</Link>
                         </div> :
                         null
@@ -62,22 +50,20 @@ function SeriesForm({method, url, formType, dataType, history, editSeries, editT
                 <form onSubmit={e => handleFalse(e)}>
 
                     {/* シリーズタイトル */}
-                    <div className="TitleWrapper">
-                        {title ? null : <span className={titleClass}>【入力必須】</span>}
-                        <label htmlFor="series_title" className="Title">シリーズタイトル</label>
-                        <span className={titleClass}>
-                            {tLength}／50文字
-                            {tLength > 50 ?
-                                <span className={titleClass}>【50文字以内で入力してください】</span> :
-                                null
-                            }
-                        </span>
+                    <div className="series-form--title-wrapper">
+                        {title ? null : <span className="error">【入力必須】</span>}
+                        <label htmlFor="series_title" className="series-form--title-label">シリーズタイトル</label>
+                        <ValidateWordsCounts
+                            wordsLength={title.length}
+                            upperLimit={50}
+                            isRequire={true}
+                        />
                         <input
                             type="text"
                             placeholder="タイトル"
                             id="series_title"
                             name="series_title"
-                            className="SeriesForm_title"
+                            className="series-form--title-input"
                             value={title}
                             onChange={handleChange}
                         />
@@ -86,24 +72,20 @@ function SeriesForm({method, url, formType, dataType, history, editSeries, editT
                     {/* ========== */}
 
                     {/* シリーズあらすじ */}
-                    <div className="DescriptionWrapper">
-                        <label htmlFor="series_description" className="Description">
+                    <div className="series-form--descroption-wrapper">
+                        <label htmlFor="series_description" className="series-form--description-label">
                             あらすじ
                         </label>
-                        <span className={descriptionClass}>
-                            {dLength}／300文字
-                            {dLength > 300 ?
-                                <span className={descriptionClass}>
-                                    【300文字以内で入力してください】
-                                </span> :
-                                null
-                            }
-                        </span>
+                        <ValidateWordsCounts
+                            wordsLength={description.length}
+                            upperLimit={300}
+                            isRequire={false}
+                        />
                         <textarea
                             placeholder="あらすじ"
                             name="series_description"
                             id="series_description"
-                            className="SeriesForm_description"
+                            className="series-form--description-input"
                             value={description}
                             onChange={handleChange}
                         />
@@ -119,19 +101,30 @@ function SeriesForm({method, url, formType, dataType, history, editSeries, editT
                     />
 
                     {/* 公開チェックボックス */}
-                    <div className="releaseWrapper">
+                    <div className="release-wrapper">
                         <input
                             type="checkbox"
                             name="release"
                             id="release"
-                            className="release"
+                            className="release-input"
                             checked={release}
                             onChange={handleStatusChange}
                         />
-                        <label htmlFor="release" className="releaseLabel">公開する</label>
+                        <label htmlFor="release" className="release-label">公開する</label>
                     </div>
                     {/* ========== */}
-                    <input type="button" onClick={handleSubmit} value={button} className={buttonClass} />
+
+                    <Button
+                        handleSubmit={handleSubmit}
+                        badCase={
+                            title.length === 0 ||
+                            title.length > 50 ||
+                            description.length > 300 ?
+                            true :
+                            false
+                        }
+                        buttonValue={button}
+                    />
                 </form>
             </div>
         </React.Fragment>
