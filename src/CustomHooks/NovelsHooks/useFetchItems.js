@@ -9,8 +9,15 @@ export default function useFetchItems({ method, url, history, handleFlashMessage
         novel: "",
         novelIds: [],
         novelsCount: "",
-        favorites: "",
-        comments: ""
+    })
+    const [favoriteItems, setFavoriteItems] = useState({
+        favoriteStatus: false,
+        favoriteCounts: "",
+        favoriteUsers: []
+    })
+    const [commentItems, setCommentItems] = useState({
+        commentCounts: "",
+        commentContents: []
     })
     const [count, setCount] = useState("")  // 投稿数
     const [selectedValue, setSelectedValue] = useState("")
@@ -47,8 +54,17 @@ export default function useFetchItems({ method, url, history, handleFlashMessage
                             novel: obj.novel,
                             novelIds: obj.novels_ids,
                             novelsCount: obj.novels_count,
-                            favorites: obj.favorites_obj,
-                            comments: obj.comments_obj
+                        })
+                        let fav = obj.favorites_obj
+                        setFavoriteItems({
+                            favoriteStatus: fav.favorites_status,
+                            favoriteCounts: fav.favorites_count,
+                            favoriteUsers: fav.favorites_user
+                        })
+                        let com = obj.comments_obj
+                        setCommentItems({
+                            commentCounts: com.comments_count,
+                            commentContents: com.comments
                         })
                         setIsLoading(false)
                     //Read selectタグで並び替えた後のシリーズ全件取得
@@ -86,6 +102,9 @@ export default function useFetchItems({ method, url, history, handleFlashMessage
 
 
     return {
-        items, novelItems, count, isLoading, selectedValue
+        items, novelItems,
+        favoriteItems, setFavoriteItems,
+        commentItems, setCommentItems,
+        count, isLoading, selectedValue
     }
 }
