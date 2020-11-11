@@ -11,7 +11,7 @@ function Novels({novelId, novelTitle, release, seriesId, novelUserId, userId}) {
         // 公開&ログインユーザーと作者が等しい場合
         if (release && novelUserId === userId) {
             return (
-                <div className="Novels__Link">
+                <div className="novels--link">
                     <Link to={oneNovelUrl}>
                         {`【公開中】${novelTitle}`}
                     </Link>
@@ -20,7 +20,7 @@ function Novels({novelId, novelTitle, release, seriesId, novelUserId, userId}) {
         // 非公開だがログインユーザーと作者が等しい場合
         } else if (!release && novelUserId === userId) {
             return (
-                <div className="Novels__Link">
+                <div className="novels--link">
                     <Link to={oneNovelUrl}>
                         {`【非公開中】${novelTitle}`}
                     </Link>
@@ -29,7 +29,7 @@ function Novels({novelId, novelTitle, release, seriesId, novelUserId, userId}) {
         // 公開されている場合
         } else if (release) {
             return (
-                <div className="Novels__Link">
+                <div className="novels--link">
                     <Link to={oneNovelUrl}>
                         {`${novelTitle}`}
                     </Link>
@@ -39,7 +39,7 @@ function Novels({novelId, novelTitle, release, seriesId, novelUserId, userId}) {
         } else if (!release) {
             return (
                 <div>
-                    <span className="Novels__Unrelease">この話は現在非公開になっています。</span>
+                    <span className="novels--unrelease">この話は現在非公開になっています。</span>
                 </div>
             )
         }
@@ -49,23 +49,19 @@ function Novels({novelId, novelTitle, release, seriesId, novelUserId, userId}) {
     // 小説1話分をのタイトルリンクをレンダリングする
     const handleNovelsRenderer = () => {
         return (
-            <div>
-                <div className="Novels">
-                    <ul className="Novels__Ul">
-                        <li className="Novels__Li">
-                            {handleChangeNovelsRenderer()}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <ul className="novels--wrapper">
+                <li className="novels--list">
+                    {handleChangeNovelsRenderer()}
+                </li>
+            </ul>
         )
     }
 
     return (
-        <div>
+        <React.Fragment>
             {/* 小説1話分のタイトルを表示 */}
             {handleNovelsRenderer()}
-        </div>
+        </React.Fragment>
     )
 }
 
