@@ -7,7 +7,13 @@ function useFlash() {
     })
 
     const handleFlashMessages = ({ success, errors, history, pathname }) => {
-        console.log("handleFlashMessages: 発火", "success: ", success, "errors: ", errors, "history: ", history, "pathname: ", pathname)
+        console.log(
+            "handleFlashMessages: 発火",
+            "success: ", success,
+            "errors: ", errors,
+            "history: ", history,
+            "pathname: ", pathname
+        )
         setFlashMessages({
             success: success ? success : "",
             errors: errors ? errors : ""
