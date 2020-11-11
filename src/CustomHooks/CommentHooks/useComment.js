@@ -1,16 +1,10 @@
 import { useState } from "react"
 import axios from 'axios'
 
-function useComment({ novelId, currentUser, userId, commentsCount, commentsUser, setAfterRemove, setRemoveSuccess }) {
-    // コメントのデータ
-    const [commentsItems, setCommentsItems] = useState({
-        commentsCount: commentsCount,
-        commentsUser: commentsUser ? commentsUser : [],
-    })
+function useComment({ novelId, currentUser, userId, commentItems, setCommentItems, handleFlashMessages }) {
+
     // フォームで使用する
     const [content, setContent] = useState("")
-    const [errors, setErrors] = useState("")
-    const [success, setSuccess] = useState("")
 
     // 入力した内容を保持
     const handleChange = e => {
@@ -21,7 +15,8 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsUser,
     const handleSubmit = e => {
         e.preventDefault()
         axios
-            .post(`http://localhost:3001/api/v1/novels/${novelId}/comments`,
+            .post(
+                `http://localhost:3001/api/v1/novels/${novelId}/comments`,
                 {
                     comment: {
                         content: content,
@@ -34,20 +29,20 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsUser,
                 let res = response.data
                 let st = res.status
                 if (st === "created") {
-                    setSuccess(res.successful)
+                    console.log("コメント送信: 成功", "レスポンス :", response)
+                    handleFlashMessages({ success: res.successful })
                     // カウントとユーザーを追加
-                    setCommentsItems({
-                        commentsCount: commentsItems.commentsCount + 1,
-                        commentsUser: commentsItems.commentsUser.concat(res.object)
+                    setCommentItems({
+                        commentCounts: commentItems.commentCounts + 1,
+                        commentContents: commentItems.commentContents.concat(res.object)
                     })
                     setContent("")
-                    setTimeout(() => setSuccess(""), 3000)
                 } else if (st === "unprocessable_entity") {
-                    setErrors(res.errors)
-                    setTimeout(() => setErrors(""), 3000)
+                    console.log("コメント送信: 失敗", "レスポンス :", response)
+                    handleFlashMessages({errors: res.errors})
                 } else if (st === "unauthorized") {
-                    setErrors(res.errors)
-                    setTimeout(() => setErrors(""), 3000)
+                    console.log("コメント送信: 失敗", "レスポンス :", response)
+                    handleFlashMessages({errors: res.errors})
                 }
             })
             .catch(err => console.log(err))
@@ -55,20 +50,22 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsUser,
 
     // コメント削除
     const handleRemove = (commentNovelId, commentId) => {
-        axios.delete(`http://localhost:3001/api/v1/novels/${commentNovelId}/comments/${commentId}`, { withCredentials: true })
+        axios.delete(
+            `http://localhost:3001/api/v1/novels/${commentNovelId}/comments/${commentId}`,
+            { withCredentials: true })
             .then(response => {
                 let res = response.data
                 if (res.head === "no_content") {
-                    const comments = commentsItems.commentsUser.filter(com => com.comment_id !== commentId)
-                    setAfterRemove({
-                        commentsCount: commentsItems.commentsCount - 1,
-                        commentsUser: comments
+                    console.log("コメント削除: 成功", "レスポンス :", response)
+                    handleFlashMessages({success: res.successful})
+                    const comments = commentItems.commentContents.filter(com => com.comment_id !== commentId)
+                    setCommentItems({
+                        commentCounts: commentItems.commentCounts - 1,
+                        commentContents: comments
                     })
-                    setRemoveSuccess(res.successful)
-                    setTimeout(() => setRemoveSuccess(""), 3000)
                 } else if (res.status === "unauthorized") {
-                    setErrors(res.errors)
-                    setTimeout(() => setErrors(""), 3000)
+                    console.log("コメント削除: 失敗", "レスポンス :", response)
+                    handleFlashMessages({errors: res.errors})
                 }
             })
             .catch(err => console.log(err))
@@ -77,7 +74,7 @@ function useComment({ novelId, currentUser, userId, commentsCount, commentsUser,
 
 
 
-    return {commentsItems, setCommentsItems, content, errors, success, setSuccess, handleChange, handleSubmit, handleRemove}
+    return {content, handleChange, handleSubmit, handleRemove}
 }
 
 export default useComment
