@@ -1,11 +1,9 @@
 import React from 'react'
-import classNames from 'classnames'
 import {Link} from 'react-router-dom'
 
 import '../../Series/Series.css'
 import './NovelsForm.css'
 import useItemsInput from '../../../CustomHooks/NovelsHooks/useItemsInput'
-import Flash from '../../Flash/Flash'
 import ValidateWordsCounts from '../../ValidateWordsCounts/ValidateWordsCounts'
 import Button from '../../Button/Button'
 
