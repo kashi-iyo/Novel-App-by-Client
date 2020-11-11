@@ -7,13 +7,13 @@ import RemoveFeatures from '../../Remove/RemoveFeatures'
 import useRemoveItems from '../../../CustomHooks/NovelsHooks/useRemoveItems'
 import NovelPagination from './NovelPagination/NovelPagination'
 import CommentWrapper from '../../Comment/CommentWrapper'
-import FavoritesButtonWrapper from '../../Favorites/FavoritesButtonWrapper'
 import Spinner from '../../Spinner/Spinner'
+import FavoritesButton from '../../Favorites/FavoritesButton'
 
 
 // 小説1話分の内容を表示
 function NovelsContents({currentUser, userId, seriesId, novelId, history, handleFlashMessages}) {
-    const { novelItems, isLoading } = useFetchItems({
+    const { novelItems, favoriteItems, setFavoriteItems, commentItems, setCommentItems, isLoading } = useFetchItems({
         method: "get",
         url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         history: history,
@@ -30,8 +30,6 @@ function NovelsContents({currentUser, userId, seriesId, novelId, history, handle
     const series = novelItems && novelItems.series
     const novel = novelItems && novelItems.novel
     const novelIds = novelItems && novelItems.novelIds
-    const favorites = novelItems && novelItems.favorites
-    const comments = novelItems && novelItems.comments
 
     return (
         <React.Fragment>
@@ -39,7 +37,11 @@ function NovelsContents({currentUser, userId, seriesId, novelId, history, handle
                 <React.Fragment>
                     <div className="novels-contents--top">
                         {/* 小説のページネーション */}
-                        <NovelPagination seriesId={seriesId} novelId={novelId} ids={novelIds} />
+                        <NovelPagination
+                            seriesId={seriesId}
+                            novelId={novelId}
+                            ids={novelIds}
+                        />
                         <div className="novels-contents">
                             {/* シリーズタイトルと作者 */}
                             <div className="novels-contens--series">
@@ -72,7 +74,7 @@ function NovelsContents({currentUser, userId, seriesId, novelId, history, handle
                                 <div className="novels-contents--novels-description">
                                     {novel.novel_description}
                                 </div>
-                                <div className="novels-contents-novels-content">
+                                <div className="novels-contents--novels-content">
                                     {novel.novel_content}
                                 </div>
                             </div>
@@ -81,24 +83,30 @@ function NovelsContents({currentUser, userId, seriesId, novelId, history, handle
                         <div className="novels-contents--options">
                             <React.Fragment>
                                 {/* お気に入りボタン */}
-                                <FavoritesButtonWrapper
-                                    favoritesData={favorites.favorites}
-                                    favoritesCount={favorites.favorites_count}
+                                <FavoritesButton
+                                    favoriteItems={favoriteItems}
+                                    setFavoriteItems={setFavoriteItems}
                                     userId={userId}
                                     novelId={novelId}
                                     currentUser={currentUser}
+                                    handleFlashMessages={handleFlashMessages}
                                 />
                                 {/* コメント機能 */}
                                 <CommentWrapper
+                                    commentItems={commentItems}
+                                    setCommentItems={setCommentItems}
                                     novelId={novelId}
-                                    commentsObject={comments}
                                     userId={userId}
                                     currentUser={currentUser}
+                                    handleFlashMessages={handleFlashMessages}
                                 />
                             </React.Fragment>
                         </div>
                         {/* 小説のページネーション */}
-                        <NovelPagination seriesId={seriesId} novelId={novelId} ids={novelIds} />
+                        <NovelPagination
+                            seriesId={seriesId}
+                            novelId={novelId}
+                            ids={novelIds} />
                     </div>
                     <div className="NovelsFeed__BarSpan"></div>
                     {/* 削除ボタン */}
