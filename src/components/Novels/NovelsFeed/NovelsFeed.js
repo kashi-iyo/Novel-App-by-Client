@@ -69,10 +69,12 @@ function NovelsFeed({seriesId, userId, loggedInStatus, history, handleFlashMessa
                         {/* シリーズ内の小説一覧 */}
                         {items.novels.length !== 0 &&
                             <React.Fragment>
-                                <p className="novels-feed--novels-count">
-                                    （全 {items.novels_count} 話）
-                                </p>
-                                <NovelsInNovelsFeed novel={items.novels} userId={userId} />
+                                <div className="novels-feed--novels-wrapper">
+                                    <p className="novels-feed--novels-count">
+                                        （全 {items.novels_count} 話）
+                                    </p>
+                                    <NovelsInNovelsFeed novel={items.novels} userId={userId} />
+                                </div>
                                 <div className="novels-feed--novels-bar-span"></div>
                             </React.Fragment>
                         }
