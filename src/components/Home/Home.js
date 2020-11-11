@@ -22,8 +22,8 @@ function Home({ pageNumber, history }) {
                 pageNumber={pageNumber}
                 history={history}
                 isLoading={isLoading}
-                selectHref={`/series/`}
-                paginateHref={`/Series/`}
+                selectHref={`/SelectedSeries/`}  // パスの最後にselectのパラメータが付随する
+                paginateHref={`/series/page/`}  // パスの最後にページ番号が付随する
             />
         </React.Fragment>
     )
