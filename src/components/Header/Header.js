@@ -69,7 +69,7 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
                     </button>
                 }
                 <ul className="header-bottom">
-                    <li><Link to="/Series/1">ホーム</Link></li>
+                    <li><Link to="/">ホーム</Link></li>
                     <li><Link>ランキング</Link></li>
                     <li><Link to="/series_create">小説を投稿する</Link></li>
                     <li><Link to="/users_tags_feed">趣味タグクラウド</Link></li>
