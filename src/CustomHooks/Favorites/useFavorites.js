@@ -1,11 +1,10 @@
 import axios from 'axios'
-import { useState } from 'react'
 
-function useFavorites({ currentUser, stateOfFavorites, setStateOfFavorites}) {
-    const [errors, setErrors] = useState("")
+function useFavorites({ currentUser,favoriteItems, setFavoriteItems, handleFlashMessages }) {
 
     // お気に入り時の挙動
     const handleFavorites = (novelId, userId) => {
+        console.log("handleFavorites:  クリック")
         axios.post(
             `http://localhost:3001/api/v1/novels/${novelId}/novel_favorites`,
             {
@@ -19,14 +18,29 @@ function useFavorites({ currentUser, stateOfFavorites, setStateOfFavorites}) {
             .then(response => {
                 let res = response.data
                 if (res.status === "created") {
-                    setStateOfFavorites({
-                        count: stateOfFavorites.count + 1,
-                        isOn: true
+                    console.log("handleFavorites: 成功", "レスポンス: ", res)
+                    setFavoriteItems({
+                        favoriteCounts: favoriteItems.favoriteCounts + 1,
+                        favoriteStatus: !favoriteItems.favoriteStatus
                     })
+                // お気に入り失敗（すでにお気に入りしている場合）
                 } else if (res.status === "unprocessable_entity") {
-                    setErrors(res.errors)
+                    console.log("handleUnFavorites: 失敗", "レスポンス: ", res)
+                    handleFlashMessages({
+                        errors: res.errors
+                    })
+                // お気に入り対象の小説データが存在しない場合
                 } else if (res.status === "no_content") {
-                    setErrors(res.errors)
+                    console.log("handleUnFavorites: 失敗", "レスポンス: ", res)
+                    handleFlashMessages({
+                        errors: res.errors
+                    })
+                // 未ログインの場合
+                } else if (res.status === "unauthorized") {
+                    console.log("handleUnFavorites: 失敗", "レスポンス: ", res)
+                    handleFlashMessages({
+                        errors: res.errors
+                    })
                 }
             })
         .catch(err => console.log(err))
@@ -34,23 +48,36 @@ function useFavorites({ currentUser, stateOfFavorites, setStateOfFavorites}) {
 
     // お気に入りを解除時の挙動
     const handleUnFavorites = (novelId, userId) => {
-        console.log("favoritesOn:  OFF")
-        axios.delete(`http://localhost:3001/api/v1/novels/${novelId}/novel_favorites/${userId}`, { withCredentials: true })
+        console.log("お気に入りOFF:  クリック")
+        axios.delete(
+            `http://localhost:3001/api/v1/novels/${novelId}/novel_favorites/${userId}`,
+            { withCredentials: true })
             .then(response => {
                 let res = response.data
-                if (res.head === 'no_content' && res.crud_type === "favorites") {
-                    setStateOfFavorites({
-                        count: stateOfFavorites.count - 1,
-                        isOn: false
+                if (res.head === 'no_content' && res.crud_type === "destroy") {
+                    console.log("handleUnFavorites: 成功", "レスポンス: ", res)
+                    setFavoriteItems({
+                        favoriteCounts: favoriteItems.favoriteCounts - 1,
+                        favoriteStatus: !favoriteItems.favoriteStatus
                     })
+                // 対象の小説が存在しない場合
                 } else if (res.head === "no_content") {
-                    setErrors(res.errors)
+                    console.log("handleUnFavorites: 失敗", "レスポンス: ", res)
+                    handleFlashMessages({
+                        errors: res.errors
+                    })
+                // 未ログインの場合
+                } else if (res.status === "unauthorized") {
+                    console.log("handleUnFavorites: 失敗", "レスポンス: ", res)
+                    handleFlashMessages({
+                        errors: res.errors
+                    })
                 }
             })
             .catch(err => console.log(err))
     }
 
-    return { errors, handleFavorites, handleUnFavorites }
+    return { handleFavorites, handleUnFavorites }
 }
 
 export default useFavorites
