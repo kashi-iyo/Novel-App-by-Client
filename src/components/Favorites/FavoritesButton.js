@@ -6,18 +6,20 @@ import favoritesIcon from '../../img/favorites.png'
 import favoritesIcon2 from '../../img/favorites2.png'
 
 // お気に入りボタン
-function FavoritesButton({ favoritesUserId, favoritesData, favoritesCount, userId, novelId, currentUser }) {
+function FavoritesButton({ favoriteItems, setFavoriteItems, userId, novelId, currentUser, handleFlashMessages }) {
+    const favoriteUsers = favoriteItems.favoriteUsers
+    const favoriteCounts = favoriteItems.favoriteCounts
+    const favoriteStatus = favoriteItems.favoriteStatus
+
     // プルダウンボタン
     const [on, setOn] = useState(false)
-    // お気に入りの状態
-    const [stateOfFavorites, setStateOfFavorites] = useState({
-        count: favoritesCount,
-        isOn: favoritesUserId === userId ? true : false
-    })
-    const { errors, handleFavorites, handleUnFavorites } = useFavorites({
+
+    // お気に入りON / お気に入りOFF
+    const { handleFavorites, handleUnFavorites } = useFavorites({
         currentUser: currentUser,
-        stateOfFavorites: stateOfFavorites,
-        setStateOfFavorites: setStateOfFavorites,
+        favoriteItems: favoriteItems,
+        setFavoriteItems: setFavoriteItems,
+        handleFlashMessages: handleFlashMessages
     })
 
     // お気に入りユーザーを開く
@@ -31,38 +33,50 @@ function FavoritesButton({ favoritesUserId, favoritesData, favoritesCount, userI
 
     return (
         <React.Fragment>
-            { errors && <div className="favoritesErrorsWrapper"><p className="error favoritesErrors">{errors}</p></div>}
-            <div className="NovelsContents__Favorites">
+            <div className="favorites-button">
+                <div className="favorites-button--wrapper">
                 {/* お気に入りボタン */}
-                <button
+                    <button
                     type="submit"
-                    onClick={() => !stateOfFavorites.isOn ?
+                    onClick={() => !favoriteStatus ?
                         handleFavorites(novelId, String(userId)) :
                         handleUnFavorites(novelId, String(userId))
                     }
                 >
-                    {!stateOfFavorites.isOn ?
+                    {!favoriteStatus ?
                         // お気に入りON
-                        <div className="FavoritesButton">
-                            <img src={favoritesIcon2} alt="favorites" className="FavoritesIcon" />
-                            <span className="FavoritesSpan">お気に入りする</span>
+                        <div className="favorites-button--button-icon-wrapper">
+                            <img
+                                src={favoritesIcon2}
+                                alt="favorites"
+                                className="favorites-button--icon"
+                            />
+                            <span className="favorites-button--word">お気に入りする</span>
                         </div>
                         :
                         // お気に入りOFF
-                        <div className="FavoritesButton">
-                            <img src={favoritesIcon} alt="favorites" className="FavoritedIcon "/>
-                            <span className="FavoritedSpan">お気に入り済</span>
+                        <div className="favorites-button--button-icon-wrapper">
+                            <img
+                                src={favoritesIcon}
+                                alt="favorites"
+                                className="favorites-button--favorited-icon"
+                            />
+                            <span className="favorites-button--favorited-word">お気に入り済</span>
                         </div>
                     }
                 </button>
-                {/* お気に入り数の表示切り替え */}
-                    <p className="FavoritesCount" onClick={() => handleOn()}>
-                        <span>{stateOfFavorites.count}</span>
+                    {/* お気に入り数の表示切り替え */}
+                    <p
+                        className="favorites-button--count"
+                        onClick={() => handleOn()}
+                    >
+                        <span>{favoriteCounts}</span>
                     </p>
+                </div>
                 {/* クリックによりユーザーを表示 */}
                 {on &&
-                    <ul className="Favorites__Ul">
-                        <FavoritesUsersWrapper favoritesData={favoritesData} />
+                    <ul className="favorites-button--users-wrapper">
+                        <FavoritesUsersWrapper favoriteUsers={favoriteUsers} />
                     </ul>
                 }
             </div>
