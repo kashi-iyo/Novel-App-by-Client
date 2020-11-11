@@ -13,7 +13,7 @@ function TagHasSeries({ tagId, pageNumber, history, handleFlashMessages }) {
         history: history,
         handleFlashMessages: handleFlashMessages
     })
-
+console.log(tagId)
     return (
         <React.Fragment>
             <DisplayMultipleItems
@@ -23,7 +23,7 @@ function TagHasSeries({ tagId, pageNumber, history, handleFlashMessages }) {
                 pageNumber={pageNumber}
                 isLoading={isLoading}
                 history={history}
-                selectHref={`/series/tag/${tagId}/`}  // セレクトによる絞り込みで遷移する先のパス
+                selectHref={`/TagHasSelectedSeries/${tagId}/`}  // セレクトによる絞り込みで遷移する先のパス
                 paginateHref={`/series/tag/${tagId}/page/`}
             />
         </React.Fragment>
