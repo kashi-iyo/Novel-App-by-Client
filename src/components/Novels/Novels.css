@@ -1,18 +1,20 @@
-.Novels {
+.novels--wrapper {
     border: none;
     margin-bottom: 10px;
 }
 
-.Novels__Li {
+.novels--list{
     margin-bottom: 5px;
     font-size: 1.2rem;
     font-weight: 600;
 }
-.Novels__Link {
+
+.novels--link {
     color: rgb(0, 103, 143);
     margin-left: 5px;
 }
-.Novels__Unrelease {
+
+.novels--unrelease {
     margin-left: 5px;
     font-size: 1rem;
 }

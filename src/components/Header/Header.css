@@ -95,7 +95,7 @@
     overflow: scroll;
     padding: 5px;
     box-sizing: border-box;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .header-bottom > li {
     padding: 3px;

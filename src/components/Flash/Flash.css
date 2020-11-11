@@ -1,8 +1,10 @@
 .flash {
+    position: fixed;
+    z-index: 200;
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;
+    height: 7vh;
 }
 
 .flash--success-wrapper, .flash--errors-wrapper {
@@ -20,7 +22,7 @@
 
 .flash--success, .flash--errors {
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 1px;
 }
