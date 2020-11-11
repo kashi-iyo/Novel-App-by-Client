@@ -175,6 +175,7 @@ function useItemsInput({ method, url, sendItems, history, formType, dataType, ed
                         pathname: "/"
                     })
                 //error オブジェクトの生成または更新に失敗した場合
+                // タイトル空欄/内容空欄など
                 } else if (res.status === "unprocessable_entity") {
                     handleFlashMessages({
                         errors: res.errors,
