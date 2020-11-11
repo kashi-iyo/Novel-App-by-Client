@@ -1,16 +1,16 @@
 import React from 'react'
 import FavoritesUsers from './FavoritesUsers'
 
-function FavoritesUsersWrapper({favoritesData}) {
+function FavoritesUsersWrapper({favoriteUsers}) {
 
     return (
         <React.Fragment>
-            {favoritesData &&
-                Object.keys(favoritesData).map(key => (
+            {favoriteUsers &&
+                Object.keys(favoriteUsers).map(key => (
                     <FavoritesUsers
                         key={key}
-                        favoritesUserId={favoritesData[key].favorites_user_id}
-                        favoriter={favoritesData[key].favoriter}
+                        favoritesUserId={favoriteUsers[key].user_id}
+                        favoriter={favoriteUsers[key].favoriter}
                     />
                 ))
             }
