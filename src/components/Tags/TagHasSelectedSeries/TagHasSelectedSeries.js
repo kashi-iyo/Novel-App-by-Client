@@ -22,8 +22,8 @@ function TagHasSelectedSeries({tagId, history, selectedItem, selectedParams, han
                 selectingValue={selectingValue}
                 selectingParams={selectedParams}
                 history={history}
-                selectHref={`/series/tag/${tagId}/`}  // セレクトによる絞り込みで遷移する先のパス
-                paginateHref={`/series/tag/${tagId}/${selectedParams}/`}
+                selectHref={`/TagHasSelectedSeries/${tagId}/`}  // パスの最後にselectのパラメータが付随する
+                paginateHref={`/series/tag/${tagId}/select/${selectedParams}/page`} // パスの最後にページ番号が付随する
             />
         </React.Fragment>
     )
