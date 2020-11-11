@@ -5,7 +5,7 @@ import OneTags from '../OneTags/OneTags'
 // タグの配列をループ処理
 // OneUser.js/Series.jsにて呼び出し
 function TagsWrapper({ tags, dataType }) {
-    console.log(tags)
+
     return (
         <React.Fragment>
             <ul className="tags-wrapper">
@@ -17,7 +17,7 @@ function TagsWrapper({ tags, dataType }) {
                         let count = tags[key].has_data_count
                         let link = dataType === "user" ?
                             `/user_tags/${id}` :
-                            `/series/tag/${id}`
+                            `/TagHasSeries/${id}`
                         return (
                             <OneTags
                                 key={key}
