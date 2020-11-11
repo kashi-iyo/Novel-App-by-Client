@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import useFetchItems from '../../../CustomHooks/NovelsHooks/useFetchItems'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
 
@@ -23,8 +23,8 @@ function SelectedSeries({ history, selectedItem, selectedParams, pageNumber }) {
                 selectingParams={selectedParams}
                 history={history}
                 isLoading={isLoading}
-                selectHref={`/series/`}
-                paginateHref={`/series/${selectedParams}/`}
+                selectHref={`/SelectedSeries/`}  // パスの最後にselectのパラメータが付随する
+                paginateHref={`/series/select/${selectedParams}/page/`} // パスの最後にページ数が付随する
             />
         </React.Fragment>
     )
