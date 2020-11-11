@@ -5,7 +5,6 @@ import axios from 'axios'
 // →SeriesEdit, で使う
 export default function useEditItems({method, url, history, handleFlashMessages}) {
     const [items, setItems] = useState("")
-    const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -53,6 +52,6 @@ export default function useEditItems({method, url, history, handleFlashMessages}
     }, [method, url])
 
     return {
-        items, errors, isLoading
+        items, isLoading
     }
 }
