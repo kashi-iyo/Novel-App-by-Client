@@ -17,6 +17,7 @@ function SelectBox({ menuItems, history, selectHref, selectingParams, selectingV
     }
 
     const selectItem = (item) => {
+        console.log(`${selectHref}${item.select_params}`)
         // ホームなどから絞り込みする場合と
         // タグで絞り込んだ後でセレクトする場合があるので
         // その都度パスを変える
