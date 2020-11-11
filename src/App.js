@@ -59,7 +59,7 @@ export default function App() {
             {/* エラーメッセージ用コンポーネント */}
             <Route exact path="/error_messages"
               render={props => (
-              <ErrorMessages {...props}
+              <ErrorMessages
                   errorType={props.history.location.state.errorType}
                   errors={props.history.location.state.errors}
               />
@@ -67,20 +67,71 @@ export default function App() {
             <Switch>
               {/* ルートパスへのアクセスは全て"/Series/1"へ */}
               <Route exact path="/">
-                <Redirect to="/Series/1"/>
+                <Redirect to="/series/page/1"/>
               </Route>
               {/* ホーム */}
-              <Route exact path={"/Series/:page_number"} render={props => (
-                <Home {...props}
+              <Route exact path={"/series/page/:page_number"} render={props => (
+                <Home
                   history={props.history}
                   pageNumber={props.match.params.page_number}
                 />
               )} />
+              {/* selectで並び替えたシリーズ */}
+              <Route exact path="/SelectedSeries/:selected_params?"
+                render={props => (
+                  <Redirect to={`/series/select/${props.match.params.selected_params}/page/1`} />
+              )}/>
+              <Route exact path={"/series/select/:selected_params?/page/:page_number"}
+                render={props => (
+                  <SelectedSeries
+                    history={props.history}
+                    selectedItem={props.location.state}
+                    selectedParams={props.match.params.selected_params}
+                    pageNumber={props.match.params.page_number}
+                  />)}
+              />
+              {/* 特定のタグを持つシリーズ */}
+              <Route exact path={"/TagHasSeries/:tag_id"}
+                render={props => (
+                  <Redirect {...props}
+                    to={`/series/tag/${props.match.params.tag_id}/page/1`
+                    }
+                  />
+                )}
+              />
+              <Route
+                exact path="/series/tag/:tag_id/page/:page_number"
+                render={props => (
+                  <TagHasSeries {...props}
+                    props={props}
+                    tagId={props.match.params.tag_id}
+                    pageNumber={props.match.params.page_number}
+                    history={props.history}
+                    handleFlashMessages={handleFlashMessages}
+                  />)}
+              />
+              {/* 特定のタグを持つシリーズを、selectで並び替え */}
+              <Route exact path="/TagHasSelectedSeries/:tag_id/:selected_params?"
+                render={props => (
+                  <Redirect
+                    to={`/series/tag/${props.match.params.tag_id}/select/${props.match.params.selected_params}/page/1`}
+                  />
+                )}
+              />
+              <Route exact path={"/series/tag/:tag_id/select/:selected_params?/page/:page_number"}
+                render={props => (
+                  <TagHasSelectedSeries
+                    tagId={props.match.params.tag_id}
+                    history={props.history}
+                    selectedItem={props.location.state}
+                    selectedParams={props.match.params.selected_params}
+                    pageNumber={props.match.params.page_number}
+                />)}/>
               {/* 認証系機能へのルーティング===================== */}
               <Route exact path={"/login"}
                 render={props => (
                   !loggedInStatus ?
-                    <Login {...props}
+                    <Login
                       history={props.history}
                       handleLogin={handleLogin}
                     /> :
@@ -89,7 +140,7 @@ export default function App() {
               <Route exact path={"/signup"}
                 render={props => (
                   !loggedInStatus ?
-                    <Signup {...props}
+                    <Signup
                       history={props.history}
                       handleLogin={handleLogin}
                     /> :
@@ -101,7 +152,7 @@ export default function App() {
               <Route
                 exact path="/users/:id"
                 render={props => (
-                  <UsersPage {...props}
+                  <UsersPage
                     props={props}
                     userId={userId}
                     history={props.history}
@@ -115,7 +166,6 @@ export default function App() {
                   exact path="/users/:id/edit"
                   render={props => (
                     loggedInStatus ? <UsersEdit
-                      {...props}
                       userId={userId}
                       history={props.history}
                       currentUser={currentUser}
@@ -181,7 +231,7 @@ export default function App() {
               <Route
                 exact path="/series_create"
                 render={props => (
-                  loggedInStatus ? <SeriesCreate {...props}
+                  loggedInStatus ? <SeriesCreate
                     loggedInStatus={loggedInStatus}
                     currentUser={currentUser}
                     isLoading={isLoading}
@@ -200,7 +250,7 @@ export default function App() {
               <Route
                 exact path={`/novel_series/:id/edit`}
                 render={props => (
-                  loggedInStatus && <SeriesEdit {...props}
+                  loggedInStatus && <SeriesEdit
                     currentUser={currentUser}
                     seriesId={props.match.params.id}
                     history={props.history}
@@ -226,6 +276,7 @@ export default function App() {
                     seriesId={props.match.params.id}
                     novelId={props.match.params.novel_id}
                     history={props.history}
+                    handleFlashMessages={handleFlashMessages}
                   />
                 )}
                 />
@@ -245,7 +296,6 @@ export default function App() {
                   exact path="/novel_series/:id/novels/:novel_id/edit"
                   render={props => (
                     loggedInStatus && <NovelsEdit
-                      userId={userId}
                       seriesId={props.match.params.id}
                       novelsId={props.match.params.novel_id}
                       history={props.history}
@@ -260,58 +310,6 @@ export default function App() {
                     <SeriesTagsFeed />
                   )}
                 />
-                {/* 特定のタグを持つシリーズ */}
-                <Route exact path="/series/tag/:tag_id"
-                  render={props => (
-                    <Redirect {...props}
-                      to={`/series/tag/${props.match.params.tag_id}/page/1`}
-                    />
-                  )}
-                />
-                <Route
-                    exact path="/series/tag/:tag_id/page/:page_number"
-                    render={props => (
-                      <TagHasSeries {...props}
-                        tagId={props.match.params.tag_id}
-                        pageNumber={props.match.params.page_number}
-                        history={props.history}
-                        handleFlashMessages={handleFlashMessages}
-                      />
-                    )}
-                />
-                <Route exact path="/series/:selected_params?"
-                  render={props => (
-                    <Redirect {...props}
-                      to={`/series/${props.match.params.selected_params}/1`}
-                    />
-                  )}
-                />
-                <Route exact path={"/series/:selected_params?/:page_number"}
-                  render={props => (
-                    <SelectedSeries {...props}
-                      props={props}
-                      history={props.history}
-                      selectedItem={props.location.state}
-                      selectedParams={props.match.params.selected_params}
-                      pageNumber={props.match.params.page_number}
-                    />)}
-                />
-                <Route exact path="/series/tag/:tag_id/:selected_params?"
-                  render={props => (
-                    <Redirect
-                      to={`/series/tag/${props.match.params.tag_id}/${props.match.params.selected_params}/1`}
-                    />
-                  )}
-                />
-                <Route exact path={"/series/tag/:tag_id/:selected_params?/:page_number"}
-                  render={props => (
-                    <TagHasSelectedSeries
-                      tagId={props.match.params.tag_id}
-                      history={props.history}
-                      selectedItem={props.location.state}
-                      selectedParams={props.match.params.selected_params}
-                      pageNumber={props.match.params.page_number}
-                  />)}/>
               </Switch>
               {/* ============================================================== */}
             </Switch>
