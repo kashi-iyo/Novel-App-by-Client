@@ -23,9 +23,9 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
             return (
                 <div>
                     <div className="user-status">
-                        <Link onClick={handleDown} className="nickname">
+                        <span onClick={handleDown} className="nickname">
                             {currentUser}▼
-                        </Link>
+                        </span>
                         {
                             menu &&
                             <ul className="down-menu">
@@ -70,7 +70,6 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
                 }
                 <ul className="header-bottom">
                     <li><Link to="/">ホーム</Link></li>
-                    <li><Link>ランキング</Link></li>
                     <li><Link to="/series_create">小説を投稿する</Link></li>
                     <li><Link to="/users_tags_feed">趣味タグクラウド</Link></li>
                     <li><Link to="/series_tags_feed">小説タグクラウド</Link></li>
