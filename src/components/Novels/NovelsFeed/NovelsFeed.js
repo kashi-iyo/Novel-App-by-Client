@@ -13,13 +13,13 @@ function NovelsFeed({seriesId, userId, loggedInStatus, history, handleFlashMessa
     // 投稿データを取得
     const { items, isLoading } = useFetchItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/novel_series/${seriesId}`,
+        url: `http://54.65.39.121/api/v1/novel_series/${seriesId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
     // 削除機能
     const { confirmation, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
-        url: `http://localhost:3001/api/v1/novel_series/${seriesId}`,
+        url: `http://54.65.39.121/api/v1/novel_series/${seriesId}`,
         target: "シリーズ",
         history: history,
         handleFlashMessages: handleFlashMessages

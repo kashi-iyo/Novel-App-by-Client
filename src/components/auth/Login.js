@@ -9,7 +9,7 @@ function Login({history, handleLogin, handleMessages}) {
         = useInput({
             validate: loginValidate,
             method: "post",
-            url: 'http://localhost:3001/login',
+            url: 'http://54.65.39.121/login',
             history: history,   // リダイレクト用
             dataType: "login",  // 送信フォームをSignup.jsと区別
             handleLogin: handleLogin,   // ログインを行わせる

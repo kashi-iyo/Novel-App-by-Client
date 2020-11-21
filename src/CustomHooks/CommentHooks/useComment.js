@@ -16,7 +16,7 @@ function useComment({ novelId, currentUser, userId, commentItems, setCommentItem
         e.preventDefault()
         axios
             .post(
-                `http://localhost:3001/api/v1/novels/${novelId}/comments`,
+                `http://54.65.39.121/api/v1/novels/${novelId}/comments`,
                 {
                     comment: {
                         content: content,
@@ -51,7 +51,7 @@ function useComment({ novelId, currentUser, userId, commentItems, setCommentItem
     // コメント削除
     const handleRemove = (commentNovelId, commentId) => {
         axios.delete(
-            `http://localhost:3001/api/v1/novels/${commentNovelId}/comments/${commentId}`,
+            `http://54.65.39.121/api/v1/novels/${commentNovelId}/comments/${commentId}`,
             { withCredentials: true })
             .then(response => {
                 let res = response.data

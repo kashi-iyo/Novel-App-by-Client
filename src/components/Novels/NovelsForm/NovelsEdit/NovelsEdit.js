@@ -8,7 +8,7 @@ import NovelsForm from '../NovelsForm'
 function NovelsEdit({ seriesId, novelsId, history, handleFlashMessages}) {
     const { items, isLoading } = useFetchEditItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/novels/${novelsId}/edit`,
+        url: `http://54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelsId}/edit`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
@@ -19,7 +19,7 @@ function NovelsEdit({ seriesId, novelsId, history, handleFlashMessages}) {
                 items &&
                 <NovelsForm
                     method="patch"
-                    url={`http://localhost:3001/api/v1//novel_series/${seriesId}/novels/${novelsId}`}
+                    url={`http://54.65.39.121/api/v1//novel_series/${seriesId}/novels/${novelsId}`}
                     novels={items}
                     seriesId={seriesId}
                     novelsId={novelsId}

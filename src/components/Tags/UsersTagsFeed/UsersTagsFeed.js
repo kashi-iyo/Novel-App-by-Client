@@ -7,7 +7,7 @@ import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 function UsersTagsFeed() {
     const { items } = useFetchTags({
         method: "get",
-        url: 'http://localhost:3001/api/v1/user_tags',
+        url: 'http://54.65.39.121/api/v1/user_tags',
     })
 
     return (

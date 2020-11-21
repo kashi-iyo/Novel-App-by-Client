@@ -44,7 +44,7 @@ export default function useLoggedIn({handleFlashMessages}) {
     useEffect(() => {
         let mount = true
         const checkLoginStatus = () => {
-        axios.get("http://localhost:3001/logged_in",
+        axios.get("http://54.65.39.121/logged_in",
             { withCredentials: true })
             .then(response => {
                 setIsLoading(true)

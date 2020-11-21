@@ -8,7 +8,7 @@ import Spinner from '../../Spinner/Spinner'
 function SeriesEdit({seriesId, history, currentUser, handleFlashMessages}) {
     const { items, isLoading } = useFetchEditItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/novel_series/${seriesId}/edit`,
+        url: `http://54.65.39.121/api/v1/novel_series/${seriesId}/edit`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
@@ -21,7 +21,7 @@ function SeriesEdit({seriesId, history, currentUser, handleFlashMessages}) {
                     editSeries={items}
                     editTags={items.series_tags}
                     method="patch"
-                    url={`http://localhost:3001/api/v1/novel_series/${seriesId}`}
+                    url={`http://54.65.39.121/api/v1/novel_series/${seriesId}`}
                     seriesId={seriesId}
                     formType="edit"
                     dataType="series"

@@ -6,7 +6,7 @@ import TagsFeed from '../TagsFeed/TagsFeed'
 function SeriesTagsFeed() {
     const { items } = useFetchTags({
         method: "get",
-        url: 'http://localhost:3001/api/v1/novel_tags'
+        url: 'http://54.65.39.121/api/v1/novel_tags'
     })
     console.log(items)
     return (

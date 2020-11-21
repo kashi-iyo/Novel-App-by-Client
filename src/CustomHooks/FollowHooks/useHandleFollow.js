@@ -7,7 +7,7 @@ function useHandleFollow({ usersRelationships, setUsersRelationships, handleFlas
         // フォロー
     const handleFollow = (userId) => {
         console.log("フォロークリック")
-        axios.post(`http://localhost:3001/api/v1/relationships`,
+        axios.post(`http://54.65.39.121/api/v1/relationships`,
             {relationship: {follow_id: userId}},
             { withCredentials: true })
             .then(response => {
@@ -52,7 +52,7 @@ function useHandleFollow({ usersRelationships, setUsersRelationships, handleFlas
     // フォロー解除
     const handleUnFollow = (userId) => {
         console.log("フォロー解除ボタンクリック")
-        axios.delete(`http://localhost:3001/api/v1/relationships/${userId}`, {withCredentials: true})
+        axios.delete(`http://54.65.39.121/api/v1/relationships/${userId}`, {withCredentials: true})
             .then(response => {
                 let res = response.data
                 if (res.head === "no_content" && res.crud_type === "destroy") {

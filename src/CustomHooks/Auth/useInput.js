@@ -90,7 +90,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // ログアウトイベント
     const logoutClick = () => {
-        axios.delete('http://localhost:3001/logout',
+        axios.delete('http://54.65.39.121/logout',
             { withCredentials: true })
             .then(response => {
                 console.log("logoutClick: クリック")
@@ -112,7 +112,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // 採用担当者様専用ログインフォーム
     const handleLoginForRecruit = () => {
-        axios.post(`http://localhost:3001/login`,
+        axios.post(`http://54.65.39.121/login`,
             {
                 user: {
                     email: "recruit@recruit.com",

@@ -16,8 +16,8 @@ function UsersPage({ userParams, userId, history, handleFlashMessages }) {
         usersRelationships, setUsersRelationships,
         errors, seriesData, isLoading } = useFetchUserItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/users/${userParams}`,
-        editUrl: `http://localhost:3001/api/v1/users/${userParams}/edit`,
+        url: `http://54.65.39.121/api/v1/users/${userParams}`,
+        editUrl: `http://54.65.39.121/api/v1/users/${userParams}/edit`,
         history: history
         })
     const usersSeries = seriesData && seriesData.usersSeries

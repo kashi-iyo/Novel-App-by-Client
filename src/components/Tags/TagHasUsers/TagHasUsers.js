@@ -6,7 +6,7 @@ import DisplayMultipleUsers from '../../DisplayMultipleItems/DisplayMultipleUser
 function TagHasUsers({tagId, pageNumber, history, handleFlashMessages }) {
     const {items, isLoading} =  useFetchTags({
         method: "get",
-        url: `http://localhost:3001/api/v1/user_tags/${tagId}`,
+        url: `http://54.65.39.121/api/v1/user_tags/${tagId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

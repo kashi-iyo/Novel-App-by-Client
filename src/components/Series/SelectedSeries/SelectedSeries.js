@@ -6,7 +6,7 @@ import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItem
 function SelectedSeries({ history, selectedItem, selectedParams, pageNumber }) {
     const { items, count, isLoading, selectedValue } = useFetchItems({
         method: "get",
-        url: `http://localhost:3001/api/v1/selected_series/${selectedParams}`
+        url: `http://54.65.39.121/api/v1/selected_series/${selectedParams}`
     })
 
     const selectingValue = selectedItem ? selectedItem.value : selectedValue
