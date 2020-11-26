@@ -9,7 +9,7 @@ function TagHasSeries({ tagId, pageNumber, history, handleFlashMessages }) {
     // タグに関連づけされたデータを取得
     const { items, isLoading } = useFetchTags({
         method: "get",
-        url: `http://54.65.39.121/api/v1/novel_tags/${tagId}`,
+        url: `//54.65.39.121/api/v1/novel_tags/${tagId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

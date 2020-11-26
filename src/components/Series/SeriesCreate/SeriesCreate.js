@@ -13,7 +13,7 @@ function SeriesCreate({ currentUser, history, isLoading, handleFlashMessages }) 
                 <div className="seriesCreate">
                     <SeriesForm
                         method="post"
-                        url={`http://54.65.39.121/api/v1/novel_series`}
+                        url={`//54.65.39.121/api/v1/novel_series`}
                         formType="create"
                         dataType="series"
                         button="作成する"

@@ -15,13 +15,13 @@ import FavoritesButton from '../../Favorites/FavoritesButton'
 function NovelsContents({currentUser, userId, seriesId, novelId, history, handleFlashMessages}) {
     const { novelItems, favoriteItems, setFavoriteItems, commentItems, setCommentItems, isLoading } = useFetchItems({
         method: "get",
-        url: `http://54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelId}`,
+        url: `//54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
 
     const { confirmation, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
-        url: `http://54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelId}`,
+        url: `//54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         keyword: "novel",
         history: history,
         handleFlashMessages: handleFlashMessages

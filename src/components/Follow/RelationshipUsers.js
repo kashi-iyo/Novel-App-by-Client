@@ -6,7 +6,7 @@ import DisplayMultipleUsers from '../DisplayMultipleItems/DisplayMultipleUsers'
 function RelationshipUsers({ userId, relationshipsParams, pageNumber, history, handleFlashMessages }) {
     const {items, isLoading} =  useFollow({
         method: "get",
-        url: `http://54.65.39.121/api/v1/relationships/${userId}/${relationshipsParams}`,
+        url: `//54.65.39.121/api/v1/relationships/${userId}/${relationshipsParams}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

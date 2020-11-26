@@ -9,9 +9,9 @@ import Button from '../../Button/Button'
 function UsersEdit({userId, history, handleFlashMessages}) {
     const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit } = useFetchUserItems({
         method: "get",
-        url: `http://54.65.39.121/api/v1/users/${userId}/edit`,
+        url: `//54.65.39.121/api/v1/users/${userId}/edit`,
         updateMethod: "patch",
-        updateUrl: `http://54.65.39.121/api/v1/users/${userId}`,
+        updateUrl: `//54.65.39.121/api/v1/users/${userId}`,
         userId: userId,
         history: history,
         handleFlashMessages: handleFlashMessages

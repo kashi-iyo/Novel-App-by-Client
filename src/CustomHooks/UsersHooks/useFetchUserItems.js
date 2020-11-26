@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { useState,useEffect } from 'react'
-import useRedirect from '../Redirect/useRedirect'
 
 // ユーザーデータを取得、ユーザーデータの更新
 // UsersEdit, UsersPageTop, UsersSeriesにて使用
@@ -25,7 +24,6 @@ function useFetchUserItems({ method, url, updateMethod, updateUrl, history, hand
     const [success, setSuccess] = useState("")
     const [errors, setErrors] = useState("")
     const [isLoading, setIsLoading] = useState(true)
-    const { redirect } = useRedirect({ history: history })
 
     const handleChange = e => {
         const { name, value } = e.target

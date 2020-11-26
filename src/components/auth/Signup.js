@@ -10,7 +10,7 @@ function Signup({history, handleLogin, handleMessages}) {
     const { values, handleChange, handleSubmit, errors, saveErrors } = useInput({
         validate: signupValidate,
         method: "post",
-        url: 'http://54.65.39.121/api/v1/users',
+        url: '//54.65.39.121/api/v1/users',
         history: history,   // 新規登録後にリダイレクトするのに使用
         dataType: "signup",     // 送信フォームをLogin.jsと区別
         handleLogin: handleLogin,   // ログインを行う

@@ -9,7 +9,7 @@ import DisplayMultipleItems from '../DisplayMultipleItems/DisplayMultipleItems'
 function Home({ pageNumber, history }) {
     const { items, count, isLoading } = useFetchItems({
         method: "get",
-        url: 'http://54.65.39.121/'
+        url: '//54.65.39.121/'
     })
 
     return (

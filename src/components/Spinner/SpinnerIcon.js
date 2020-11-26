@@ -3,7 +3,7 @@ import React from 'react'
 function SpinnerIcon() {
     return (
         <div>
-            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{margin: "auto", display: "block", shapeRendering: "auto"}} width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <svg xmlns="//www.w3.org/2000/svg" xmlnsXlink="//www.w3.org/1999/xlink" style={{margin: "auto", display: "block", shapeRendering: "auto"}} width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                 <g transform="rotate(0 50 50)">
                 <rect x="48.5" y="25" rx="1.5" ry="3.08" width="3" height="14" fill="#1d3f72">
                     <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="0.5s" begin="-0.4722222222222222s" repeatCount="indefinite"></animate>

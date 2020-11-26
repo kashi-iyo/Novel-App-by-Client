@@ -6,7 +6,7 @@ function useFavorites({ currentUser,favoriteItems, setFavoriteItems, handleFlash
     const handleFavorites = (novelId, userId) => {
         console.log("handleFavorites:  クリック")
         axios.post(
-            `http://54.65.39.121/api/v1/novels/${novelId}/novel_favorites`,
+            `//54.65.39.121/api/v1/novels/${novelId}/novel_favorites`,
             {
                 novel_favorite: {
                     user_id: userId,
@@ -50,7 +50,7 @@ function useFavorites({ currentUser,favoriteItems, setFavoriteItems, handleFlash
     const handleUnFavorites = (novelId, userId) => {
         console.log("お気に入りOFF:  クリック")
         axios.delete(
-            `http://54.65.39.121/api/v1/novels/${novelId}/novel_favorites/${userId}`,
+            `//54.65.39.121/api/v1/novels/${novelId}/novel_favorites/${userId}`,
             { withCredentials: true })
             .then(response => {
                 let res = response.data

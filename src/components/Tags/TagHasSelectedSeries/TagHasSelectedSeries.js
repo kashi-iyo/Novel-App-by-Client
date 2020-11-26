@@ -5,7 +5,7 @@ import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItem
 function TagHasSelectedSeries({tagId, history, selectedItem, selectedParams, handleFlashMessages, pageNumber}) {
     const { items, isLoading } = useFetchTags({
         method: "get",
-        url: `http://54.65.39.121/api/v1/novel_tags/${tagId}/${selectedParams}`,
+        url: `//54.65.39.121/api/v1/novel_tags/${tagId}/${selectedParams}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

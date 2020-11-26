@@ -9,7 +9,7 @@ function NovelsCreate({ seriesId, history, handleFlashMessages }) {
         <React.Fragment>
             <NovelsForm
                 method="post"
-                url={`http://54.65.39.121/api/v1/novel_series/${seriesId}/novels`}
+                url={`//54.65.39.121/api/v1/novel_series/${seriesId}/novels`}
                 seriesId={seriesId}
                 formType="create"
                 dataType="novel"
