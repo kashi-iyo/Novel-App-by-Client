@@ -96,14 +96,14 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
                 console.log("logoutClick: クリック")
                 let res = response.data
                 if (res.status === 200 && !res.logged_in) {
-                    console.log("logout: 成功")
+                    console.log("logout: 成功", "レスポンス: ", response)
                     handleLogout({
                         success: res.successful,
                         history: history,
                         pathname: "/"
                     })
                 } else if (res.status === "unauthorized") {
-                    console.log("logout: 失敗")
+                    console.log("logout: 失敗", "レスポンス: ", response)
                     handleFlashMessages({ errors: res.errors })
                 }
             })
