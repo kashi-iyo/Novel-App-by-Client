@@ -93,7 +93,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
         axios.delete('//54.65.39.121/logout',
             { withCredentials: true })
             .then(response => {
-                console.log("logoutClick: クリック")
+                console.log("logoutClick: クリック", "レスポンス: ", response)
                 let res = response.data
                 if (res.status === 200 && !res.logged_in) {
                     console.log("logout: 成功", "レスポンス: ", response)
@@ -103,7 +103,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
                         pathname: "/"
                     })
                 } else if (res.status === "unauthorized") {
-                    console.log("logout: 失敗", "レスポンス: ", response)
+                    console.log("logout: 失敗")
                     handleFlashMessages({ errors: res.errors })
                 }
             })
