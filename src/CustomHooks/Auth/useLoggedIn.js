@@ -43,16 +43,21 @@ export default function useLoggedIn({handleFlashMessages}) {
     // ログインステータスの追跡
     useEffect(() => {
         let mount = true
+        console.log("ログインステータスマウント: ON")
         const checkLoginStatus = () => {
         axios.get("//54.65.39.121/logged_in",
+        // axios.get("//localhost:3001/logged_in",
             { withCredentials: true })
             .then(response => {
                 setIsLoading(true)
-                console.log("useLoggedIn: OK")
+                console.log("useLoggedIn: OK", "レスポンス: ", response.data.object)
                 let res = response.data
                 if (mount && res.logged_in) {
                     console.log("logged_in: ", res.logged_in)
                     handleLogin({ user: res.object })
+                    setLoggedInStatus(true)
+                    setCurrentUser(res.object.nickname)
+                    setUserId(res.object.id)
                     setIsLoading(false)
                 } else if (mount && !res.logged_in) {
                     console.log("logged_in: ", res.logged_in)

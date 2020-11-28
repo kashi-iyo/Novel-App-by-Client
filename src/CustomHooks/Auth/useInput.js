@@ -112,7 +112,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // 採用担当者様専用ログインフォーム
     const handleLoginForRecruit = () => {
-        axios.post(`//54.65.39.121/login`,
+        axios.post('//54.65.39.121/login',
             {
                 user: {
                     email: "recruit@recruit.com",
