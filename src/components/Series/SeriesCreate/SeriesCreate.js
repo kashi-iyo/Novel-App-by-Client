@@ -6,6 +6,7 @@ import Spinner from '../../Spinner/Spinner'
 // シリーズ作成フォームをレンダリングする。
 // SeriesFormへデータを渡す。
 function SeriesCreate({ currentUser, history, isLoading, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
 
     return (
         <React.Fragment>
@@ -13,7 +14,7 @@ function SeriesCreate({ currentUser, history, isLoading, handleFlashMessages }) 
                 <div className="seriesCreate">
                     <SeriesForm
                         method="post"
-                        url={`//54.65.39.121/api/v1/novel_series`}
+                        url={`${domain}/api/v1/novel_series`}
                         formType="create"
                         dataType="series"
                         button="作成する"

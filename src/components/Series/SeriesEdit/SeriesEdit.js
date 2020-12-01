@@ -5,10 +5,11 @@ import useFetchEditItems from '../../../CustomHooks/NovelsHooks/useFetchEditItem
 import Spinner from '../../Spinner/Spinner'
 
 // useEditItemsで取得したデータを、SeriesFormへを渡す
-function SeriesEdit({seriesId, history, currentUser, handleFlashMessages}) {
+function SeriesEdit({ seriesId, history, currentUser, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { items, isLoading } = useFetchEditItems({
         method: "get",
-        url: `//54.65.39.121/api/v1/novel_series/${seriesId}/edit`,
+        url: `${domain}/api/v1/novel_series/${seriesId}/edit`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
@@ -21,7 +22,7 @@ function SeriesEdit({seriesId, history, currentUser, handleFlashMessages}) {
                     editSeries={items}
                     editTags={items.series_tags}
                     method="patch"
-                    url={`//54.65.39.121/api/v1/novel_series/${seriesId}`}
+                    url={`${domain}/api/v1/novel_series/${seriesId}`}
                     seriesId={seriesId}
                     formType="edit"
                     dataType="series"

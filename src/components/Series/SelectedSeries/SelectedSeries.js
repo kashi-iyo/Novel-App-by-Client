@@ -4,9 +4,10 @@ import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItem
 
 
 function SelectedSeries({ history, selectedItem, selectedParams, pageNumber }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { items, count, isLoading, selectedValue } = useFetchItems({
         method: "get",
-        url: `//54.65.39.121/api/v1/selected_series/${selectedParams}`
+        url: `${domain}/api/v1/selected_series/${selectedParams}`
     })
 
     const selectingValue = selectedItem ? selectedItem.value : selectedValue

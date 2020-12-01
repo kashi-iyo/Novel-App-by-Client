@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from 'axios'
 
 function useComment({ novelId, currentUser, userId, commentItems, setCommentItems, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
 
     // フォームで使用する
     const [content, setContent] = useState("")
@@ -16,7 +17,7 @@ function useComment({ novelId, currentUser, userId, commentItems, setCommentItem
         e.preventDefault()
         axios
             .post(
-                `//54.65.39.121/api/v1/novels/${novelId}/comments`,
+                `${domain}/api/v1/novels/${novelId}/comments`,
                 {
                     comment: {
                         content: content,
@@ -51,7 +52,7 @@ function useComment({ novelId, currentUser, userId, commentItems, setCommentItem
     // コメント削除
     const handleRemove = (commentNovelId, commentId) => {
         axios.delete(
-            `//54.65.39.121/api/v1/novels/${commentNovelId}/comments/${commentId}`,
+            `${domain}/api/v1/novels/${commentNovelId}/comments/${commentId}`,
             { withCredentials: true })
             .then(response => {
                 let res = response.data

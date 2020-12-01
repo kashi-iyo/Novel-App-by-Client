@@ -2,12 +2,13 @@ import { useState } from 'react'
 import axios from 'axios'
 
 function useHandleFollow({ usersRelationships, setUsersRelationships, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const [errors, setErrors] = useState("")
 
         // フォロー
     const handleFollow = (userId) => {
         console.log("フォロークリック")
-        axios.post(`//54.65.39.121/api/v1/relationships`,
+        axios.post(`${domain}/api/v1/relationships`,
             {relationship: {follow_id: userId}},
             { withCredentials: true })
             .then(response => {
@@ -52,7 +53,7 @@ function useHandleFollow({ usersRelationships, setUsersRelationships, handleFlas
     // フォロー解除
     const handleUnFollow = (userId) => {
         console.log("フォロー解除ボタンクリック")
-        axios.delete(`//54.65.39.121/api/v1/relationships/${userId}`, {withCredentials: true})
+        axios.delete(`${domain}/api/v1/relationships/${userId}`, {withCredentials: true})
             .then(response => {
                 let res = response.data
                 if (res.head === "no_content" && res.crud_type === "destroy") {

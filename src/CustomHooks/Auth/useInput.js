@@ -22,6 +22,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
     const [errors, setErrors] = useState("")
     const [saveErrors, setSaveErrors] = useState("")
     const [unauthorizedErrors, setUnauthorizedErrors] = useState("")
+    const domain = process.env.REACT_APP_BACKEND_URL
 
     const handleChange = e => {
         const { name, value } = e.target
@@ -90,7 +91,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // ログアウトイベント
     const logoutClick = () => {
-        axios.delete('//54.65.39.121/logout',
+        axios.delete(`${domain}/logout`,
             { withCredentials: true })
             .then(response => {
                 console.log("logoutClick: クリック", "レスポンス: ", response)
@@ -112,7 +113,7 @@ function useInput({ validate, method, url, history, dataType, handleLogin, handl
 
     // 採用担当者様専用ログインフォーム
     const handleLoginForRecruit = () => {
-        axios.post('//54.65.39.121/login',
+        axios.post(`${domain}/login`,
             {
                 user: {
                     email: "recruit@recruit.com",

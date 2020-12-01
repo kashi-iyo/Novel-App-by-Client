@@ -12,16 +12,17 @@ import FavoritesButton from '../../Favorites/FavoritesButton'
 
 
 // 小説1話分の内容を表示
-function NovelsContents({currentUser, userId, seriesId, novelId, history, handleFlashMessages}) {
+function NovelsContents({ currentUser, userId, seriesId, novelId, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { novelItems, favoriteItems, setFavoriteItems, commentItems, setCommentItems, isLoading } = useFetchItems({
         method: "get",
-        url: `//54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelId}`,
+        url: `${domain}/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
 
     const { confirmation, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
-        url: `//54.65.39.121/api/v1/novel_series/${seriesId}/novels/${novelId}`,
+        url: `${domain}/api/v1/novel_series/${seriesId}/novels/${novelId}`,
         keyword: "novel",
         history: history,
         handleFlashMessages: handleFlashMessages

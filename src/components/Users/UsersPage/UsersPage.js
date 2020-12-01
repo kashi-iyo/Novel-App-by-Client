@@ -8,17 +8,19 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
+import { Domain } from '@material-ui/icons'
 
 
 // ユーザーページ
 function UsersPage({ userParams, userId, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { users, usersTags,
         usersRelationships, setUsersRelationships,
         errors, seriesData, isLoading } = useFetchUserItems({
-        method: "get",
-        url: `//54.65.39.121/api/v1/users/${userParams}`,
-        editUrl: `//54.65.39.121/api/v1/users/${userParams}/edit`,
-        history: history
+            method: "get",
+            url: `${domain}/api/v1/users/${userParams}`,
+            editUrl: `${domain}/api/v1/users/${userParams}/edit`,
+            history: history
         })
     const usersSeries = seriesData && seriesData.usersSeries
     const usersSeriesCount = seriesData && seriesData.usersSeriesCount

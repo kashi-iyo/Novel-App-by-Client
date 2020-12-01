@@ -6,10 +6,11 @@ import './TagHasSeries.css'
 
 // タグに関連付けられたシリーズの表示
 function TagHasSeries({ tagId, pageNumber, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     // タグに関連づけされたデータを取得
     const { items, isLoading } = useFetchTags({
         method: "get",
-        url: `//54.65.39.121/api/v1/novel_tags/${tagId}`,
+        url: `${domain}/api/v1/novel_tags/${tagId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

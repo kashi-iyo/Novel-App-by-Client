@@ -6,12 +6,13 @@ import ValidateWordsCounts from '../../ValidateWordsCounts/ValidateWordsCounts'
 import Button from '../../Button/Button'
 
 // ユーザー編集フォーム
-function UsersEdit({userId, history, handleFlashMessages}) {
+function UsersEdit({ userId, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit } = useFetchUserItems({
         method: "get",
-        url: `//54.65.39.121/api/v1/users/${userId}/edit`,
+        url: `${domain}/api/v1/users/${userId}/edit`,
         updateMethod: "patch",
-        updateUrl: `//54.65.39.121/api/v1/users/${userId}`,
+        updateUrl: `${domain}/api/v1/users/${userId}`,
         userId: userId,
         history: history,
         handleFlashMessages: handleFlashMessages

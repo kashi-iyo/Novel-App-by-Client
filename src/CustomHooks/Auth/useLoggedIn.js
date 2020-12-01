@@ -7,6 +7,7 @@ export default function useLoggedIn({handleFlashMessages}) {
     const [currentUser, setCurrentUser] = useState("")
     const [userId, setUserId] = useState("")
     const [isLoading, setIsLoading] = useState(true)
+    const domain = process.env.REACT_APP_BACKEND_URL
 
 
     // ログイン
@@ -45,8 +46,7 @@ export default function useLoggedIn({handleFlashMessages}) {
         let mount = true
         console.log("ログインステータスマウント: ON")
         const checkLoginStatus = () => {
-        axios.get("//54.65.39.121/logged_in",
-        // axios.get("//localhost:3001/logged_in",
+        axios.get(`${domain}/logged_in`,
             { withCredentials: true })
             .then(response => {
                 setIsLoading(true)

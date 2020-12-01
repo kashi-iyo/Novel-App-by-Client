@@ -1,12 +1,13 @@
 import axios from 'axios'
 
-function useFavorites({ currentUser,favoriteItems, setFavoriteItems, handleFlashMessages }) {
+function useFavorites({ currentUser, favoriteItems, setFavoriteItems, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
 
     // お気に入り時の挙動
     const handleFavorites = (novelId, userId) => {
         console.log("handleFavorites:  クリック")
         axios.post(
-            `//54.65.39.121/api/v1/novels/${novelId}/novel_favorites`,
+            `${domain}/api/v1/novels/${novelId}/novel_favorites`,
             {
                 novel_favorite: {
                     user_id: userId,
@@ -50,7 +51,7 @@ function useFavorites({ currentUser,favoriteItems, setFavoriteItems, handleFlash
     const handleUnFavorites = (novelId, userId) => {
         console.log("お気に入りOFF:  クリック")
         axios.delete(
-            `//54.65.39.121/api/v1/novels/${novelId}/novel_favorites/${userId}`,
+            `${domain}/api/v1/novels/${novelId}/novel_favorites/${userId}`,
             { withCredentials: true })
             .then(response => {
                 let res = response.data

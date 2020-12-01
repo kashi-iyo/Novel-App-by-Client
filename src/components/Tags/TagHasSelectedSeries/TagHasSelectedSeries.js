@@ -2,10 +2,11 @@ import React from 'react'
 import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
 
-function TagHasSelectedSeries({tagId, history, selectedItem, selectedParams, handleFlashMessages, pageNumber}) {
+function TagHasSelectedSeries({ tagId, history, selectedItem, selectedParams, handleFlashMessages, pageNumber }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { items, isLoading } = useFetchTags({
         method: "get",
-        url: `//54.65.39.121/api/v1/novel_tags/${tagId}/${selectedParams}`,
+        url: `${domain}/api/v1/novel_tags/${tagId}/${selectedParams}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

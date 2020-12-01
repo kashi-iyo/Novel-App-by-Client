@@ -7,7 +7,7 @@ phases:
       - yarn install
   build:
     commands:
-      - yarn build
+      - yarn build-production
   post_build:
     commands:
       - tar cf /tmp/node_modules.tar node_modules

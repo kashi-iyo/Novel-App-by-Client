@@ -5,9 +5,10 @@ import useFetchTags from '../../../CustomHooks/Tags/useFetchTags'
 
 // 趣味タグフィード
 function UsersTagsFeed() {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { items } = useFetchTags({
         method: "get",
-        url: '//54.65.39.121/api/v1/user_tags',
+        url: `${domain}/api/v1/user_tags`,
     })
 
     return (

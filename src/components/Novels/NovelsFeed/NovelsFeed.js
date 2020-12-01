@@ -9,17 +9,18 @@ import RemoveFeatures from '../../Remove/RemoveFeatures'
 import Spinner from '../../Spinner/Spinner'
 import TagsWrapper from '../../Tags/TagsWrapper/TagsWrapper'
 
-function NovelsFeed({seriesId, userId, loggedInStatus, history, handleFlashMessages}) {
+function NovelsFeed({ seriesId, userId, loggedInStatus, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     // 投稿データを取得
     const { items, isLoading } = useFetchItems({
         method: "get",
-        url: `//54.65.39.121/api/v1/novel_series/${seriesId}`,
+        url: `${domain}/api/v1/novel_series/${seriesId}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })
     // 削除機能
     const { confirmation, handleClick, handleOkRemove, handleNoRemove } = useRemoveItems({
-        url: `//54.65.39.121/api/v1/novel_series/${seriesId}`,
+        url: `${domain}/api/v1/novel_series/${seriesId}`,
         target: "シリーズ",
         history: history,
         handleFlashMessages: handleFlashMessages

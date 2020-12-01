@@ -4,9 +4,10 @@ import DisplayMultipleUsers from '../DisplayMultipleItems/DisplayMultipleUsers'
 
 // フォローユーザー一覧/フォロワー一覧の表示
 function RelationshipUsers({ userId, relationshipsParams, pageNumber, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const {items, isLoading} =  useFollow({
         method: "get",
-        url: `//54.65.39.121/api/v1/relationships/${userId}/${relationshipsParams}`,
+        url: `${domain}/api/v1/relationships/${userId}/${relationshipsParams}`,
         history: history,
         handleFlashMessages: handleFlashMessages
     })

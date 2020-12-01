@@ -7,9 +7,11 @@ import DisplayMultipleItems from '../DisplayMultipleItems/DisplayMultipleItems'
 
 // ホームページ
 function Home({ pageNumber, history }) {
+    // ローカル、本番によってURLを区別
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { items, count, isLoading } = useFetchItems({
         method: "get",
-        url: 'http://54.65.39.121/'
+        url: `${domain}`
     })
 
     return (

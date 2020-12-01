@@ -6,11 +6,12 @@ import signupValidate from '../../CustomHooks/Validate/AuthValidate/signupValida
 import useInput from '../../CustomHooks/Auth/useInput'
 
 // 新規登録フォーム
-function Signup({history, handleLogin, handleMessages}) {
+function Signup({ history, handleLogin, handleMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { values, handleChange, handleSubmit, errors, saveErrors } = useInput({
         validate: signupValidate,
         method: "post",
-        url: '//54.65.39.121/api/v1/users',
+        url: `${domain}/api/v1/users`,
         history: history,   // 新規登録後にリダイレクトするのに使用
         dataType: "signup",     // 送信フォームをLogin.jsと区別
         handleLogin: handleLogin,   // ログインを行う
