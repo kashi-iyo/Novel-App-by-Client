@@ -5,7 +5,8 @@ import Spinner from '../../../Spinner/Spinner'
 import NovelsForm from '../NovelsForm'
 
 
-function NovelsEdit({ seriesId, novelsId, history, handleFlashMessages}) {
+function NovelsEdit({ seriesId, novelsId, history, handleFlashMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { items, isLoading } = useFetchEditItems({
         method: "get",
         url: `${domain}/api/v1/novel_series/${seriesId}/novels/${novelsId}/edit`,

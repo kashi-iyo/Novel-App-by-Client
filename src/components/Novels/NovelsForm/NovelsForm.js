@@ -9,7 +9,6 @@ import Button from '../../Button/Button'
 
 // 小説作成フォームを作成
 function NovelsForm({ url, method, formType, dataType, novels, history, button, seriesId, novelsId, handleFlashMessages }) {
-    const domain = process.env.REACT_APP_BACKEND_URL
 
     const { values, release,  handleChange, handleSubmit, handleStatusChange, } =
         useItemsInput({
