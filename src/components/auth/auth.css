@@ -7,6 +7,7 @@
     margin: 0 auto;
     box-sizing: border-box;
     height: 80vh;
+    margin-bottom: 200px;
 }
 
 .auth-form--h1 {

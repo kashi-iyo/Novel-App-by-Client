@@ -56,7 +56,7 @@ function Header({ loggedInStatus, currentUser, userId, history, handleLogin, han
         <div>
             <header className="home-header">
                 <div className="header-top">
-                    <img src={Logo} alt="ロゴ" className="Logo" />
+                    <img src={Logo} alt="小説投稿サイト「NoveLife.」のロゴです" className="Logo" />
                     <div className="header-top-left">
                         {rendererUser()}
                     </div>

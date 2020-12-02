@@ -26,6 +26,7 @@ import Flash from './components/Flash/Flash'
 import useFlash from './CustomHooks/FlashHooks/useFlash'
 import ErrorMessages from './components/ErrorMessages/ErrorMessages'
 import TagHasSelectedSeries from './components/Tags/TagHasSelectedSeries/TagHasSelectedSeries'
+import Footer from './components/Footer/Footer'
 
 
 export default function App() {
@@ -313,6 +314,10 @@ export default function App() {
               </Switch>
               {/* ============================================================== */}
             </Switch>
+            {/* フッター */}
+            <Route render={props => (
+              <Footer />
+            )} />
         </BrowserRouter>
         }
       </React.Fragment>
