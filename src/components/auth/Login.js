@@ -4,12 +4,13 @@ import './auth.css'
 import useInput from '../../CustomHooks/Auth/useInput'
 import loginValidate from '../../CustomHooks/Validate/AuthValidate/loginValidate'
 
-function Login({history, handleLogin, handleMessages}) {
+function Login({ history, handleLogin, handleMessages }) {
+    const domain = process.env.REACT_APP_BACKEND_URL
     const { values, handleChange, handleSubmit, errors,unauthorizedErrors}
         = useInput({
             validate: loginValidate,
             method: "post",
-            url: '//54.65.39.121/login',
+            url: `${domain}/login`,
             history: history,   // リダイレクト用
             dataType: "login",  // 送信フォームをSignup.jsと区別
             handleLogin: handleLogin,   // ログインを行わせる
