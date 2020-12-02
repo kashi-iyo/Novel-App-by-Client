@@ -45,7 +45,7 @@ export default function useLoggedIn({handleFlashMessages}) {
     useEffect(() => {
         let mount = true
         console.log("ログインステータスマウント: ON")
-        console.log("ドメイン: ", domain)
+        console.log("ドメイン: ", `${domain}`)
         const checkLoginStatus = () => {
         axios.get(`${domain}/logged_in`,
             { withCredentials: true })
