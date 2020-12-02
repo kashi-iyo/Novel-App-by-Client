@@ -22,7 +22,7 @@ function Login({ history, handleLogin, handleMessages }) {
             <h1 className="auth-form--h1">ログインフォーム</h1>
             <form onSubmit={handleSubmit}>
                 <div className="auth-form--email-wrapper">
-                    {errors.email && <p>{errors.email}</p>}
+                    {errors.email && <p className="error">{errors.email}</p>}
                     <label htmlFor="email">メールアドレス</label>
                     <input
                         placeholder="email"
@@ -34,7 +34,7 @@ function Login({ history, handleLogin, handleMessages }) {
                     />
                 </div>
                 <div className="auth-form--password-wrapper">
-                    {errors.password && <p>{errors.password}</p>}
+                    {errors.password && <p className="error">{errors.password}</p>}
                     <label htmlFor="password">パスワード</label>
                     <input
                         placeholder="password"

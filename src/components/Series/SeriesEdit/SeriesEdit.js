@@ -21,7 +21,7 @@ function SeriesEdit({ seriesId, history, currentUser, handleFlashMessages }) {
                 <SeriesForm
                     editSeries={items}
                     editTags={items.series_tags}
-                    method="patch"
+                    method="put"
                     url={`${domain}/api/v1/novel_series/${seriesId}`}
                     seriesId={seriesId}
                     formType="edit"

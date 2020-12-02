@@ -19,7 +19,7 @@ function NovelsEdit({ seriesId, novelsId, history, handleFlashMessages }) {
             {isLoading ? <Spinner /> :
                 items &&
                 <NovelsForm
-                    method="patch"
+                    method="put"
                     url={`${domain}/api/v1//novel_series/${seriesId}/novels/${novelsId}`}
                     novels={items}
                     seriesId={seriesId}

@@ -11,7 +11,7 @@ function UsersEdit({ userId, history, handleFlashMessages }) {
     const { editUsers, usersTags, addTags, removeTags, handleFalse, handleChange, handleSubmit } = useFetchUserItems({
         method: "get",
         url: `${domain}/api/v1/users/${userId}/edit`,
-        updateMethod: "patch",
+        updateMethod: "put",
         updateUrl: `${domain}/api/v1/users/${userId}`,
         userId: userId,
         history: history,

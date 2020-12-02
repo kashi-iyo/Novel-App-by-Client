@@ -1,6 +1,7 @@
 .users-page {
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 200px;
 }
 
 .UsersPage__UsersFavoritesUl {

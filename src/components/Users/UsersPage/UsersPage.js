@@ -8,7 +8,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import 'react-tabs/style/react-tabs.css'
 import Spinner from '../../Spinner/Spinner'
 import DisplayMultipleItems from '../../DisplayMultipleItems/DisplayMultipleItems'
-import { Domain } from '@material-ui/icons'
 
 
 // ユーザーページ
