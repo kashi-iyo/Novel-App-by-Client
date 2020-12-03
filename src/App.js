@@ -35,7 +35,8 @@ export default function App() {
 
 
   return (
-    <div className="App">
+    <React.Fragment>
+      <div className="App">
       <React.Fragment>
         {isLoading ? <Spinner /> :
           <BrowserRouter>
@@ -314,13 +315,12 @@ export default function App() {
               </Switch>
               {/* ============================================================== */}
             </Switch>
-            {/* フッター */}
-            <Route render={props => (
-              <Footer />
-            )} />
         </BrowserRouter>
         }
       </React.Fragment>
-    </div>
+      </div>
+      {/* フッター */}
+      <Footer />
+    </React.Fragment>
   )
 }

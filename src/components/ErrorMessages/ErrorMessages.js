@@ -17,12 +17,16 @@ function ErrorMessages({errors, errorType}) {
                 <p className="error-messages--series-create">
                     作品を投稿するには、ログインまたは新規登録が必要です。
                 </p>
-                <Link to={`/login`}>
-                    ログインはコチラから
-                </Link>
-                <Link to={`/signup`}>
-                    新規登録はコチラから
-                </Link>
+                <p className="error-messages--link">
+                    <Link to={`/login`}>
+                        ログインはコチラから
+                    </Link>
+                </p>
+                <p className="error-messages--link">
+                    <Link to={`/signup`}>
+                        新規登録はコチラから
+                    </Link>
+                </p>
             </div>
             }
         </React.Fragment>
