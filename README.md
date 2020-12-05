@@ -1,4 +1,4 @@
-# <font color="Teal">NoveLife.</font>
+# <font color="Teal">[NoveLife.](https://novelife.site)</font>
 
 <br>
 
@@ -11,6 +11,10 @@
 これらのサービスを提供するのがNoveLife.です。
 
 ----
+
+# App URL
+https://novelife.site
+
 <br>
 
 # Image
@@ -50,6 +54,7 @@
 <br>
 
 ### ─ 小説を書く ─
+ * 認証が必要です。
  * 基本的にはシリーズとして投稿する事ができ、1つのシリーズに1話単位で複数の小説を追加する事ができます。自身が投稿した小説の管理はマイページにて行う事ができます。
  * シリーズには __タイトル__、 __あらすじ__ の他に __タグの登録__、 __公開するか非公開かの決定__ が入力可能です。
  * また1話の小説には __タイトル__、 __前書き__、 __本文__、 __公開非公開の決定__ が入力可能です。
@@ -62,7 +67,25 @@
 
 <br>
 
-<h2>Client側: https://github.com/kashi-iyo/Novel-App-by-Client</h2>
+# Usage
+
+```
+$ git clone git@github.com:kashi-iyo/Novel-App-by-Client.git
+
+$ yarn install
+```
+
+<br>
+
+# API APP Repository
+https://github.com/kashi-iyo/Novel-App-by-API
+
+<br>
 
 
-## API側：https://github.com/kashi-iyo/Novel-App-by-API
+# Author
+
+ * 作成者: Katsuhiro Kashiwakura
+ * [GitHub](https://github.com/kashi-iyo)
+ * [Qiita](https://qiita.com/kurawo___D)
+ * [Twiter](https://twitter.com/kurawo__D)
