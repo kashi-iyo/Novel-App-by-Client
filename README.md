@@ -17,6 +17,8 @@
 # App URL
 https://novelife.site
 
+※現在は停止しています。
+
 <br>
 
 # Image
@@ -73,6 +75,8 @@ https://novelife.site
 
 ```
 $ git clone git@github.com:kashi-iyo/Novel-App-by-Client.git
+
+$ cd Novel-App-by-Client
 
 $ yarn install
 ```
