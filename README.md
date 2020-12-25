@@ -86,6 +86,50 @@ https://novelife.site
 
 <br>
 
+# Skills/Tools
+
+* フロントエンド
+
+  * HTML／CSS
+  * React.js（16.13.1）
+
+* インフラ（フロントエンド）
+
+  * AWS（S3, IAM, CloudFront, ACM, Route53, CodePipeline, CodeBuild, CodeDeploy）
+
+* バックエンド
+
+  * RailsAPI（5.2.4.2）
+
+* インフラ（バックエンド）
+
+  * Amazon Linux 2
+  * Nginx／Unicorn
+  * PostgreSQL(12.2)
+  * AWS（VPC, EIP, IAM, EC2, ALB, ACM, Route53, RDS, CodePipeline, CodeDeploy, S3）
+
+* テスト
+
+  * Request Specs, Model Specs（total 238 examples）
+
+* コード管理
+
+  * GitHub
+  * Sourcetree
+
+* デバッギングツール
+
+  *  Insomnia
+
+<br>
+
+# Infra
+
+![インフラ図](https://user-images.githubusercontent.com/54946329/103136397-6c288180-4703-11eb-9801-f5c4d1e251bb.jpeg)
+
+
+<br>
+
 # Usage
 
 ```
