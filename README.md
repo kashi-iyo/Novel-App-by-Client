@@ -23,7 +23,9 @@ https://novelife.site
 
 # Image
 ### ─ 小説を探す ─
+> 並び替える
 > ![ポートフォリオ1](https://user-images.githubusercontent.com/54946329/101235853-61d02480-370f-11eb-8ec0-a2c1fddca0c6.gif)
+> タグで絞り込み
 > ![ポートフォリオ8](https://user-images.githubusercontent.com/54946329/101235977-6a752a80-3710-11eb-88fe-c45e8693cdaf.gif)
 
 <br>
