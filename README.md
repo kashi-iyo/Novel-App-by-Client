@@ -24,9 +24,12 @@ https://novelife.site
 # Image
 ### ─ 小説を探す ─
 > 並び替える
-> ![ポートフォリオ1](https://user-images.githubusercontent.com/54946329/101235853-61d02480-370f-11eb-8ec0-a2c1fddca0c6.gif)
+>> ![ポートフォリオ1](https://user-images.githubusercontent.com/54946329/101235853-61d02480-370f-11eb-8ec0-a2c1fddca0c6.gif)
+
+<br>
+
 > タグで絞り込み
-> ![ポートフォリオ8](https://user-images.githubusercontent.com/54946329/101235977-6a752a80-3710-11eb-88fe-c45e8693cdaf.gif)
+>> ![ポートフォリオ8](https://user-images.githubusercontent.com/54946329/101235977-6a752a80-3710-11eb-88fe-c45e8693cdaf.gif)
 
 <br>
 
@@ -36,14 +39,24 @@ https://novelife.site
 <br>
 
 ### ─ 小説を書く ─
-> ![ポートフォリオ4](https://user-images.githubusercontent.com/54946329/101235968-56c9c400-3710-11eb-8f11-558d9322d563.gif)
-> ![ポートフォリオ5](https://user-images.githubusercontent.com/54946329/101235972-5af5e180-3710-11eb-8ed3-c159f2f8f571.gif)
+> まずはシリーズを作成
+>> ![ポートフォリオ4](https://user-images.githubusercontent.com/54946329/101235968-56c9c400-3710-11eb-8f11-558d9322d563.gif)
+
+<br>
+
+> 作成したシリーズへ小説を追加していく
+>> ![ポートフォリオ5](https://user-images.githubusercontent.com/54946329/101235972-5af5e180-3710-11eb-8ed3-c159f2f8f571.gif)
 
 <br>
 
 ### ─ ユーザーを探し・繋がる ─
-> ![ポートフォリオ9](https://user-images.githubusercontent.com/54946329/101236056-3cdcb100-3711-11eb-8259-891546e408bc.gif)
-> ![ポートフォリオ7](https://user-images.githubusercontent.com/54946329/101236059-4534ec00-3711-11eb-9360-d553ba5ba69e.gif)
+> タグからユーザーを探す
+>>  ![ポートフォリオ9](https://user-images.githubusercontent.com/54946329/101236056-3cdcb100-3711-11eb-8259-891546e408bc.gif)
+
+<br>
+
+> ユーザーをフォローする
+>> ![ポートフォリオ7](https://user-images.githubusercontent.com/54946329/101236059-4534ec00-3711-11eb-9360-d553ba5ba69e.gif)
 
 <br>
 
